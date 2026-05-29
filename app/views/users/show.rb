@@ -53,9 +53,7 @@ class Views::Users::Show < Views::Base
       end
       duplicates = @user.duplicate_stickers
       if duplicates.any?
-        div(data: { clipboard_target: "content" }) do
-          render_sticker_list_by_team(duplicates)
-        end
+        render_sticker_list_by_team(duplicates)
       else
         p(class: "text-gray-500 italic") { "No duplicates available." }
       end
@@ -69,21 +67,19 @@ class Views::Users::Show < Views::Base
         copy_button
       end
 
-      div(data: { clipboard_target: "content" }) do
-        render_diff_section(
-          "#{@current_user.name} → #{@user.name}",
-          "Duplicates you have that #{@user.name} is missing",
-          @trade_result.a_gives_b
-        )
-        render_diff_section(
-          "#{@user.name} → #{@current_user.name}",
-          "Duplicates #{@user.name} has that you are missing",
-          @trade_result.b_gives_a
-        )
+      render_diff_section(
+        "#{@current_user.name} → #{@user.name}",
+        "Duplicates you have that #{@user.name} is missing",
+        @trade_result.a_gives_b
+      )
+      render_diff_section(
+        "#{@user.name} → #{@current_user.name}",
+        "Duplicates #{@user.name} has that you are missing",
+        @trade_result.b_gives_a
+      )
 
-        render_balanced_trade
-        render_leftovers
-      end
+      render_balanced_trade
+      render_leftovers
     end
   end
 
@@ -156,7 +152,7 @@ class Views::Users::Show < Views::Base
     grouped = stickers.group_by(&:country)
     div(class: "text-sm font-mono") do
       grouped.each do |country, country_stickers|
-        p do
+        p(data: { clipboard_target: "line" }) do
           span(class: "font-semibold") { "#{country.emoji} #{country.code}: " }
           plain country_stickers.map(&:number).join(", ")
         end

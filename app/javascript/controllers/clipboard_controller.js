@@ -1,10 +1,11 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["content"]
+  static targets = ["line"]
 
   copy() {
-    const text = this.contentTarget.innerText
+    const lines = this.lineTargets.map(el => el.innerText)
+    const text = lines.join("\n")
     navigator.clipboard.writeText(text).then(() => {
       const button = this.element.querySelector("[data-copy-button]")
       const original = button.textContent
