@@ -8,7 +8,7 @@ class Views::Users::Edit < Views::Base
   def view_template
     h1(class: "text-2xl font-bold text-gray-900 mb-6") { "Account settings" }
 
-    form(action: "/u/#{@user.slug}", method: "post") do
+    form(action: user_path(@user), method: "post") do
       input(type: "hidden", name: "_method", value: "patch")
       authenticity_token_tag
 
@@ -39,6 +39,6 @@ class Views::Users::Edit < Views::Base
   private
 
   def authenticity_token_tag
-    input(type: "hidden", name: "authenticity_token", value: helpers.form_authenticity_token)
+    input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
   end
 end

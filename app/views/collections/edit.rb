@@ -78,6 +78,6 @@ class Views::Collections::Edit < Views::Base
   end
 
   def authenticity_token_tag
-    input(type: "hidden", name: "authenticity_token", value: helpers.form_authenticity_token)
+    input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
   end
 end

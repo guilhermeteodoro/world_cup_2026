@@ -8,7 +8,7 @@ class Views::Registrations::New < Views::Base
   def view_template
     h1(class: "text-2xl font-bold text-gray-900 mb-6") { "Register your collection" }
 
-    form(action: "/registration", method: "post", data: { controller: "import-form" }) do
+    form(action: registration_path, method: "post", data: { controller: "import-form" }) do
       authenticity_token_tag
 
       div(class: "mb-6") do
@@ -95,6 +95,6 @@ class Views::Registrations::New < Views::Base
   end
 
   def authenticity_token_tag
-    input(type: "hidden", name: "authenticity_token", value: helpers.form_authenticity_token)
+    input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
   end
 end

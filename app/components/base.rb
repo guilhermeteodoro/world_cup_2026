@@ -7,6 +7,7 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::StylesheetLinkTag
   include Phlex::Rails::Helpers::JavaScriptImportmapTags
   include Phlex::Rails::Helpers::Flash
+  include Phlex::Rails::Helpers::FormAuthenticityToken
   include RubyUI
 
   if Rails.env.development?

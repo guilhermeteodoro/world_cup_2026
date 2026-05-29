@@ -9,7 +9,7 @@ class Views::Pages::Home < Views::Base
       end
 
       div(class: "space-y-4") do
-        a(href: "/registration/new", class: "inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700") do
+        a(href: new_registration_path, class: "inline-block bg-green-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-green-700") do
           "Register your collection"
         end
       end

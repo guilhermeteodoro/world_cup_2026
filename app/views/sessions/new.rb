@@ -4,7 +4,7 @@ class Views::Sessions::New < Views::Base
   def view_template
     h1(class: "text-2xl font-bold text-gray-900 mb-6") { "Log in" }
 
-    form(action: "/session", method: "post") do
+    form(action: session_path, method: "post") do
       authenticity_token_tag
 
       div(class: "mb-6") do
@@ -25,13 +25,13 @@ class Views::Sessions::New < Views::Base
 
     p(class: "mt-4 text-sm text-gray-500") do
       plain "Don't have an account? "
-      a(href: "/registration/new", class: "text-green-600 hover:underline") { "Register" }
+      a(href: new_registration_path, class: "text-green-600 hover:underline") { "Register" }
     end
   end
 
   private
 
   def authenticity_token_tag
-    input(type: "hidden", name: "authenticity_token", value: helpers.form_authenticity_token)
+    input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
   end
 end
