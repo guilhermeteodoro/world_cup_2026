@@ -8,6 +8,6 @@ class Views::Base < Components::Base
   end
 
   def page_title
-    "Figurinhas 2026"
+    t("app_name")
   end
 end

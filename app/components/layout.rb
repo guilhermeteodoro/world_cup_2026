@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Components::Layout < Components::Base
-  def initialize(title: "Figurinhas 2026", current_user: nil)
+  def initialize(title: I18n.t("app_name"), current_user: nil)
     @title = title
     @current_user = current_user
   end
