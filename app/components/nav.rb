@@ -8,15 +8,15 @@ class Components::Nav < Components::Base
   def view_template
     nav(class: "bg-white shadow-sm border-b") do
       div(class: "max-w-4xl mx-auto px-4 py-3 flex items-center justify-between") do
-        a(href: root_path, class: "text-xl font-bold text-green-700") { "⚽ Figurinhas 2026" }
+        a(href: root_path, class: "text-xl font-bold text-green-700") { t("app_name") }
 
         div(class: "flex items-center gap-4 text-sm") do
           if @current_user
             a(href: user_path(@current_user), class: "text-gray-600 hover:text-gray-900") { @current_user.name }
-            button(form: "logout-form", type: "submit", class: "text-gray-500 hover:text-gray-700") { "Log out" }
+            button(form: "logout-form", type: "submit", class: "text-gray-500 hover:text-gray-700") { t("nav.logout") }
           else
-            a(href: new_session_path, class: "text-gray-600 hover:text-gray-900") { "Log in" }
-            a(href: new_registration_path, class: "bg-green-600 text-white px-3 py-1 rounded font-medium hover:bg-green-700") { "Register" }
+            a(href: new_session_path, class: "text-gray-600 hover:text-gray-900") { t("nav.login") }
+            a(href: new_registration_path, class: "bg-green-600 text-white px-3 py-1 rounded font-medium hover:bg-green-700") { t("nav.register") }
           end
         end
       end
@@ -29,4 +29,5 @@ class Components::Nav < Components::Base
       end
     end
   end
+
 end

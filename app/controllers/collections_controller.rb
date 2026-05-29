@@ -11,13 +11,13 @@ class CollectionsController < ApplicationController
   def update
     parsed_data = parse_sticker_data
     unless parsed_data
-      flash.now[:error] ||= "Could not parse sticker data. Please check your input."
+      flash.now[:error] ||= t("collections.edit.parse_error")
       render Views::Collections::Edit.new(user: @user), status: :unprocessable_entity
       return
     end
 
     CollectionImporter.new(@user, parsed_data).call
-    redirect_to user_path(@user), notice: "Collection updated!"
+    redirect_to user_path(@user), notice: t("collections.edit.success")
   end
 
   private

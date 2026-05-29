@@ -33,7 +33,7 @@ class UsersController < ApplicationController
     end
 
     if @user.update(user_params)
-      redirect_to user_path(@user), notice: "Account updated!"
+      redirect_to user_path(@user), notice: t("users.edit.success")
     else
       flash.now[:error] = @user.errors.full_messages.join(", ")
       render Views::Users::Edit.new(user: @user), status: :unprocessable_entity

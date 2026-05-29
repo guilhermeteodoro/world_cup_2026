@@ -14,7 +14,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_05_29_205315) do
   create_table "countries", force: :cascade do |t|
     t.string "code", null: false
     t.string "emoji", null: false
-    t.string "name", null: false
     t.index ["code"], name: "index_countries_on_code", unique: true
   end
 

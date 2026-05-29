@@ -1,31 +1,154 @@
-# Files in the config/locales directory are used for internationalization and
-# are automatically loaded by Rails. If you want to use locales other than
-# English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t "hello"
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t("hello") %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more about the API, please read the Rails Internationalization guide
-# at https://guides.rubyonrails.org/i18n.html.
-#
-# Be aware that YAML interprets the following case-insensitive strings as
-# booleans: `true`, `false`, `on`, `off`, `yes`, `no`. Therefore, these strings
-# must be quoted to be interpreted as strings. For example:
-#
-#     en:
-#       "yes": yup
-#       enabled: "ON"
-
 en:
-  hello: "Hello world"
+  app_name: "Figurinhas 2026"
+
+  nav:
+    login: "Log in"
+    register: "Register"
+    logout: "Log out"
+
+  pages:
+    home:
+      title: "⚽ Figurinhas 2026"
+      subtitle: "Compare your World Cup 2026 sticker collection with friends and find trades."
+      cta: "Register your collection"
+
+  registrations:
+    new:
+      title: "Register your collection"
+      name_label: "Your name"
+      name_placeholder: "e.g. Gui"
+      email_label: "Your email"
+      email_placeholder: "e.g. gui@example.com"
+      import_method_label: "Import method"
+      import_dump: "Sticker Album 2026 app export"
+      import_manual: "Manual (missing + duplicates)"
+      dump_label: "Paste your dump"
+      dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
+      missing_label: "Paste your missing stickers"
+      missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
+      duplicates_label: "Paste your duplicates"
+      duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
+      submit: "Create my collection"
+    create:
+      success: "Welcome, %{name}!"
+      existing_email: "You already have an account. Log in instead!"
+      parse_error: "Could not parse sticker data. Please check your input."
+
+  sessions:
+    new:
+      title: "Log in"
+      email_label: "Your email"
+      email_placeholder: "e.g. gui@example.com"
+      submit: "Log in"
+      no_account: "Don't have an account?"
+      register_link: "Register"
+    create:
+      welcome_back: "Welcome back, %{name}!"
+      welcome_import: "Welcome back! Import your stickers."
+      not_found: "No account found with that email."
+    destroy:
+      success: "Logged out."
+
+  users:
+    show:
+      collection_title: "%{name}'s Collection"
+      owned: "%{count}/994 owned"
+      missing: "%{count} missing"
+      duplicates: "%{count} duplicates"
+      update_collection: "Update collection"
+      account_settings: "Account settings"
+      register_prompt: "Want to see what you can trade?"
+      register_link: "Register your collection"
+      available_for_trade: "Available for trade"
+      no_duplicates: "No duplicates available."
+      trade_title: "🔄 Trade with %{name}"
+      diff_title: "%{from} → %{to} (%{count} stickers)"
+      diff_subtitle_gives: "Duplicates %{from} has that %{to} is missing"
+      nothing: "(nothing)"
+      balanced_title: "✅ Suggested Balanced Trade"
+      category_trade: "%{category} (%{count} for %{count})"
+      gives: "%{name} gives:"
+      leftovers_title: "🤝 Leftovers"
+      still_has: "%{name} still has to offer (%{count}):"
+      copy: "📋 Copy"
+      copied: "Copied!"
+    edit:
+      title: "Account settings"
+      name_label: "Name"
+      email_label: "Email"
+      submit: "Save"
+      success: "Account updated!"
+
+  collections:
+    edit:
+      title: "Update your collection"
+      import_method_label: "Import method"
+      import_dump: "Sticker Album 2026 app export"
+      import_manual: "Manual (missing + duplicates)"
+      dump_label: "Paste your dump"
+      dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
+      missing_label: "Paste your missing stickers"
+      missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
+      duplicates_label: "Paste your duplicates"
+      duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
+      submit: "Update collection"
+      warning: "⚠️ This will replace your entire collection. Re-export from the app first."
+      success: "Collection updated!"
+      parse_error: "Could not parse sticker data. Please check your input."
+
+  categories:
+    shiny: "Shiny"
+    coke: "Coke"
+    normal: "Normal"
+
+  countries:
+    FWC: "FIFA World Cup"
+    CC: "Coca-Cola"
+    MEX: "Mexico"
+    RSA: "South Africa"
+    KOR: "South Korea"
+    CZE: "Czech Republic"
+    CAN: "Canada"
+    BIH: "Bosnia and Herzegovina"
+    QAT: "Qatar"
+    SUI: "Switzerland"
+    BRA: "Brazil"
+    MAR: "Morocco"
+    HAI: "Haiti"
+    SCO: "Scotland"
+    USA: "United States"
+    PAR: "Paraguay"
+    AUS: "Australia"
+    TUR: "Turkey"
+    GER: "Germany"
+    CUW: "Curaçao"
+    CIV: "Ivory Coast"
+    ECU: "Ecuador"
+    NED: "Netherlands"
+    JPN: "Japan"
+    SWE: "Sweden"
+    TUN: "Tunisia"
+    BEL: "Belgium"
+    EGY: "Egypt"
+    IRN: "Iran"
+    NZL: "New Zealand"
+    ESP: "Spain"
+    CPV: "Cape Verde"
+    KSA: "Saudi Arabia"
+    URU: "Uruguay"
+    FRA: "France"
+    SEN: "Senegal"
+    IRQ: "Iraq"
+    NOR: "Norway"
+    ARG: "Argentina"
+    ALG: "Algeria"
+    AUT: "Austria"
+    JOR: "Jordan"
+    POR: "Portugal"
+    COD: "DR Congo"
+    UZB: "Uzbekistan"
+    COL: "Colombia"
+    ENG: "England"
+    CRO: "Croatia"
+    GHA: "Ghana"
+    PAN: "Panama"

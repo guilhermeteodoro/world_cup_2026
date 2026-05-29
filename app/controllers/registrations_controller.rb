@@ -8,9 +8,8 @@ class RegistrationsController < ApplicationController
   end
 
   def create
-    # If email already exists, redirect to login
     if User.exists?(email: params[:email]&.downcase&.strip)
-      redirect_to new_session_path(email: params[:email]&.strip), alert: "You already have an account. Log in instead!"
+      redirect_to new_session_path(email: params[:email]&.strip), alert: t("registrations.create.existing_email")
       return
     end
 
@@ -18,7 +17,7 @@ class RegistrationsController < ApplicationController
 
     parsed_data = parse_sticker_data
     unless parsed_data
-      flash.now[:error] ||= "Could not parse sticker data. Please check your input."
+      flash.now[:error] ||= t("registrations.create.parse_error")
       render Views::Registrations::New.new(email: params[:email]), status: :unprocessable_entity
       return
     end
@@ -26,7 +25,7 @@ class RegistrationsController < ApplicationController
     if user.save
       CollectionImporter.new(user, parsed_data).call
       session[:user_id] = user.id
-      redirect_to user_path(user), notice: "Welcome, #{user.name}!"
+      redirect_to user_path(user), notice: t("registrations.create.success", name: user.name)
     else
       flash.now[:error] = user.errors.full_messages.join(", ")
       render Views::Registrations::New.new(email: params[:email]), status: :unprocessable_entity
