@@ -46,14 +46,16 @@ class Views::Users::Show < Views::Base
   end
 
   def render_duplicates
-    div(class: "py-4", data: { controller: "clipboard" }) do
+    duplicates = @user.duplicate_stickers
+    text = format_stickers_as_text(duplicates)
+
+    div(class: "py-4", data: { controller: "clipboard", clipboard_text_value: text }) do
       div(class: "flex items-center justify-between mb-3") do
         h2(class: "text-lg font-semibold text-gray-800") { "Available for trade" }
         copy_button
       end
-      duplicates = @user.duplicate_stickers
       if duplicates.any?
-        render_sticker_list_by_team(duplicates, copyable: true)
+        render_sticker_list_by_team(duplicates)
       else
         p(class: "text-gray-500 italic") { "No duplicates available." }
       end
@@ -61,7 +63,9 @@ class Views::Users::Show < Views::Base
   end
 
   def render_trade
-    div(class: "py-4", data: { controller: "clipboard" }) do
+    text = build_trade_text
+
+    div(class: "py-4", data: { controller: "clipboard", clipboard_text_value: text }) do
       div(class: "flex items-center justify-between mb-6") do
         h2(class: "text-xl font-bold text-gray-900") { "🔄 Trade with #{@user.name}" }
         copy_button
@@ -85,10 +89,10 @@ class Views::Users::Show < Views::Base
 
   def render_diff_section(title, subtitle, stickers)
     div(class: "mb-6") do
-      h3(class: "font-semibold text-gray-800", data: copy_line) { "\n#{title} (#{stickers.size} stickers)" }
+      h3(class: "font-semibold text-gray-800") { "#{title} (#{stickers.size} stickers)" }
       p(class: "text-sm text-gray-500 mb-2") { subtitle }
       if stickers.any?
-        render_sticker_list_by_team(stickers, copyable: true)
+        render_sticker_list_by_team(stickers)
       else
         p(class: "text-gray-500 italic text-sm") { "(nothing)" }
       end
@@ -100,7 +104,7 @@ class Views::Users::Show < Views::Base
     return unless [ :shiny, :coke, :normal ].any? { balanced.send(it).a_gives.any? }
 
     div(class: "mt-8 p-6 bg-green-50 border border-green-200 rounded-lg") do
-      h3(class: "text-lg font-bold text-green-800 mb-4", data: copy_line) { "\n✅ Suggested Balanced Trade" }
+      h3(class: "text-lg font-bold text-green-800 mb-4") { "✅ Suggested Balanced Trade" }
 
       [ :shiny, :coke, :normal ].each do |cat|
         pair = balanced.send(cat)
@@ -108,15 +112,15 @@ class Views::Users::Show < Views::Base
 
         count = pair.a_gives.size
         div(class: "mb-4") do
-          h4(class: "font-semibold text-green-700 mb-2", data: copy_line) { "#{cat.to_s.upcase} (#{count} for #{count})" }
+          h4(class: "font-semibold text-green-700 mb-2") { "#{cat.to_s.upcase} (#{count} for #{count})" }
           div(class: "grid grid-cols-2 gap-4") do
             div do
-              p(class: "text-xs text-gray-500 mb-1", data: copy_line) { "  #{@current_user.name} gives:" }
-              render_sticker_list_by_team(pair.a_gives, copyable: true)
+              p(class: "text-xs text-gray-500 mb-1") { "#{@current_user.name} gives:" }
+              render_sticker_list_by_team(pair.a_gives)
             end
             div do
-              p(class: "text-xs text-gray-500 mb-1", data: copy_line) { "  #{@user.name} gives:" }
-              render_sticker_list_by_team(pair.b_gives, copyable: true)
+              p(class: "text-xs text-gray-500 mb-1") { "#{@user.name} gives:" }
+              render_sticker_list_by_team(pair.b_gives)
             end
           end
         end
@@ -129,34 +133,88 @@ class Views::Users::Show < Views::Base
     return if leftovers.a_has.empty? && leftovers.b_has.empty?
 
     div(class: "mt-6 p-6 bg-gray-50 border border-gray-200 rounded-lg") do
-      h3(class: "text-lg font-semibold text-gray-700 mb-4", data: copy_line) { "\n🤝 Leftovers" }
+      h3(class: "text-lg font-semibold text-gray-700 mb-4") { "🤝 Leftovers" }
 
       if leftovers.a_has.any?
         div(class: "mb-3") do
-          p(class: "text-sm font-medium text-gray-600 mb-1", data: copy_line) { "  #{@current_user.name} still has to offer (#{leftovers.a_has.size}):" }
-          render_sticker_list_by_team(leftovers.a_has, copyable: true)
+          p(class: "text-sm font-medium text-gray-600 mb-1") { "#{@current_user.name} still has to offer (#{leftovers.a_has.size}):" }
+          render_sticker_list_by_team(leftovers.a_has)
         end
       end
 
       if leftovers.b_has.any?
         div do
-          p(class: "text-sm font-medium text-gray-600 mb-1", data: copy_line) { "  #{@user.name} still has to offer (#{leftovers.b_has.size}):" }
-          render_sticker_list_by_team(leftovers.b_has, copyable: true)
+          p(class: "text-sm font-medium text-gray-600 mb-1") { "#{@user.name} still has to offer (#{leftovers.b_has.size}):" }
+          render_sticker_list_by_team(leftovers.b_has)
         end
       end
     end
   end
 
-  def render_sticker_list_by_team(stickers, copyable: false)
+  def render_sticker_list_by_team(stickers)
     grouped = stickers.group_by(&:country)
     div(class: "text-sm font-mono") do
       grouped.each do |country, country_stickers|
-        p(data: copyable ? copy_line : {}) do
-          span(class: "font-semibold") { "  #{country.emoji} #{country.code}: " }
+        p do
+          span(class: "font-semibold") { "#{country.emoji} #{country.code}: " }
           plain country_stickers.map(&:number).join(", ")
         end
       end
     end
+  end
+
+  # --- Text builders for clipboard ---
+
+  def format_stickers_as_text(stickers)
+    stickers.group_by(&:country).map do |country, country_stickers|
+      "#{country.emoji} #{country.code}: #{country_stickers.map(&:number).join(", ")}"
+    end.join("\n")
+  end
+
+  def build_trade_text
+    lines = []
+
+    lines << "#{@current_user.name} → #{@user.name} (#{@trade_result.a_gives_b.size} stickers)"
+    lines << indent(format_stickers_as_text(@trade_result.a_gives_b))
+    lines << ""
+    lines << "#{@user.name} → #{@current_user.name} (#{@trade_result.b_gives_a.size} stickers)"
+    lines << indent(format_stickers_as_text(@trade_result.b_gives_a))
+
+    balanced = @trade_result.balanced
+    if [ :shiny, :coke, :normal ].any? { balanced.send(it).a_gives.any? }
+      lines << ""
+      lines << "✅ Suggested Balanced Trade"
+      [ :shiny, :coke, :normal ].each do |cat|
+        pair = balanced.send(cat)
+        next if pair.a_gives.empty?
+        count = pair.a_gives.size
+        lines << "  #{cat.to_s.upcase} (#{count} for #{count})"
+        lines << "    #{@current_user.name} gives:"
+        lines << indent(format_stickers_as_text(pair.a_gives), 6)
+        lines << "    #{@user.name} gives:"
+        lines << indent(format_stickers_as_text(pair.b_gives), 6)
+      end
+    end
+
+    leftovers = @trade_result.leftovers
+    if leftovers.a_has.any? || leftovers.b_has.any?
+      lines << ""
+      lines << "🤝 Leftovers"
+      if leftovers.a_has.any?
+        lines << "  #{@current_user.name} still has to offer (#{leftovers.a_has.size}):"
+        lines << indent(format_stickers_as_text(leftovers.a_has), 4)
+      end
+      if leftovers.b_has.any?
+        lines << "  #{@user.name} still has to offer (#{leftovers.b_has.size}):"
+        lines << indent(format_stickers_as_text(leftovers.b_has), 4)
+      end
+    end
+
+    lines.join("\n")
+  end
+
+  def indent(text, spaces = 2)
+    text.lines.map { |l| "#{" " * spaces}#{l}" }.join
   end
 
   def copy_button
@@ -165,9 +223,5 @@ class Views::Users::Show < Views::Base
       data: { action: "clipboard#copy", copy_button: "" },
       class: "text-sm text-gray-500 hover:text-gray-700 border border-gray-300 rounded px-2 py-1"
     ) { "📋 Copy" }
-  end
-
-  def copy_line
-    { clipboard_target: "line" }
   end
 end
