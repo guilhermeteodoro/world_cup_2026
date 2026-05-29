@@ -23,11 +23,11 @@ class User < ApplicationRecord
   end
 
   def duplicate_stickers
-    stickers.merge(UserSticker.where("copies > 0")).order(:position)
+    stickers.includes(:country).merge(UserSticker.where("copies > 0")).order(:position)
   end
 
   def missing_stickers
-    Sticker.where.not(id: user_stickers.select(:sticker_id)).order(:position)
+    Sticker.includes(:country).where.not(id: user_stickers.select(:sticker_id)).order(:position)
   end
 
   def to_param

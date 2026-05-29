@@ -90,6 +90,6 @@ class TradeComparer
 
   def load_stickers(ids)
     return [] if ids.empty?
-    Sticker.where(id: ids).order(:position).to_a
+    Sticker.includes(:country).where(id: ids).order(:position).to_a
   end
 end

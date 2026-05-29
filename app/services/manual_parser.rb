@@ -32,8 +32,8 @@ class ManualParser
   private
 
   def build_sticker_lookup
-    @sticker_lookup ||= Sticker.pluck(:team, :number, :position).each_with_object({}) do |(team, number, position), hash|
-      hash["#{team}:#{number}"] = position
+    @sticker_lookup ||= Sticker.joins(:country).pluck("countries.code", :number, :position).each_with_object({}) do |(code, number, position), hash|
+      hash["#{code}:#{number}"] = position
     end
   end
 

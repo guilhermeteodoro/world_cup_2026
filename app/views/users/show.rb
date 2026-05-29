@@ -143,12 +143,12 @@ class Views::Users::Show < Views::Base
   end
 
   def render_sticker_list_by_team(stickers)
-    grouped = stickers.group_by(&:team)
+    grouped = stickers.group_by(&:country)
     div(class: "text-sm font-mono") do
-      grouped.each do |team, team_stickers|
+      grouped.each do |country, country_stickers|
         p do
-          span(class: "font-semibold") { "#{team}: " }
-          plain team_stickers.map(&:number).join(", ")
+          span(class: "font-semibold") { "#{country.code}: " }
+          plain country_stickers.map(&:number).join(", ")
         end
       end
     end
