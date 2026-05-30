@@ -6,7 +6,7 @@ class Views::Pages::Home < Views::Base
       h1(class: "text-4xl font-bold text-foreground mb-4") { t("pages.home.title") }
       p(class: "text-lg text-muted-foreground mb-8") { t("pages.home.subtitle") }
 
-      Button(href: new_registration_path) { t("pages.home.cta") }
+      Link(variant: :primary, href: new_registration_path) { t("pages.home.cta") }
     end
   end
 end

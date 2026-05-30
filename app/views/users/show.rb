@@ -28,8 +28,8 @@ class Views::Users::Show < Views::Base
 
       if @is_owner
         div(class: "mt-3 flex gap-3") do
-          Button(variant: :outline, href: edit_user_collection_path(@user)) { t("users.show.update_collection") }
-          Button(variant: :ghost, href: edit_user_path(@user)) { t("users.show.account_settings") }
+          Link(variant: :outline, href: edit_user_collection_path(@user)) { t("users.show.update_collection") }
+          Link(variant: :ghost, href: edit_user_path(@user)) { t("users.show.account_settings") }
         end
       elsif !@current_user
         Alert(class: "mt-4") do
