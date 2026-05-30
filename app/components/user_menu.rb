@@ -6,7 +6,7 @@ class Components::UserMenu < Components::Base
   end
 
   def view_template
-    div(class: "fixed top-4 right-4 z-50") do
+    div(class: "absolute top-0 right-4") do
       Popover(options: { placement: "bottom-end" }) do
         PopoverTrigger do
           button(type: "button", class: "flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-sm hover:bg-accent transition-colors") do
