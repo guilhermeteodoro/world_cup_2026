@@ -1,5 +1,5 @@
 pt-BR:
-  app_name: "Figurinhas 2026"
+  app_name: "⚽ Sticker Trader"
 
   nav:
     login: "Entrar"
@@ -8,7 +8,7 @@ pt-BR:
 
   pages:
     home:
-      title: "⚽ Figurinhas 2026"
+      title: "Sticker Trader"
       subtitle: "Compare sua coleção de figurinhas da Copa 2026 com amigos e encontre trocas."
       cta: "Cadastre sua coleção"
 

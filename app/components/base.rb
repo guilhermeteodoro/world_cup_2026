@@ -8,6 +8,7 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::JavaScriptImportmapTags
   include Phlex::Rails::Helpers::Flash
   include Phlex::Rails::Helpers::FormAuthenticityToken
+  include Phlex::Rails::Helpers::ImagePath
   include RubyUI
 
   register_value_helper :current_user
