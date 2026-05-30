@@ -1,9 +1,8 @@
 # frozen_string_literal: true
 
 class Components::Layout < Components::Base
-  def initialize(title: I18n.t("app_name"), current_user: nil)
+  def initialize(title: I18n.t("app_name"))
     @title = title
-    @current_user = current_user
   end
 
   def view_template
@@ -19,8 +18,7 @@ class Components::Layout < Components::Base
         stylesheet_link_tag :app, "data-turbo-track": "reload"
         javascript_importmap_tags
       end
-      body(class: "min-h-screen bg-gray-50") do
-        render Components::Nav.new(current_user: @current_user)
+      body(class: "min-h-screen bg-background") do
         main(class: "max-w-4xl mx-auto px-4 py-8") do
           render_flash
           yield
