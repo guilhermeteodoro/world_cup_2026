@@ -36,9 +36,18 @@ class Components::Nav < Components::Base
 
   def render_locale_switcher
     current = I18n.locale.to_s
-    other_locale = current == "pt-BR" ? "en" : "pt-BR"
-    other_flag = current == "pt-BR" ? "🇬🇧" : "🇧🇷"
 
-    a(href: "?locale=#{other_locale}", class: "text-lg hover:opacity-75", title: other_locale) { other_flag }
+    div(class: "flex items-center gap-1") do
+      a(
+        href: "?locale=pt-BR",
+        class: "text-lg #{current == "pt-BR" ? "opacity-100" : "opacity-40 hover:opacity-75"}",
+        title: "Português"
+      ) { "🇧🇷" }
+      a(
+        href: "?locale=en",
+        class: "text-lg #{current == "en" ? "opacity-100" : "opacity-40 hover:opacity-75"}",
+        title: "English"
+      ) { "🇬🇧" }
+    end
   end
 end
