@@ -17,25 +17,28 @@ class Views::Users::Show < Views::Base
   private
 
   def render_user_info
-    div(class: "mb-4") do
-      h1(class: "text-2xl font-bold text-gray-900 mb-2") { t("users.show.collection_title", name: @user.name) }
-
-      div(class: "flex gap-3 text-sm") do
-        Badge(variant: :secondary) { t("users.show.owned", count: @user.owned_count) }
-        Badge(variant: :secondary) { t("users.show.missing", count: @user.missing_count) }
-        Badge(variant: :secondary) { t("users.show.duplicates", count: @user.duplicates_count) }
+    Card(class: "mb-6") do
+      CardHeader do
+        CardTitle { t("users.show.collection_title", name: @user.name) }
       end
-
-      if @is_owner
-        div(class: "mt-3 flex gap-3") do
-          Link(variant: :outline, href: edit_user_collection_path(@user)) { t("users.show.update_collection") }
-          Link(variant: :ghost, href: edit_user_path(@user)) { t("users.show.account_settings") }
+      CardContent do
+        div(class: "flex flex-wrap gap-3 text-sm") do
+          Badge(variant: :secondary) { t("users.show.owned", count: @user.owned_count) }
+          Badge(variant: :secondary) { t("users.show.missing", count: @user.missing_count) }
+          Badge(variant: :secondary) { t("users.show.duplicates", count: @user.duplicates_count) }
         end
-      elsif !@current_user
-        Alert(class: "mt-4") do
-          AlertDescription do
-            plain "#{t("users.show.register_prompt")} "
-            a(href: new_registration_path, class: "font-medium underline") { t("users.show.register_link") }
+
+        if @is_owner
+          div(class: "mt-4 flex gap-3") do
+            Link(variant: :outline, href: edit_user_collection_path(@user)) { t("users.show.update_collection") }
+            Link(variant: :ghost, href: edit_user_path(@user)) { t("users.show.account_settings") }
+          end
+        elsif !@current_user
+          Alert(class: "mt-4") do
+            AlertDescription do
+              plain "#{t("users.show.register_prompt")} "
+              a(href: new_registration_path, class: "font-medium underline") { t("users.show.register_link") }
+            end
           end
         end
       end

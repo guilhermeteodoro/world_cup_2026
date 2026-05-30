@@ -6,20 +6,27 @@ class Views::Collections::Edit < Views::Base
   end
 
   def view_template
-    h1(class: "text-2xl font-bold text-gray-900 mb-6") { t("collections.edit.title") }
+    div(class: "max-w-lg mx-auto") do
+      Card do
+        CardHeader do
+          CardTitle { t("collections.edit.title") }
+        end
+        CardContent do
+          form(action: user_collection_path(@user), method: "post", data: { controller: "import-form" }) do
+            input(type: "hidden", name: "_method", value: "patch")
+            input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
 
-    form(action: user_collection_path(@user), method: "post", data: { controller: "import-form" }) do
-      input(type: "hidden", name: "_method", value: "patch")
-      input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+            render_import_fields
 
-      render_import_fields
+            div(class: "mt-6") do
+              Button(type: :submit) { t("collections.edit.submit") }
+            end
+          end
 
-      div(class: "mt-6") do
-        Button(type: :submit) { t("collections.edit.submit") }
+          p(class: "mt-4 text-sm text-muted-foreground") { t("collections.edit.warning") }
+        end
       end
     end
-
-    p(class: "mt-4 text-sm text-muted-foreground") { t("collections.edit.warning") }
   end
 
   private

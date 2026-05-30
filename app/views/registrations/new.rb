@@ -6,25 +6,32 @@ class Views::Registrations::New < Views::Base
   end
 
   def view_template
-    h1(class: "text-2xl font-bold text-gray-900 mb-6") { t("registrations.new.title") }
+    div(class: "max-w-md mx-auto") do
+      Card do
+        CardHeader do
+          CardTitle { t("registrations.new.title") }
+        end
+        CardContent do
+          form(action: registration_path, method: "post", data: { controller: "import-form" }) do
+            input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
 
-    form(action: registration_path, method: "post", data: { controller: "import-form" }) do
-      input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+            FormField do
+              FormFieldLabel { t("registrations.new.name_label") }
+              Input(type: "text", name: "name", required: true, placeholder: t("registrations.new.name_placeholder"))
+            end
 
-      FormField do
-        FormFieldLabel { t("registrations.new.name_label") }
-        Input(type: "text", name: "name", required: true, placeholder: t("registrations.new.name_placeholder"))
-      end
+            FormField do
+              FormFieldLabel { t("registrations.new.email_label") }
+              Input(type: "email", name: "email", required: true, value: @email, placeholder: t("registrations.new.email_placeholder"))
+            end
 
-      FormField do
-        FormFieldLabel { t("registrations.new.email_label") }
-        Input(type: "email", name: "email", required: true, value: @email, placeholder: t("registrations.new.email_placeholder"))
-      end
+            render_import_fields
 
-      render_import_fields
-
-      div(class: "mt-6") do
-        Button(type: :submit) { t("registrations.new.submit") }
+            div(class: "mt-6") do
+              Button(type: :submit) { t("registrations.new.submit") }
+            end
+          end
+        end
       end
     end
   end
