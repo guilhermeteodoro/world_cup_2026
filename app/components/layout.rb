@@ -20,24 +20,9 @@ class Components::Layout < Components::Base
       end
       body(class: "min-h-screen bg-background") do
         main(class: "max-w-4xl mx-auto px-4 py-8") do
-          render_flash
           yield
         end
-      end
-    end
-  end
-
-  private
-
-  def render_flash
-    if flash[:notice]
-      Alert(class: "mb-4") do
-        AlertDescription { flash[:notice] }
-      end
-    end
-    if flash[:error]
-      Alert(class: "mb-4 border-destructive") do
-        AlertDescription { flash[:error] }
+        render RubyUI::ToastRegion.new(position: :top_right, flash: flash)
       end
     end
   end
