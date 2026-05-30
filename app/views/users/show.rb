@@ -18,12 +18,12 @@ class Views::Users::Show < Views::Base
 
   def render_user_info
     div(class: "mb-6") do
-      h1(class: "text-2xl font-bold text-foreground mb-2") { t("users.show.collection_title", name: @user.name) }
+      Heading(level: 2, class: "mb-2") { @is_owner ? t("users.show.own_collection_title") : t("users.show.collection_title", name: @user.name) }
 
       div(class: "flex flex-wrap gap-3 text-sm") do
-        Badge(variant: :secondary) { t("users.show.owned", count: @user.owned_count) }
-        Badge(variant: :secondary) { t("users.show.missing", count: @user.missing_count) }
-        Badge(variant: :secondary) { t("users.show.duplicates", count: @user.duplicates_count) }
+        Badge(variant: :outline) { t("users.show.owned", count: @user.owned_count) }
+        Badge(variant: :outline) { t("users.show.missing", count: @user.missing_count) }
+        Badge(variant: :outline) { t("users.show.duplicates", count: @user.duplicates_count) }
       end
 
       if @is_owner
@@ -46,18 +46,19 @@ class Views::Users::Show < Views::Base
     duplicates = @user.duplicate_stickers
     text = format_stickers_as_text(duplicates)
 
-    Card(class: "mb-6 bg-card", data: { controller: "clipboard", clipboard_text_value: text }) do
-      CardHeader do
-        div(class: "flex items-center justify-between") do
-          CardTitle { t("users.show.available_for_trade") }
-          copy_button
-        end
+    div(data: { controller: "clipboard", clipboard_text_value: text }) do
+      div(class: "flex items-center justify-between mb-2") do
+        Heading(level: 3) { t("users.show.available_for_trade") }
+        copy_button
       end
-      CardContent do
-        if duplicates.any?
-          render_sticker_list_by_team(duplicates)
-        else
-          p(class: "text-muted-foreground italic") { t("users.show.no_duplicates") }
+
+      Card(class: "pt-6 bg-card") do
+        CardContent do
+          if duplicates.any?
+            render_sticker_list_by_team(duplicates)
+          else
+            p(class: "text-muted-foreground italic") { t("users.show.no_duplicates") }
+          end
         end
       end
     end

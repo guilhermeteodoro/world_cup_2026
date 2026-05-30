@@ -51,6 +51,7 @@ en:
 
   users:
     show:
+      own_collection_title: "My collection"
       collection_title: "%{name}'s Collection"
       owned: "%{count}/994 owned"
       missing: "%{count} missing"

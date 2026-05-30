@@ -16,9 +16,9 @@ pt-BR:
     new:
       title: "Cadastre sua coleção"
       name_label: "Seu nome"
-      name_placeholder: "ex. Gui"
+      name_placeholder: "ex. João da Silva"
       email_label: "Seu email"
-      email_placeholder: "ex. gui@exemplo.com"
+      email_placeholder: "ex. joaodasailva@gmail.com"
       import_method_label: "Método de importação"
       import_dump: "Exportação do app Sticker Album 2026"
       import_manual: "Manual (faltantes + repetidas)"
@@ -51,6 +51,7 @@ pt-BR:
 
   users:
     show:
+      own_collection_title: "Minha coleção"
       collection_title: "Coleção de %{name}"
       owned: "%{count}/994 coladas"
       missing: "%{count} faltantes"
