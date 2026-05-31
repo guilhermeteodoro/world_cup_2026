@@ -60,7 +60,14 @@
 - [x] Integration smoke tests (routes, registration, login)
 - [x] E2E test: navigate home → register with collection → assert sees own info and collection
 
-## Phase 9: Deploy
+## Phase 9: Trade consolidation
+- [x] Create `trades` table (user_a, user_b, confirmed_at)
+- [x] Create `trade_stickers` pivot (trade_id, sticker_id, giver_id, receiver_id)
+- [x] "Consolidar troca" button saves balanced trade to DB
+- [x] Trade history on owner's collection page
+- [x] Schema annotations on all models
+
+## Phase 10: Deploy
 - [ ] Configure Render deployment (render.yaml, Dockerfile or buildpack)
 - [ ] Deploy to Render (web service + Postgres + seed)
 - [ ] Smoke test with real dumps in production
