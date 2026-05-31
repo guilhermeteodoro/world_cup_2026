@@ -1,17 +1,21 @@
-# Sticker Album 2026
+# Sticker Trader
 
-Tool to compare World Cup 2026 sticker album dumps between collectors and find trading opportunities.
+Web app for World Cup 2026 sticker collectors to find and record trades with friends.
 
 Based on the [Sticker Album 2026](https://apps.apple.com/br/app/sticker-album-2026/id6761956390?l=en-GB) app (by MoovTech — https://moovtech.app/stickers2026/), which tracks owned and duplicate stickers and provides a dump/restore feature.
 
 ## Language
 
 **Sticker**:
-A collectible item identified by a team code and number (e.g. BRA 5). Physically printed and glued into an album.
+A collectible item identified by a country code and number (e.g. BRA 5). Physically printed and glued into an album.
 _Avoid_: Card, figurinha (in code)
 
+**Country**:
+A group in the album (e.g. BRA, FWC, CC). Has a code, emoji flag, and localized name via i18n. Not always a real country (FWC = FIFA World Cup, CC = Coca-Cola).
+_Avoid_: Team, group
+
 **Sticker catalog**:
-The fixed set of 994 stickers in the album, seeded in the database. Each sticker has a team, number, category, and sequential position.
+The fixed set of 994 stickers in the album, seeded in the database. Each sticker belongs to a country, has a number, category, and sequential position.
 _Avoid_: Card list, checklist
 
 **Category**:
@@ -19,7 +23,7 @@ A classification of stickers that determines trade fairness. Three values: shiny
 _Avoid_: Type, tier, rarity
 
 **Shiny**:
-A category: all FWC stickers (00–19) plus sticker 1 of every team except CC. 68 total.
+A category: all FWC stickers (00–19) plus sticker 1 of every country except CC. 68 total.
 _Avoid_: Holographic, special
 
 **Coke**:
@@ -27,7 +31,7 @@ A category: all CC stickers (1–14). 14 total.
 _Avoid_: Promo, sponsor
 
 **Normal**:
-A category: all stickers that are not shiny or coke — stickers 2–20 of every team except FWC and CC. 912 total.
+A category: all stickers that are not shiny or coke — stickers 2–20 of every country except FWC and CC. 912 total.
 _Avoid_: Regular, common
 
 **Collection**:
@@ -51,7 +55,7 @@ A pipe-delimited string exported by the Sticker Album 2026 app that encodes owne
 _Avoid_: Export, backup
 
 **Trade comparison**:
-A computed view showing what a logged-in user can exchange with another user. Not persisted — calculated on-the-fly from both users' live collections.
+A computed view showing what a logged-in user can exchange with another user. Calculated on-the-fly from both users' live collections.
 _Avoid_: Trade session, swap
 
 **Balanced trade**:
@@ -62,8 +66,16 @@ _Avoid_: Fair trade, even swap
 Duplicates that couldn't be matched within their category in a balanced trade. Available for cross-category negotiation.
 _Avoid_: Remainder, unmatched
 
+**Trade**:
+A persisted record of a consolidated balanced trade between two users. Links to the specific stickers exchanged via `trade_stickers`.
+_Avoid_: Swap, exchange
+
+**Trade sticker**:
+A pivot record linking a trade to a specific sticker, with a giver and receiver. Records who gave what to whom.
+_Avoid_: Trade item, trade line
+
 **User**:
-Someone who has registered their name and sticker collection. Identified by a session cookie (no email/password for MVP). Has a public profile at `/u/<slug>`.
+Someone who has registered their name, email, and sticker collection. Identified by a session cookie (email login, no password). Has a public profile at `/u/<slug>`.
 _Avoid_: Collector, participant
 
 ## Example dialogue
@@ -72,3 +84,4 @@ _Avoid_: Collector, participant
 > "You have MEX 11 as a duplicate and I'm missing it — I need it from you."
 > "Neither of us has NED 7 — no one can help there."
 > "Let's do 11 shiny for 11 shiny, then negotiate the leftovers."
+> "I consolidated the trade — now I can see what I gave and received."
