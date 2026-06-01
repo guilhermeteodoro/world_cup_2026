@@ -16,6 +16,12 @@ application.register("import-form", ImportFormController)
 import RubyUi__CollapsibleController from "./ruby_ui/collapsible_controller"
 application.register("ruby-ui--collapsible", RubyUi__CollapsibleController)
 
+import RubyUi__ComboboxController from "./ruby_ui/combobox_controller"
+application.register("ruby-ui--combobox", RubyUi__ComboboxController)
+
+import RubyUi__DialogController from "./ruby_ui/dialog_controller"
+application.register("ruby-ui--dialog", RubyUi__DialogController)
+
 import RubyUi__DropdownMenuController from "./ruby_ui/dropdown_menu_controller"
 application.register("ruby-ui--dropdown-menu", RubyUi__DropdownMenuController)
 

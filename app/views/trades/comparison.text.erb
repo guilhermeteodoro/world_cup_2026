@@ -1,0 +1,33 @@
+<%= t("views.users.show.diff_title", from: current_user.name, to: user.name, count: trade_result.a_gives_b.size) %>
+<%= indent(Sticker.format_as_text(trade_result.a_gives_b)) %>
+
+<%= t("views.users.show.diff_title", from: user.name, to: current_user.name, count: trade_result.b_gives_a.size) %>
+<%= indent(Sticker.format_as_text(trade_result.b_gives_a)) %>
+<% balanced = trade_result.balanced %>
+<% if [:shiny, :coke, :normal].any? { |cat| balanced.send(cat).a_gives.any? } %>
+
+<%= t("views.users.show.balanced_title") %>
+<% [:shiny, :coke, :normal].each do |cat| %>
+<% pair = balanced.send(cat) %>
+<% next if pair.a_gives.empty? %>
+<% count = pair.a_gives.size %>
+  <%= t("views.users.show.category_trade", category: t("categories.#{cat}"), count: count) %>
+    <%= t("views.users.show.gives", name: current_user.name) %>
+<%= indent(Sticker.format_as_text(pair.a_gives), 6) %>
+    <%= t("views.users.show.gives", name: user.name) %>
+<%= indent(Sticker.format_as_text(pair.b_gives), 6) %>
+<% end %>
+<% end %>
+<% leftovers = trade_result.leftovers %>
+<% if leftovers.a_has.any? || leftovers.b_has.any? %>
+
+<%= t("views.users.show.leftovers_title") %>
+<% if leftovers.a_has.any? %>
+  <%= t("views.users.show.still_has", name: current_user.name, count: leftovers.a_has.size) %>
+<%= indent(Sticker.format_as_text(leftovers.a_has), 4) %>
+<% end %>
+<% if leftovers.b_has.any? %>
+  <%= t("views.users.show.still_has", name: user.name, count: leftovers.b_has.size) %>
+<%= indent(Sticker.format_as_text(leftovers.b_has), 4) %>
+<% end %>
+<% end %>

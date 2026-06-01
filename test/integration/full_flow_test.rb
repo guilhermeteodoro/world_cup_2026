@@ -7,12 +7,12 @@ class FullFlowTest < ActionDispatch::IntegrationTest
     # 1. Visit home
     get root_path
     assert_response :success
-    assert_includes response.body, I18n.t("pages.home.cta")
+    assert_includes response.body, I18n.t("views.pages.home.cta")
 
     # 2. Visit registration page
     get new_registration_path
     assert_response :success
-    assert_includes response.body, I18n.t("registrations.new.title")
+    assert_includes response.body, I18n.t("views.registrations.new.title")
 
     # 3. Submit registration with dump
     post registration_path, params: {
@@ -104,7 +104,7 @@ class FullFlowTest < ActionDispatch::IntegrationTest
     # User B views User A's page → sees trade comparison
     get user_path(user_a)
     assert_response :success
-    assert_includes response.body, I18n.t("users.show.trade_title", name: "Alice")
+    assert_includes response.body, I18n.t("views.users.show.trade_title", name: "Alice")
     assert_includes response.body, "Bob →"
     assert_includes response.body, "Alice →"
   end

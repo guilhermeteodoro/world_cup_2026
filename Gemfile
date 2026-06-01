@@ -46,6 +46,10 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ], require: "debug/prelude"
 
   gem "ruby-lsp"
+  gem "ruby-lsp-factory_bot", "~> 0.6.0"
+  gem "ruby-lsp-i18n", "~> 0.4.2"
+  gem "ruby-lsp-rails", "~> 0.4.8"
+  gem "ruby-lsp-rspec", "~> 0.1.28"
 
   # Audits gems for known security defects (use config/bundler-audit.yml to ignore issues)
   gem "bundler-audit", require: false

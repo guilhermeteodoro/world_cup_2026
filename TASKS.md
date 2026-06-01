@@ -71,3 +71,20 @@
 - [ ] Configure Render deployment (render.yaml, Dockerfile or buildpack)
 - [ ] Deploy to Render (web service + Postgres + seed)
 - [ ] Smoke test with real dumps in production
+
+## Phase 11: Refactor & polish (completed)
+- [x] Extract StickerList Phlex component (standard sticker display)
+- [x] Extract CollectionImporter component (shared import form fields)
+- [x] Extract LocaleSwitcher component
+- [x] Add TradeParticipation virtual model (ActiveModel)
+- [x] Add Trade.involving / Trade.confirmed scopes
+- [x] Add User#trade_history returning TradeParticipation[]
+- [x] Add Sticker.format_as_text class method
+- [x] ERB text serializer for trade comparison clipboard
+- [x] Views::LoggedIn base class (title/content/user-menu layout)
+- [x] Install RubyUI Combobox and Dialog components
+- [x] Video tutorial dialog for collection import
+- [x] Trade history as collapsible cards with counts
+- [x] Enable Phlex relative translation keys (t('.key'))
+- [x] Restructure all i18n files to match class paths
+- [x] Rename app to StickerTrader, add favicon

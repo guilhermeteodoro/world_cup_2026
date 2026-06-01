@@ -33,7 +33,7 @@ class RouteSmokeTest < ActionDispatch::IntegrationTest
   test "collection edit requires login" do
     user = create_user(name: "Locked", email: "locked@test.com", dump: sample_dump)
     get edit_user_collection_path(user)
-    assert_redirected_to user_path(user)
+    assert_redirected_to root_path
   end
 
   test "registration creates user and redirects" do

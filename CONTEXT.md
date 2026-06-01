@@ -66,6 +66,10 @@ _Avoid_: Fair trade, even swap
 Duplicates that couldn't be matched within their category in a balanced trade. Available for cross-category negotiation.
 _Avoid_: Remainder, unmatched
 
+**Trade participation**:
+A virtual model (ActiveModel) representing one user's perspective of a trade. Has other_user, given stickers, received stickers, and confirmed_at. Built by `User#trade_history` from the Trade records.
+_Avoid_: Trade entry, trade record
+
 **Trade**:
 A persisted record of a consolidated balanced trade between two users. Links to the specific stickers exchanged via `trade_stickers`.
 _Avoid_: Swap, exchange
@@ -77,6 +81,17 @@ _Avoid_: Trade item, trade line
 **User**:
 Someone who has registered their name, email, and sticker collection. Identified by a session cookie (email login, no password). Has a public profile at `/u/<slug>`.
 _Avoid_: Collector, participant
+
+## Key components
+
+**StickerList**:
+Phlex component (`Components::StickerList`) — the standard way to display stickers. Takes a stickers array, groups by country, renders as monospace text. Supports an optional copy-to-clipboard button via `copyable: true`.
+
+**CollectionImporter**:
+Phlex component (`Components::CollectionImporter`) — the import method form fields shared between registration and collection edit. Contains a Combobox for method selection, a "How to export?" link that opens a video tutorial dialog, and the dump/manual textareas.
+
+**LocaleSwitcher**:
+Phlex component (`Components::LocaleSwitcher`) — flag-based language toggle (🇧🇷/🇬🇧). Used on home page and user settings.
 
 ## Example dialogue
 

@@ -15,10 +15,10 @@ class Components::Nav < Components::Base
 
           if @current_user
             a(href: user_path(@current_user), class: "text-gray-600 hover:text-gray-900") { @current_user.name }
-            button(form: "logout-form", type: "submit", class: "text-gray-500 hover:text-gray-700") { t("nav.logout") }
+            button(form: "logout-form", type: "submit", class: "text-gray-500 hover:text-gray-700") { t(".logout") }
           else
-            a(href: new_session_path, class: "text-gray-600 hover:text-gray-900") { t("nav.login") }
-            a(href: new_registration_path, class: "bg-green-600 text-white px-3 py-1 rounded font-medium hover:bg-green-700") { t("nav.register") }
+            a(href: new_session_path, class: "text-gray-600 hover:text-gray-900") { t(".login") }
+            a(href: new_registration_path, class: "bg-green-600 text-white px-3 py-1 rounded font-medium hover:bg-green-700") { t(".register") }
           end
         end
       end

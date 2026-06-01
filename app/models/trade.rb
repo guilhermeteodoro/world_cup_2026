@@ -27,6 +27,9 @@ class Trade < ApplicationRecord
 
   has_many :trade_stickers, dependent: :destroy
 
+  scope :confirmed, -> { where.not(confirmed_at: nil) }
+  scope :involving, ->(user) { where(user_a: user).or(where(user_b: user)) }
+
   def confirmed?
     confirmed_at.present?
   end

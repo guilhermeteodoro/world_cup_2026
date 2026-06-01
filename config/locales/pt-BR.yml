@@ -1,107 +1,126 @@
 pt-BR:
-  app_name: "⚽ Sticker Trader"
+  app_name: "StickerTrader"
 
-  time:
-    formats:
-      short: "%d/%m/%Y %H:%M"
-
-  nav:
-    login: "Entrar"
-    register: "Cadastrar"
-    logout: "Sair"
-    my_collection: "Minha coleção"
-    settings: "Configurações"
-
-  pages:
-    home:
-      title: "Sticker Trader"
-      subtitle: "Compare sua coleção de figurinhas da Copa 2026 com amigos e encontre trocas."
-      cta: "Cadastre sua coleção"
-
-  registrations:
-    new:
-      title: "Cadastre sua coleção"
-      name_label: "Seu nome"
-      name_placeholder: "ex. João da Silva"
-      email_label: "Seu email"
-      email_placeholder: "ex. joaodasailva@gmail.com"
-      import_method_label: "Método de importação"
-      import_dump: "Exportação do app Sticker Album 2026"
-      import_manual: "Manual (faltantes + repetidas)"
+  components:
+    collection_importer:
+      method_label: "Método de importação"
+      dump: "Exportação do app Sticker Album 2026"
+      manual: "Manual (faltantes + repetidas)"
       dump_label: "Cole seu dump"
       dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
       missing_label: "Cole suas figurinhas faltantes"
       missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
       duplicates_label: "Cole suas repetidas"
       duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
-      submit: "Criar minha coleção"
-    create:
-      success: "Bem-vindo, %{name}!"
-      existing_email: "Você já tem uma conta. Faça login!"
-      parse_error: "Não foi possível processar os dados. Verifique sua entrada."
+      how_to_export: "Como exportar?"
+      tutorial_title: "Como exportar do Sticker Album 2026"
+    layout:
+      login: "Entrar"
+      register: "Cadastrar"
+    nav:
+      login: "Entrar"
+      register: "Cadastrar"
+      logout: "Sair"
+    user_menu:
+      my_collection: "Minha coleção"
+      settings: "Configurações"
+      logout: "Sair"
+    sticker_list:
+      copy: "📋 Copiar"
 
+  views:
+    pages:
+      home:
+        title: "StickerTrader"
+        subtitle: "Compare sua coleção de figurinhas da Copa 2026 com amigos e encontre trocas."
+        cta: "Cadastre sua coleção"
+        login: "Entrar"
+    registrations:
+      new:
+        title: "Cadastre sua coleção"
+        name_label: "Seu nome"
+        name_placeholder: "ex. João da Silva"
+        email_label: "Seu email"
+        email_placeholder: "ex. email@dominio.com"
+        submit: "Criar minha coleção"
+        has_account: "Já tem uma conta?"
+        login_link: "Entrar"
+    sessions:
+      new:
+        title: "Entrar"
+        email_label: "Seu email"
+        email_placeholder: "ex. email@dominio.com"
+        submit: "Entrar"
+        no_account: "Não tem conta?"
+        register_link: "Cadastre-se"
+    users:
+      show:
+        own_collection_title: "Minha coleção"
+        collection_title: "Coleção de %{name}"
+        owned: "%{count}/994 coladas"
+        missing: "%{count} faltantes"
+        duplicates: "%{count} repetidas"
+        register_prompt: "Quer ver o que pode trocar?"
+        register_link: "Cadastre sua coleção"
+        available_for_trade: "Disponíveis para troca"
+        no_duplicates: "Nenhuma repetida disponível."
+        trade_title: "🔄 Troca com %{name}"
+        diff_title: "%{from} → %{to} (%{count} figurinhas)"
+        diff_subtitle_gives: "Repetidas que %{from} tem e %{to} precisa"
+        nothing: "(nada)"
+        balanced_title: "✅ Troca Balanceada Sugerida"
+        category_trade: "%{category} (%{count} por %{count})"
+        gives: "%{name} dá:"
+        leftovers_title: "🤝 Sobras"
+        still_has: "%{name} ainda pode oferecer (%{count}):"
+        copy: "📋 Copiar"
+        copied: "Copiado!"
+        history_title: "Histórico de trocas"
+        history_with: "Troca com %{name}"
+        sticker_count: "%{given} ↔ %{received}"
+        i_gave: "Dei:"
+        i_received: "Recebi:"
+        consolidate: "Consolidar troca"
+      edit:
+        title: "Configurações da conta"
+        breadcrumb: "Minha coleção"
+        form_title: "Cadastro"
+        language_title: "Idioma"
+        name_label: "Nome"
+        email_label: "Email"
+        submit: "Salvar"
+    collections:
+      edit:
+        title: "Atualizar sua coleção"
+        breadcrumb: "Minha coleção"
+        form_title: "Importação"
+        submit: "Atualizar coleção"
+        warning: "⚠️ Isso vai substituir toda sua coleção. Re-exporte do app antes."
+
+  # Controller flash messages
   sessions:
-    new:
-      title: "Entrar"
-      email_label: "Seu email"
-      email_placeholder: "ex. gui@exemplo.com"
-      submit: "Entrar"
-      no_account: "Não tem conta?"
-      register_link: "Cadastre-se"
     create:
       welcome_back: "Bem-vindo de volta, %{name}!"
       welcome_import: "Bem-vindo de volta! Importe suas figurinhas."
       not_found: "Nenhuma conta encontrada com esse email."
     destroy:
       success: "Desconectado."
-
+  registrations:
+    create:
+      success: "Bem-vindo, %{name}!"
+      existing_email: "Você já tem uma conta. Faça login!"
+      parse_error: "Não foi possível processar os dados. Verifique sua entrada."
   users:
-    show:
-      own_collection_title: "Minha coleção"
-      collection_title: "Coleção de %{name}"
-      owned: "%{count}/994 coladas"
-      missing: "%{count} faltantes"
-      duplicates: "%{count} repetidas"
-      update_collection: "Atualizar coleção"
-      account_settings: "Configurações"
-      register_prompt: "Quer ver o que pode trocar?"
-      register_link: "Cadastre sua coleção"
-      available_for_trade: "Disponíveis para troca"
-      no_duplicates: "Nenhuma repetida disponível."
-      trade_title: "🔄 Troca com %{name}"
-      diff_title: "%{from} → %{to} (%{count} figurinhas)"
-      diff_subtitle_gives: "Repetidas que %{from} tem e %{to} precisa"
-      nothing: "(nada)"
-      balanced_title: "✅ Troca Balanceada Sugerida"
-      category_trade: "%{category} (%{count} por %{count})"
-      gives: "%{name} dá:"
-      leftovers_title: "🤝 Sobras"
-      still_has: "%{name} ainda pode oferecer (%{count}):"
-      copy: "📋 Copiar"
-      copied: "Copiado!"
     edit:
-      title: "Configurações da conta"
-      name_label: "Nome"
-      email_label: "Email"
-      submit: "Salvar"
       success: "Conta atualizada!"
-
   collections:
     edit:
-      title: "Atualizar sua coleção"
-      import_method_label: "Método de importação"
-      import_dump: "Exportação do app Sticker Album 2026"
-      import_manual: "Manual (faltantes + repetidas)"
-      dump_label: "Cole seu dump"
-      dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
-      missing_label: "Cole suas figurinhas faltantes"
-      missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
-      duplicates_label: "Cole suas repetidas"
-      duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
-      submit: "Atualizar coleção"
-      warning: "⚠️ Isso vai substituir toda sua coleção. Re-exporte do app antes."
       success: "Coleção atualizada!"
       parse_error: "Não foi possível processar os dados. Verifique sua entrada."
+
+  time:
+    formats:
+      short: "%d/%m/%Y %H:%M"
 
   categories:
     shiny: "Brilhante"
@@ -159,12 +178,3 @@ pt-BR:
     CRO: "Croácia"
     GHA: "Gana"
     PAN: "Panamá"
-
-  trades:
-    create:
-      success: "Troca registrada! ✅"
-    consolidate: "Consolidar troca"
-    history_title: "Histórico de trocas"
-    history_with: "Troca com %{name}"
-    i_gave: "Dei:"
-    i_received: "Recebi:"

@@ -6,7 +6,7 @@ class Components::UserMenu < Components::Base
   end
 
   def view_template
-    div(class: "absolute top-6 right-4") do
+    div do
       Popover(options: { placement: "bottom-end" }) do
         PopoverTrigger do
           button(type: "button", class: "flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 shadow-sm hover:bg-accent transition-colors") do
@@ -20,17 +20,17 @@ class Components::UserMenu < Components::Base
         PopoverContent(class: "w-48") do
           div(class: "flex flex-col") do
             Link(href: user_path(@user), variant: :ghost, class: "w-full justify-start pl-2") do
-              plain "👤 #{t("nav.my_collection")}"
+              plain "👤 #{t(".my_collection")}"
             end
             Link(href: edit_user_path(@user), variant: :ghost, class: "w-full justify-start pl-2") do
-              plain "⚙️ #{t("nav.settings")}"
+              plain "⚙️ #{t(".settings")}"
             end
             div(class: "border-t my-1")
             form(action: session_path, method: "post") do
               input(type: "hidden", name: "_method", value: "delete")
               input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
               button(type: "submit", class: "w-full text-left px-2 py-2 text-sm rounded-md hover:bg-accent transition-colors") do
-                plain "🚪 #{t("nav.logout")}"
+                plain "🚪 #{t(".logout")}"
               end
             end
           end

@@ -12,12 +12,9 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::Flash
   include Phlex::Rails::Helpers::FormAuthenticityToken
   include Phlex::Rails::Helpers::ImagePath
+  include Phlex::Rails::Helpers::T
 
   register_value_helper :current_user
-
-  def t(key, **opts)
-    I18n.t(key, **opts)
-  end
 
   if Rails.env.development?
     def before_template

@@ -25,6 +25,7 @@ class UserShowViewTest < ActiveSupport::TestCase
       user: @user_a,
       is_owner: true,
       trade_result: nil,
+      trade_clipboard_text: nil,
       current_user: @user_a
     ))
 
@@ -42,6 +43,7 @@ class UserShowViewTest < ActiveSupport::TestCase
       user: @user_b,
       is_owner: false,
       trade_result: trade_result,
+      trade_clipboard_text: "Gui \u2192 Vitor\nVitor \u2192 Gui",
       current_user: @user_a
     ))
 
@@ -61,6 +63,7 @@ class UserShowViewTest < ActiveSupport::TestCase
       user: @user_b,
       is_owner: false,
       trade_result: trade_result,
+      trade_clipboard_text: "Gui \u2192 Vitor\n  FWC: 00, 1, 2\n\nVitor \u2192 Gui\n  CC: 1, 2",
       current_user: @user_a
     ))
 
@@ -95,6 +98,7 @@ class UserShowViewTest < ActiveSupport::TestCase
       user: user_y,
       is_owner: false,
       trade_result: trade_result,
+      trade_clipboard_text: "X → Y\n" + I18n.t("views.users.show.balanced_title"),
       current_user: user_x
     ))
 
@@ -102,6 +106,6 @@ class UserShowViewTest < ActiveSupport::TestCase
       .map { |d| d["data-clipboard-text-value"] }
       .find { |t| t.include?("→") }
 
-    assert_includes trade_text, I18n.t("users.show.balanced_title")
+    assert_includes trade_text, I18n.t("views.users.show.balanced_title")
   end
 end

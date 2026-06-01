@@ -50,3 +50,39 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install JS dependencies
+        run: npm ci
+
+      - name: Build JS
+        run: npm run build
+
+      - name: Build CSS
+        run: bin/rails tailwindcss:build
+
+      - name: Prepare database
+        run: bin/rails db:schema:load db:seed
+        env:
+          RAILS_ENV: test
+
+      - name: Run tests
+        run: bin/rails test
+        env:
+          RAILS_ENV: test
+
