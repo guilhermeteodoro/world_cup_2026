@@ -32,6 +32,12 @@ class Sticker < ApplicationRecord
 
   scope :ordered, -> { order(:position) }
 
+  def self.format_as_text(stickers)
+    stickers.group_by(&:country).map do |country, country_stickers|
+      "#{country.emoji} #{country.code}: #{country_stickers.map(&:number).join(", ")}"
+    end.join("\n")
+  end
+
   delegate :code, to: :country, prefix: true
 
   def label

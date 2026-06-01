@@ -48,6 +48,17 @@ class User < ApplicationRecord
     Sticker.includes(:country).where.not(id: user_stickers.select(:sticker_id)).order(:position)
   end
 
+  def trade_history
+    Trade.involving(self).confirmed.order(confirmed_at: :desc).map do |trade|
+      TradeParticipation.new(
+        other_user: trade.user_a_id == id ? trade.user_b : trade.user_a,
+        given: trade.stickers_given_by(self),
+        received: trade.stickers_received_by(self),
+        confirmed_at: trade.confirmed_at
+      )
+    end
+  end
+
   def to_param
     slug
   end

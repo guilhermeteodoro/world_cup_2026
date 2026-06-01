@@ -9,10 +9,19 @@ class UsersController < ApplicationController
       TradeComparer.new(current_user, @user).call
     end
 
+    @trade_clipboard_text = if @trade_result
+      render_to_string("trades/comparison", formats: [:text], locals: {
+        trade_result: @trade_result,
+        current_user: current_user,
+        user: @user
+      })
+    end
+
     render Views::Users::Show.new(
       user: @user,
       is_owner: @is_owner,
       trade_result: @trade_result,
+      trade_clipboard_text: @trade_clipboard_text,
       current_user: current_user
     )
   end

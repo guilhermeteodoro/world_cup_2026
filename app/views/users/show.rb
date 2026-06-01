@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
 class Views::Users::Show < Views::Base
-  def initialize(user:, is_owner:, trade_result:, current_user:)
+  def initialize(user:, is_owner:, trade_result:, trade_clipboard_text:, current_user:)
     @user = user
     @is_owner = is_owner
     @trade_result = trade_result
+    @trade_clipboard_text = trade_clipboard_text
     @current_user = current_user
   end
 
@@ -44,9 +45,8 @@ class Views::Users::Show < Views::Base
 
   def render_duplicates
     duplicates = @user.duplicate_stickers
-    text = format_stickers_as_text(duplicates)
 
-    div(data: { controller: "clipboard", clipboard_text_value: text }) do
+    div do
       Collapsible(open: true) do
         div(class: "flex items-center justify-between mb-2") do
           div(class: "flex items-center gap-2") do
@@ -59,17 +59,13 @@ class Views::Users::Show < Views::Base
             Heading(level: 3) { t("users.show.available_for_trade") }
             Badge(variant: :outline) { t("users.show.duplicates", count: @user.duplicates_count) }
           end
-
-          div(class: "flex items-center") do
-            Button(variant: :ghost, size: :sm, type: "button", data: { action: "clipboard#copy", copy_button: "" }) { t("users.show.copy") }
-          end
         end
 
         CollapsibleContent do
           Card(class: "pt-6 bg-card") do
             CardContent do
               if duplicates.any?
-                render_sticker_list_by_team(duplicates)
+                render Components::StickerList.new(stickers: duplicates, copyable: true)
               else
                 p(class: "text-muted-foreground italic") { t("users.show.no_duplicates") }
               end
@@ -81,9 +77,7 @@ class Views::Users::Show < Views::Base
   end
 
   def render_trade
-    text = build_trade_text
-
-    div(class: "py-4", data: { controller: "clipboard", clipboard_text_value: text }) do
+    div(class: "py-4", data: { controller: "clipboard", clipboard_text_value: @trade_clipboard_text }) do
       div(class: "flex items-center justify-between mb-6") do
         h2(class: "text-xl font-bold text-gray-900") { t("users.show.trade_title", name: @user.name) }
         copy_button
@@ -112,7 +106,7 @@ class Views::Users::Show < Views::Base
       p(class: "text-sm text-gray-500 mb-2") { subtitle }
 
       if stickers.any?
-        render_sticker_list_by_team(stickers)
+        render Components::StickerList.new(stickers: stickers)
       else
         p(class: "text-gray-500 italic text-sm") { t("users.show.nothing") }
       end
@@ -139,11 +133,11 @@ class Views::Users::Show < Views::Base
             div(class: "grid grid-cols-2 gap-4") do
               div do
                 p(class: "text-xs text-muted-foreground mb-1") { t("users.show.gives", name: @current_user.name) }
-                render_sticker_list_by_team(pair.a_gives)
+                render Components::StickerList.new(stickers: pair.a_gives)
               end
               div do
                 p(class: "text-xs text-muted-foreground mb-1") { t("users.show.gives", name: @user.name) }
-                render_sticker_list_by_team(pair.b_gives)
+                render Components::StickerList.new(stickers: pair.b_gives)
               end
             end
           end
@@ -178,120 +172,48 @@ class Views::Users::Show < Views::Base
         if leftovers.a_has.any?
           div(class: "mb-3") do
             p(class: "text-sm font-medium text-muted-foreground mb-1") { t("users.show.still_has", name: @current_user.name, count: leftovers.a_has.size) }
-            render_sticker_list_by_team(leftovers.a_has)
+            render Components::StickerList.new(stickers: leftovers.a_has)
           end
         end
 
         if leftovers.b_has.any?
           div do
             p(class: "text-sm font-medium text-muted-foreground mb-1") { t("users.show.still_has", name: @user.name, count: leftovers.b_has.size) }
-            render_sticker_list_by_team(leftovers.b_has)
+            render Components::StickerList.new(stickers: leftovers.b_has)
           end
         end
       end
     end
   end
 
-  def render_sticker_list_by_team(stickers)
-    grouped = stickers.group_by(&:country)
-    div(class: "text-sm font-mono") do
-      grouped.each do |country, country_stickers|
-        p do
-          span(class: "font-semibold") { "#{country.emoji} #{country.code}: " }
-          plain country_stickers.map(&:number).join(", ")
-        end
-      end
-    end
-  end
-
-  # --- Text builders for clipboard ---
-
-  def format_stickers_as_text(stickers)
-    stickers.group_by(&:country).map do |country, country_stickers|
-      "#{country.emoji} #{country.code}: #{country_stickers.map(&:number).join(", ")}"
-    end.join("\n")
-  end
-
-  def build_trade_text
-    lines = []
-
-    lines << t("users.show.diff_title", from: @current_user.name, to: @user.name, count: @trade_result.a_gives_b.size)
-    lines << indent(format_stickers_as_text(@trade_result.a_gives_b))
-    lines << ""
-    lines << t("users.show.diff_title", from: @user.name, to: @current_user.name, count: @trade_result.b_gives_a.size)
-    lines << indent(format_stickers_as_text(@trade_result.b_gives_a))
-
-    balanced = @trade_result.balanced
-    if [ :shiny, :coke, :normal ].any? { balanced.send(it).a_gives.any? }
-      lines << ""
-      lines << t("users.show.balanced_title")
-      [ :shiny, :coke, :normal ].each do |cat|
-        pair = balanced.send(cat)
-        next if pair.a_gives.empty?
-        count = pair.a_gives.size
-        lines << "  #{t("users.show.category_trade", category: t("categories.#{cat}"), count: count)}"
-        lines << "    #{t("users.show.gives", name: @current_user.name)}"
-        lines << indent(format_stickers_as_text(pair.a_gives), 6)
-        lines << "    #{t("users.show.gives", name: @user.name)}"
-        lines << indent(format_stickers_as_text(pair.b_gives), 6)
-      end
-    end
-
-    leftovers = @trade_result.leftovers
-    if leftovers.a_has.any? || leftovers.b_has.any?
-      lines << ""
-      lines << t("users.show.leftovers_title")
-      if leftovers.a_has.any?
-        lines << "  #{t("users.show.still_has", name: @current_user.name, count: leftovers.a_has.size)}"
-        lines << indent(format_stickers_as_text(leftovers.a_has), 4)
-      end
-      if leftovers.b_has.any?
-        lines << "  #{t("users.show.still_has", name: @user.name, count: leftovers.b_has.size)}"
-        lines << indent(format_stickers_as_text(leftovers.b_has), 4)
-      end
-    end
-
-    lines.join("\n")
-  end
-
-  def indent(text, spaces = 2)
-    text.lines.map { |l| "#{" " * spaces}#{l}" }.join
-  end
-
   def render_trade_history
-    trades = Trade.where(user_a_id: @user.id).or(Trade.where(user_b_id: @user.id)).order(confirmed_at: :desc)
-    return if trades.empty?
+    participations = @user.trade_history
+    return if participations.empty?
 
     div(class: "mt-8") do
       Heading(level: 3, class: "mb-4") { t("trades.history_title") }
 
-      trades.each do |trade|
-        other = trade.user_a_id == @user.id ? trade.user_b : trade.user_a
-        my_gives = trade.stickers_given_by(@user)
-        they_give = trade.stickers_received_by(@user)
-
+      participations.each do |participation|
         Card(class: "mb-4") do
           CardHeader do
             div(class: "flex items-center justify-between") do
-              CardTitle(class: "text-base") { t("trades.history_with", name: other.name) }
-              span(class: "text-xs text-muted-foreground") { I18n.l(trade.confirmed_at, format: :short) }
+              CardTitle(class: "text-base") { t("trades.history_with", name: participation.other_user.name) }
+              span(class: "text-xs text-muted-foreground") { I18n.l(participation.confirmed_at, format: :short) }
             end
           end
           CardContent do
             div(class: "grid grid-cols-2 gap-4 text-sm") do
               div do
                 p(class: "font-medium text-muted-foreground mb-1") do
-                  "#{t("trades.i_gave")} (#{my_gives.count})"
+                  "#{t("trades.i_gave")} (#{participation.given.count})"
                 end
-
-                render_sticker_list_by_team(my_gives)
+                render Components::StickerList.new(stickers: participation.given)
               end
               div do
                 p(class: "font-medium text-muted-foreground mb-1") do
-                  "#{t("trades.i_received")} (#{they_give.count})"
+                  "#{t("trades.i_received")} (#{participation.received.count})"
                 end
-
-                render_sticker_list_by_team(they_give)
+                render Components::StickerList.new(stickers: participation.received)
               end
             end
           end
