@@ -5,14 +5,21 @@ class Components::LocaleSwitcher < Components::Base
     current = I18n.locale.to_s
 
     div(class: "flex items-center gap-2") do
-      a(
-        href: "?locale=pt-BR",
-        class: "text-xl #{current == "pt-BR" ? "opacity-100" : "opacity-40 hover:opacity-75"}"
-      ) { "🇧🇷" }
-      a(
-        href: "?locale=en",
-        class: "text-xl #{current == "en" ? "opacity-100" : "opacity-40 hover:opacity-75"}"
-      ) { "🇬🇧" }
+      languages.map do |param, icon|
+        a(
+          href: "?locale=#{param}",
+          class: "text-xl #{current == param ? "opacity-100" : "opacity-40 hover:opacity-75"}"
+        ) { icon }
+      end
     end
   end
+
+  private
+
+    def languages
+      @languages ||= [
+        [ "pt-BR", "🇧🇷" ],
+        [ "en", "🇬🇧" ]
+      ]
+    end
 end

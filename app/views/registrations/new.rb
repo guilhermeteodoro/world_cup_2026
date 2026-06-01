@@ -6,29 +6,37 @@ class Views::Registrations::New < Views::Base
   end
 
   def view_template
-    div(class: "max-w-md mx-auto") do
-      Card do
-        CardHeader do
-          CardTitle { t("registrations.new.title") }
-        end
-        CardContent do
-          form(action: registration_path, method: "post", data: { controller: "import-form" }) do
-            input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+    div(class: "flex min-h-screen items-center") do
+      div(class: "max-w-lg grow-1 mx-auto p-2") do
+        Card(class: "bg-white") do
+          CardHeader do
+            CardTitle { t("registrations.new.title") }
+          end
 
-            FormField do
-              FormFieldLabel { t("registrations.new.name_label") }
-              Input(type: "text", name: "name", required: true, placeholder: t("registrations.new.name_placeholder"))
+          CardContent do
+            form(action: registration_path, method: "post", data: { controller: "import-form" }) do
+              input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+
+              FormField do
+                FormFieldLabel { t("registrations.new.name_label") }
+                Input(type: :text, name: "name", required: true, placeholder: t("registrations.new.name_placeholder"))
+              end
+
+              FormField do
+                FormFieldLabel { t("registrations.new.email_label") }
+                Input(type: :email, name: "email", required: true, value: @email, placeholder: t("registrations.new.email_placeholder"))
+              end
+
+              render_import_fields
+
+              div(class: "mt-6") do
+                Button(type: :submit) { t("registrations.new.submit") }
+              end
             end
 
-            FormField do
-              FormFieldLabel { t("registrations.new.email_label") }
-              Input(type: "email", name: "email", required: true, value: @email, placeholder: t("registrations.new.email_placeholder"))
-            end
-
-            render_import_fields
-
-            div(class: "mt-6") do
-              Button(type: :submit) { t("registrations.new.submit") }
+            p(class: "mt-4 text-sm text-muted-foreground") do
+              plain "#{t("registrations.new.has_account")} "
+              a(href: new_session_path, class: "text-primary hover:underline") { t("registrations.new.login_link") }
             end
           end
         end

@@ -31,6 +31,8 @@ en:
       duplicates_label: "Paste your duplicates"
       duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
       submit: "Create my collection"
+      has_account: "Already have an account?"
+      login_link: "Log in"
     create:
       success: "Welcome, %{name}!"
       existing_email: "You already have an account. Log in instead!"

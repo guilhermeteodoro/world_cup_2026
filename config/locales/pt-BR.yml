@@ -35,6 +35,8 @@ pt-BR:
       duplicates_label: "Cole suas repetidas"
       duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
       submit: "Criar minha coleção"
+      has_account: "Já tem uma conta?"
+      login_link: "Entrar"
     create:
       success: "Bem-vindo, %{name}!"
       existing_email: "Você já tem uma conta. Faça login!"
