@@ -8,6 +8,7 @@ class Components::Layout < Components::Base
 
   def view_template
     doctype
+
     html(lang: "pt-BR") do
       head do
         meta(charset: "utf-8")
@@ -20,11 +21,12 @@ class Components::Layout < Components::Base
         javascript_include_tag "application", "data-turbo-track": "reload", type: "module"
         link(rel: :icon, type: "image/x-icon", href: "/favicon.png")
       end
+
       body(class: "min-h-screen bg-background") do
-        div(class: "max-w-4xl mx-auto px-4 py-8 relative") do
-          render Components::UserMenu.new(user: @current_user) if @current_user
+        div(class: "min-h-screen max-w-4xl mx-auto relative") do
           yield
         end
+
         render RubyUI::ToastRegion.new(position: :top_right, flash: flash)
       end
     end

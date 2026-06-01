@@ -24,7 +24,7 @@ pt-BR:
       name_label: "Seu nome"
       name_placeholder: "ex. João da Silva"
       email_label: "Seu email"
-      email_placeholder: "ex. joaodasailva@gmail.com"
+      email_placeholder: "ex. email@dominio.com"
       import_method_label: "Método de importação"
       import_dump: "Exportação do app Sticker Album 2026"
       import_manual: "Manual (faltantes + repetidas)"
@@ -44,7 +44,7 @@ pt-BR:
     new:
       title: "Entrar"
       email_label: "Seu email"
-      email_placeholder: "ex. gui@exemplo.com"
+      email_placeholder: "ex. email@dominio.com"
       submit: "Entrar"
       no_account: "Não tem conta?"
       register_link: "Cadastre-se"

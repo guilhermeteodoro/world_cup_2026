@@ -20,7 +20,7 @@ en:
       name_label: "Your name"
       name_placeholder: "e.g. Gui"
       email_label: "Your email"
-      email_placeholder: "e.g. gui@example.com"
+      email_placeholder: "e.g. email@domain.com"
       import_method_label: "Import method"
       import_dump: "Sticker Album 2026 app export"
       import_manual: "Manual (missing + duplicates)"
@@ -40,7 +40,7 @@ en:
     new:
       title: "Log in"
       email_label: "Your email"
-      email_placeholder: "e.g. gui@example.com"
+      email_placeholder: "e.g. email@domain.com"
       submit: "Log in"
       no_account: "Don't have an account?"
       register_link: "Register"

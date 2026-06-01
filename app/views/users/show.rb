@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Users::Show < Views::Base
+class Views::Users::Show < Views::LoggedIn
   def initialize(user:, is_owner:, trade_result:, trade_clipboard_text:, current_user:)
     @user = user
     @is_owner = is_owner
@@ -9,7 +9,24 @@ class Views::Users::Show < Views::Base
     @current_user = current_user
   end
 
-  def view_template
+  def render_title
+    div do
+      div(class: "flex items-center gap-2 mb-2") do
+        Heading(level: 2) { @is_owner ? t("users.show.own_collection_title") : t("users.show.collection_title", name: @user.name) }
+
+        if @is_owner
+          Link(href: edit_user_collection_path(@user), variant: :ghost, icon: true, class: "text-muted-foreground") { "✏️" }
+        end
+      end
+
+      div(class: "flex flex-wrap gap-3 text-sm") do
+        Badge(variant: :outline) { t("users.show.owned", count: @user.owned_count) }
+        Badge(variant: :outline) { t("users.show.missing", count: @user.missing_count) }
+      end
+    end
+  end
+
+  def render_content
     render_user_info
     render_trade if @trade_result
     render_duplicates
@@ -20,18 +37,6 @@ class Views::Users::Show < Views::Base
 
   def render_user_info
     div(class: "mb-6") do
-      div(class: "flex items-center gap-2 mb-2") do
-        Heading(level: 2) { @is_owner ? t("users.show.own_collection_title") : t("users.show.collection_title", name: @user.name) }
-        if @is_owner
-          Link(href: edit_user_collection_path(@user), variant: :ghost, icon: true, class: "text-muted-foreground") { "✏️" }
-        end
-      end
-
-      div(class: "flex flex-wrap gap-3 text-sm") do
-        Badge(variant: :outline) { t("users.show.owned", count: @user.owned_count) }
-        Badge(variant: :outline) { t("users.show.missing", count: @user.missing_count) }
-      end
-
       if !@is_owner && !@current_user
         Alert(class: "mt-4") do
           AlertDescription do
@@ -103,6 +108,7 @@ class Views::Users::Show < Views::Base
   def render_diff_section(title, subtitle, stickers)
     div(class: "mb-6") do
       Heading(level: 3) { title }
+
       p(class: "text-sm text-gray-500 mb-2") { subtitle }
 
       if stickers.any?
