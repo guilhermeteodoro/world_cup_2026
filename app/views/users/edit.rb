@@ -14,7 +14,7 @@ class Views::Users::Edit < Views::LoggedIn
   end
 
   def render_content
-    div(class: "max-w-md") do
+    div(class: "max-w-md space-y-6") do
       Card(class: "bg-white") do
         CardHeader do
           t("users.edit.form_title")
@@ -39,6 +39,16 @@ class Views::Users::Edit < Views::LoggedIn
               Button(type: :submit) { t("users.edit.submit") }
             end
           end
+        end
+      end
+
+      Card(class: "bg-white") do
+        CardHeader do
+          t("users.edit.language_title")
+        end
+
+        CardContent do
+          render Components::LocaleSwitcher.new
         end
       end
     end

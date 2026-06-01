@@ -13,24 +13,9 @@ class Views::Pages::Home < Views::Base
         Link(variant: :outline, href: new_session_path) { t("nav.login") }
       end
 
-      render_locale_switcher
-    end
-  end
-
-  private
-
-  def render_locale_switcher
-    current = I18n.locale.to_s
-
-    div(class: "flex items-center justify-center gap-2 mt-4") do
-      a(
-        href: "?locale=pt-BR",
-        class: "text-xl #{current == "pt-BR" ? "opacity-100" : "opacity-40 hover:opacity-75"}"
-      ) { "🇧🇷" }
-      a(
-        href: "?locale=en",
-        class: "text-xl #{current == "en" ? "opacity-100" : "opacity-40 hover:opacity-75"}"
-      ) { "🇬🇧" }
+      div(class: "flex justify-center mt-4") do
+        render Components::LocaleSwitcher.new
+      end
     end
   end
 end

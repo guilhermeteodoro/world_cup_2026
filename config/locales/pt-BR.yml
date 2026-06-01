@@ -82,6 +82,7 @@ pt-BR:
     edit:
       title: "Configurações da conta"
       form_title: "Cadastro"
+      language_title: "Idioma"
       name_label: "Nome"
       email_label: "Email"
       submit: "Salvar"

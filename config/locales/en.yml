@@ -78,6 +78,7 @@ en:
     edit:
       title: "Account settings"
       form_title: "Information"
+      language_title: "Language"
       name_label: "Name"
       email_label: "Email"
       submit: "Save"
