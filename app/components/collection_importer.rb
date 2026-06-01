@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Components::ImportFields < Components::Base
+class Components::CollectionImporter < Components::Base
   def view_template
     FormField do
       FormFieldLabel { t("views.components.import_fields.method_label") }
@@ -23,12 +23,13 @@ class Components::ImportFields < Components::Base
     end
 
     div(data: { import_form_target: "dump" }) do
-      p(class: "text-sm text-primary hover:underline cursor-pointer mb-3") do
-        render tutorial_dialog
-      end
-
       FormField do
-        FormFieldLabel { t("views.components.import_fields.dump_label") }
+        div(class: "grid grid-flow-col items-center") do
+          FormFieldLabel { t("views.components.import_fields.dump_label") }
+          div(class: "justify-self-end") do
+            render tutorial_dialog
+          end
+        end
         Textarea(name: "dump", rows: 4, placeholder: t("views.components.import_fields.dump_placeholder"), class: "font-mono text-sm")
       end
     end
@@ -50,12 +51,15 @@ class Components::ImportFields < Components::Base
   def tutorial_dialog
     Dialog do
       DialogTrigger do
-        span(class: "text-sm text-primary hover:underline") { t("views.components.import_fields.how_to_export") }
+        Text(size: "1", class: "italic text-muted-foreground hover:underline cursor-pointer") do
+          t("views.components.import_fields.how_to_export")
+        end
       end
 
-      DialogContent do
+      DialogContent(class: "bg-white") do
         DialogHeader do
           DialogTitle { t("views.components.import_fields.tutorial_title") }
+          DialogDescription { "Settings > Backup/Restore collection > Create backup" }
         end
 
         DialogMiddle do

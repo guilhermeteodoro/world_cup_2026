@@ -31,7 +31,7 @@ class Views::Collections::Edit < Views::LoggedIn
             input(type: "hidden", name: "_method", value: "patch")
             input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
 
-            render Components::ImportFields.new
+            render Components::CollectionImporter.new
 
             div(class: "mt-6") do
               Button(type: :submit) { t("collections.edit.submit") }

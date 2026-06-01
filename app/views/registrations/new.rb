@@ -27,7 +27,7 @@ class Views::Registrations::New < Views::Base
                 Input(type: :email, name: "email", required: true, value: @email, placeholder: t("registrations.new.email_placeholder"))
               end
 
-              render Components::ImportFields.new
+              render Components::CollectionImporter.new
 
               div(class: "mt-6") do
                 Button(type: :submit) { t("registrations.new.submit") }
