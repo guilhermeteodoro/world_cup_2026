@@ -65,7 +65,7 @@ class Components::ImportFields < Components::Base
             muted: true,
             loop: true,
             playsinline: true,
-            class: "w-full rounded-lg"
+            class: "w-full max-h-[70vh] object-contain rounded-lg"
           )
         end
       end
