@@ -7,14 +7,14 @@ class Views::Collections::Edit < Views::LoggedIn
         Breadcrumb do
           BreadcrumbList do
             BreadcrumbItem do
-              BreadcrumbLink(href: user_path(@current_user)) { t("collections.edit.breadcrumb") }
+              BreadcrumbLink(href: user_path(@current_user)) { t(".breadcrumb") }
             end
           end
         end
       end
 
       div(class: "grid-row") do
-        Heading(level: 2) { t("collections.edit.title") }
+        Heading(level: 2) { t(".title") }
       end
     end
   end
@@ -23,7 +23,7 @@ class Views::Collections::Edit < Views::LoggedIn
     div(class: "max-w-md space-y-6") do
       Card(class: "bg-white") do
         CardHeader do
-          t("collections.edit.form_title")
+          t(".form_title")
         end
 
         CardContent do
@@ -34,11 +34,11 @@ class Views::Collections::Edit < Views::LoggedIn
             render Components::CollectionImporter.new
 
             div(class: "mt-6") do
-              Button(type: :submit) { t("collections.edit.submit") }
+              Button(type: :submit) { t(".submit") }
             end
           end
 
-          p(class: "mt-4 text-sm text-muted-foreground") { t("collections.edit.warning") }
+          p(class: "mt-4 text-sm text-muted-foreground") { t(".warning") }
         end
       end
     end

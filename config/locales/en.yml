@@ -14,108 +14,107 @@ en:
       duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
       how_to_export: "How to export?"
       tutorial_title: "How to export from Sticker Album 2026"
+    layout:
+      login: "Log in"
+      register: "Register"
+    nav:
+      login: "Log in"
+      register: "Register"
+      logout: "Log out"
+    user_menu:
+      my_collection: "My collection"
+      settings: "Settings"
+      logout: "Log out"
+    sticker_list:
+      copy: "📋 Copy"
 
-  nav:
-    login: "Log in"
-    register: "Register"
-    logout: "Log out"
-    my_collection: "My collection"
-    settings: "Settings"
+  views:
+    pages:
+      home:
+        title: "StickerTrader"
+        subtitle: "Compare your World Cup 2026 sticker collection with friends and find trades."
+        cta: "Register your collection"
+        login: "Log in"
+    registrations:
+      new:
+        title: "Register your collection"
+        name_label: "Your name"
+        name_placeholder: "e.g. Gui"
+        email_label: "Your email"
+        email_placeholder: "e.g. email@domain.com"
+        submit: "Create my collection"
+        has_account: "Already have an account?"
+        login_link: "Log in"
+    sessions:
+      new:
+        title: "Log in"
+        email_label: "Your email"
+        email_placeholder: "e.g. email@domain.com"
+        submit: "Log in"
+        no_account: "Don't have an account?"
+        register_link: "Register"
+    users:
+      show:
+        own_collection_title: "My collection"
+        collection_title: "%{name}'s Collection"
+        owned: "%{count}/994 owned"
+        missing: "%{count} missing"
+        duplicates: "%{count} duplicates"
+        register_prompt: "Want to see what you can trade?"
+        register_link: "Register your collection"
+        available_for_trade: "Available for trade"
+        no_duplicates: "No duplicates available."
+        trade_title: "🔄 Trade with %{name}"
+        diff_title: "%{from} → %{to} (%{count} stickers)"
+        diff_subtitle_gives: "Duplicates %{from} has that %{to} is missing"
+        nothing: "(nothing)"
+        balanced_title: "✅ Suggested Balanced Trade"
+        category_trade: "%{category} (%{count} for %{count})"
+        gives: "%{name} gives:"
+        leftovers_title: "🤝 Leftovers"
+        still_has: "%{name} still has to offer (%{count}):"
+        copy: "📋 Copy"
+        copied: "Copied!"
+        history_title: "Trade history"
+        history_with: "Trade with %{name}"
+        sticker_count: "%{given} ↔ %{received}"
+        i_gave: "I gave:"
+        i_received: "I received:"
+        consolidate: "Consolidate trade"
+      edit:
+        title: "Account settings"
+        breadcrumb: "My collection"
+        form_title: "Information"
+        language_title: "Language"
+        name_label: "Name"
+        email_label: "Email"
+        submit: "Save"
+    collections:
+      edit:
+        title: "Update your collection"
+        breadcrumb: "My collection"
+        form_title: "Import"
+        submit: "Update collection"
+        warning: "⚠️ This will replace your entire collection. Re-export from the app first."
 
-  pages:
-    home:
-      title: "StickerTrader"
-      subtitle: "Compare your World Cup 2026 sticker collection with friends and find trades."
-      cta: "Register your collection"
-
-  registrations:
-    new:
-      title: "Register your collection"
-      name_label: "Your name"
-      name_placeholder: "e.g. Gui"
-      email_label: "Your email"
-      email_placeholder: "e.g. email@domain.com"
-      import_method_label: "Import method"
-      import_dump: "Sticker Album 2026 app export"
-      import_manual: "Manual (missing + duplicates)"
-      dump_label: "Paste your dump"
-      dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
-      missing_label: "Paste your missing stickers"
-      missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
-      duplicates_label: "Paste your duplicates"
-      duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
-      submit: "Create my collection"
-      has_account: "Already have an account?"
-      login_link: "Log in"
-    create:
-      success: "Welcome, %{name}!"
-      existing_email: "You already have an account. Log in instead!"
-      parse_error: "Could not parse sticker data. Please check your input."
-
+  # Controller flash messages (not view-rendered)
   sessions:
-    new:
-      title: "Log in"
-      email_label: "Your email"
-      email_placeholder: "e.g. email@domain.com"
-      submit: "Log in"
-      no_account: "Don't have an account?"
-      register_link: "Register"
     create:
       welcome_back: "Welcome back, %{name}!"
       welcome_import: "Welcome back! Import your stickers."
       not_found: "No account found with that email."
     destroy:
       success: "Logged out."
-
+  registrations:
+    create:
+      success: "Welcome, %{name}!"
+      existing_email: "You already have an account. Log in instead!"
+      parse_error: "Could not parse sticker data. Please check your input."
   users:
-    show:
-      own_collection_title: "My collection"
-      collection_title: "%{name}'s Collection"
-      owned: "%{count}/994 owned"
-      missing: "%{count} missing"
-      duplicates: "%{count} duplicates"
-      update_collection: "Update collection"
-      account_settings: "Account settings"
-      register_prompt: "Want to see what you can trade?"
-      register_link: "Register your collection"
-      available_for_trade: "Available for trade"
-      no_duplicates: "No duplicates available."
-      trade_title: "🔄 Trade with %{name}"
-      diff_title: "%{from} → %{to} (%{count} stickers)"
-      diff_subtitle_gives: "Duplicates %{from} has that %{to} is missing"
-      nothing: "(nothing)"
-      balanced_title: "✅ Suggested Balanced Trade"
-      category_trade: "%{category} (%{count} for %{count})"
-      gives: "%{name} gives:"
-      leftovers_title: "🤝 Leftovers"
-      still_has: "%{name} still has to offer (%{count}):"
-      copy: "📋 Copy"
-      copied: "Copied!"
     edit:
-      title: "Account settings"
-      form_title: "Information"
-      language_title: "Language"
-      name_label: "Name"
-      email_label: "Email"
-      submit: "Save"
       success: "Account updated!"
-
   collections:
     edit:
-      title: "Update your collection"
-      breadcrumb: "My collection"
-      form_title: "Import"
-      import_method_label: "Import method"
-      import_dump: "Sticker Album 2026 app export"
-      import_manual: "Manual (missing + duplicates)"
-      dump_label: "Paste your dump"
-      dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
-      missing_label: "Paste your missing stickers"
-      missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
-      duplicates_label: "Paste your duplicates"
-      duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
-      submit: "Update collection"
-      warning: "⚠️ This will replace your entire collection. Re-export from the app first."
       success: "Collection updated!"
       parse_error: "Could not parse sticker data. Please check your input."
 
@@ -175,13 +174,3 @@ en:
     CRO: "Croatia"
     GHA: "Ghana"
     PAN: "Panama"
-
-  trades:
-    create:
-      success: "Trade recorded! ✅"
-    consolidate: "Consolidate trade"
-    history_title: "Trade history"
-    history_with: "Trade with %{name}"
-    sticker_count: "%{given} ↔ %{received}"
-    i_gave: "I gave:"
-    i_received: "I received:"

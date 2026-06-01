@@ -149,7 +149,7 @@ class Views::Users::Show < Views::LoggedIn
     div(class: "mt-4 flex justify-end") do
       form(action: user_trades_path(@user), method: "post") do
         input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
-        Button(type: :submit, variant: :primary) { t("trades.consolidate") }
+        Button(type: :submit, variant: :primary) { t(".consolidate") }
       end
     end
   end
@@ -186,7 +186,7 @@ class Views::Users::Show < Views::LoggedIn
     return if participations.empty?
 
     div(class: "mt-8") do
-      Heading(level: 3, class: "mb-4") { t("trades.history_title") }
+      Heading(level: 3, class: "mb-4") { t(".history_title") }
 
       participations.each do |participation|
         div(class: "mb-4") do
@@ -199,8 +199,8 @@ class Views::Users::Show < Views::LoggedIn
                   end
                 end
 
-                Heading(level: 4) { t("trades.history_with", name: participation.other_user.name) }
-                Badge(variant: :outline) { t("trades.sticker_count", given: participation.given.count, received: participation.received.count) }
+                Heading(level: 4) { t(".history_with", name: participation.other_user.name) }
+                Badge(variant: :outline) { t(".sticker_count", given: participation.given.count, received: participation.received.count) }
               end
 
               span(class: "text-xs text-muted-foreground") { I18n.l(participation.confirmed_at, format: :short) }
@@ -212,13 +212,13 @@ class Views::Users::Show < Views::LoggedIn
                   div(class: "grid grid-cols-2 gap-4 text-sm") do
                     div do
                       p(class: "font-medium text-muted-foreground mb-1") do
-                        "#{t("trades.i_gave")} (#{participation.given.count})"
+                        "#{t(".i_gave")} (#{participation.given.count})"
                       end
                       render Components::StickerList.new(stickers: participation.given)
                     end
                     div do
                       p(class: "font-medium text-muted-foreground mb-1") do
-                        "#{t("trades.i_received")} (#{participation.received.count})"
+                        "#{t(".i_received")} (#{participation.received.count})"
                       end
                       render Components::StickerList.new(stickers: participation.received)
                     end

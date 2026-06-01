@@ -10,7 +10,7 @@ class Components::StickerList < Components::Base
     if @copyable
       div(data: { controller: "clipboard", clipboard_text_value: clipboard_text }) do
         div(class: "flex items-center justify-end mb-1") do
-          Button(variant: :ghost, size: :sm, type: "button", data: { action: "clipboard#copy", copy_button: "" }) { t("users.show.copy") }
+          Button(variant: :ghost, size: :sm, type: "button", data: { action: "clipboard#copy", copy_button: "" }) { t(".copy") }
         end
         render_grouped_stickers
       end

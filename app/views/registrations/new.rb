@@ -10,7 +10,7 @@ class Views::Registrations::New < Views::Base
       div(class: "max-w-lg grow-1 mx-auto p-2") do
         Card(class: "bg-white") do
           CardHeader do
-            CardTitle { t("registrations.new.title") }
+            CardTitle { t(".title") }
           end
 
           CardContent do
@@ -18,25 +18,25 @@ class Views::Registrations::New < Views::Base
               input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
 
               FormField do
-                FormFieldLabel { t("registrations.new.name_label") }
-                Input(type: :text, name: "name", required: true, placeholder: t("registrations.new.name_placeholder"))
+                FormFieldLabel { t(".name_label") }
+                Input(type: :text, name: "name", required: true, placeholder: t(".name_placeholder"))
               end
 
               FormField do
-                FormFieldLabel { t("registrations.new.email_label") }
-                Input(type: :email, name: "email", required: true, value: @email, placeholder: t("registrations.new.email_placeholder"))
+                FormFieldLabel { t(".email_label") }
+                Input(type: :email, name: "email", required: true, value: @email, placeholder: t(".email_placeholder"))
               end
 
               render Components::CollectionImporter.new
 
               div(class: "mt-6") do
-                Button(type: :submit) { t("registrations.new.submit") }
+                Button(type: :submit) { t(".submit") }
               end
             end
 
             p(class: "mt-4 text-sm text-muted-foreground") do
-              plain "#{t("registrations.new.has_account")} "
-              a(href: new_session_path, class: "text-primary hover:underline") { t("registrations.new.login_link") }
+              plain "#{t(".has_account")} "
+              a(href: new_session_path, class: "text-primary hover:underline") { t(".login_link") }
             end
           end
         end

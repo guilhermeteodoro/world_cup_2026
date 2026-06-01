@@ -14,7 +14,7 @@ class Views::Users::Edit < Views::LoggedIn
       end
 
       div(class: "grid-row") do
-        Heading(level: 2) { t("users.edit.title") }
+        Heading(level: 2) { t(".title") }
       end
     end
   end
@@ -24,7 +24,7 @@ class Views::Users::Edit < Views::LoggedIn
       div(class: "max-w-md space-y-6") do
         Card(class: "bg-white") do
           CardHeader do
-            t("users.edit.form_title")
+            t(".form_title")
           end
 
           CardContent do
@@ -33,17 +33,17 @@ class Views::Users::Edit < Views::LoggedIn
               input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
 
               FormField do
-                FormFieldLabel { t("users.edit.name_label") }
+                FormFieldLabel { t(".name_label") }
                 Input(type: "text", name: "name", required: true, value: @current_user.name)
               end
 
               FormField do
-                FormFieldLabel { t("users.edit.email_label") }
+                FormFieldLabel { t(".email_label") }
                 Input(type: "email", name: "email", required: true, value: @current_user.email)
               end
 
               div(class: "mt-6") do
-                Button(type: :submit) { t("users.edit.submit") }
+                Button(type: :submit) { t(".submit") }
               end
             end
           end
