@@ -81,6 +81,7 @@ pt-BR:
       copied: "Copiado!"
     edit:
       title: "Configurações da conta"
+      form_title: "Cadastro"
       name_label: "Nome"
       email_label: "Email"
       submit: "Salvar"

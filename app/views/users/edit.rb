@@ -17,7 +17,7 @@ class Views::Users::Edit < Views::LoggedIn
     div(class: "max-w-md") do
       Card(class: "bg-white") do
         CardHeader do
-          "Cadastro"
+          t("users.edit.form_title")
         end
 
         CardContent do
