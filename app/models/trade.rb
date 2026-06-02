@@ -35,10 +35,10 @@ class Trade < ApplicationRecord
   end
 
   def stickers_given_by(user)
-    trade_stickers.includes(sticker: :country).where(giver: user).map(&:sticker)
+    trade_stickers.joins(:sticker).includes(sticker: :country).where(giver: user).order("stickers.position").map(&:sticker)
   end
 
   def stickers_received_by(user)
-    trade_stickers.includes(sticker: :country).where(receiver: user).map(&:sticker)
+    trade_stickers.joins(:sticker).includes(sticker: :country).where(receiver: user).order("stickers.position").map(&:sticker)
   end
 end
