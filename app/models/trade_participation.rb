@@ -4,6 +4,7 @@ class TradeParticipation
   include ActiveModel::Model
   include ActiveModel::Attributes
 
+  attribute :trade_id, :integer
   attribute :other_user
   attribute :given
   attribute :received

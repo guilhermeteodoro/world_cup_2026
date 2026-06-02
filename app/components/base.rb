@@ -14,6 +14,8 @@ class Components::Base < Phlex::HTML
   include Phlex::Rails::Helpers::ImagePath
   include Phlex::Rails::Helpers::T
 
+  register_element :turbo_frame, tag: "turbo-frame"
+
   register_value_helper :current_user
 
   if Rails.env.development?

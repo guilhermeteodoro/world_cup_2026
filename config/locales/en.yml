@@ -28,7 +28,22 @@ en:
     sticker_list:
       copy: "📋 Copy"
 
+  trades:
+    create:
+      success: "Trade consolidated!"
+    export:
+      unauthorized: "You don't have access to this trade."
+
   views:
+    trades:
+      export:
+        format_label: "Export format"
+        dump: "Sticker Album 2026 app export"
+        manual: "Manual (missing + duplicates)"
+        dump_label: "Your updated dump"
+        missing_label: "Your updated missing stickers"
+        duplicates_label: "Your updated duplicates"
+        copy: "📋 Copy"
     pages:
       home:
         title: "StickerTrader"
@@ -80,6 +95,10 @@ en:
         sticker_count: "%{given} ↔ %{received}"
         i_gave: "I gave:"
         i_received: "I received:"
+        export: "Export"
+        export_title: "Export trade with %{name}"
+        export_description: "Copy your updated collection to paste into your sticker app."
+        loading: "Loading..."
         consolidate: "Consolidate trade"
       edit:
         title: "Account settings"

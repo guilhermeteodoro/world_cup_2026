@@ -11,5 +11,11 @@ Rails.application.routes.draw do
     resources :trades, only: [ :create ]
   end
 
+  resources :trades, only: [] do
+    member do
+      get :export
+    end
+  end
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

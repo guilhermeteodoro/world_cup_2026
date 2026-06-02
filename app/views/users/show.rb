@@ -203,7 +203,10 @@ class Views::Users::Show < Views::LoggedIn
                 Badge(variant: :outline) { t(".sticker_count", given: participation.given.count, received: participation.received.count) }
               end
 
-              span(class: "text-xs text-muted-foreground") { I18n.l(participation.confirmed_at, format: :short) }
+              div(class: "flex items-center gap-2") do
+                render_export_dialog(participation)
+                span(class: "text-xs text-muted-foreground") { I18n.l(participation.confirmed_at, format: :short) }
+              end
             end
 
             CollapsibleContent do
@@ -234,5 +237,30 @@ class Views::Users::Show < Views::LoggedIn
 
   def copy_button
     Button(variant: :outline, size: :sm, icon: true, type: "button", data: { action: "clipboard#copy", copy_button: "" }) { "📋" }
+  end
+
+  def render_export_dialog(participation)
+    Dialog do
+      DialogTrigger do
+        Button(variant: :outline, size: :sm, type: "button") { t(".export") }
+      end
+
+      DialogContent(class: "bg-white sm:max-w-lg") do
+        DialogHeader do
+          DialogTitle { t(".export_title", name: participation.other_user.name) }
+          DialogDescription { t(".export_description") }
+        end
+
+        DialogMiddle do
+          turbo_frame(id: "export_trade_#{participation.trade_id}", src: export_trade_path(participation.trade_id), loading: :lazy) do
+            p(class: "text-sm text-muted-foreground py-4") { t(".loading") }
+          end
+        end
+      end
+    end
+  end
+
+  def dom_id_for_trade(trade_id, prefix)
+    "#{prefix}_trade_#{trade_id}"
   end
 end

@@ -28,7 +28,22 @@ pt-BR:
     sticker_list:
       copy: "📋 Copiar"
 
+  trades:
+    create:
+      success: "Troca consolidada!"
+    export:
+      unauthorized: "Você não tem acesso a essa troca."
+
   views:
+    trades:
+      export:
+        format_label: "Formato de exportação"
+        dump: "Exportação do app Sticker Album 2026"
+        manual: "Manual (faltantes + repetidas)"
+        dump_label: "Seu dump atualizado"
+        missing_label: "Suas faltantes atualizadas"
+        duplicates_label: "Suas repetidas atualizadas"
+        copy: "📋 Copiar"
     pages:
       home:
         title: "StickerTrader"
@@ -80,6 +95,10 @@ pt-BR:
         sticker_count: "%{given} ↔ %{received}"
         i_gave: "Dei:"
         i_received: "Recebi:"
+        export: "Exportar"
+        export_title: "Exportar troca com %{name}"
+        export_description: "Copie sua coleção atualizada para colar no seu app de figurinhas."
+        loading: "Carregando..."
         consolidate: "Consolidar troca"
       edit:
         title: "Configurações da conta"

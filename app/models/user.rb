@@ -51,6 +51,7 @@ class User < ApplicationRecord
   def trade_history
     Trade.involving(self).confirmed.order(confirmed_at: :desc).map do |trade|
       TradeParticipation.new(
+        trade_id: trade.id,
         other_user: trade.user_a_id == id ? trade.user_b : trade.user_a,
         given: trade.stickers_given_by(self),
         received: trade.stickers_received_by(self),
