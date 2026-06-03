@@ -9,6 +9,10 @@ class Views::Users::Show < Views::LoggedIn
     @current_user = current_user
   end
 
+  def page_title
+    @is_owner ? t(".own_collection_title") : t(".collection_title", name: @user.name)
+  end
+
   def render_title
     div do
       div(class: "flex items-center gap-2 mb-2") do

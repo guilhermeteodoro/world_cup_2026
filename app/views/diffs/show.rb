@@ -10,6 +10,10 @@ class Views::Diffs::Show < Views::Base
     @errors = errors || []
   end
 
+  def page_title
+    t(".title")
+  end
+
   def view_template
     div(class: "pt-6 pb-2 px-2") do
       div(class: "flex items-top gap-2 mb-6 space-between") do

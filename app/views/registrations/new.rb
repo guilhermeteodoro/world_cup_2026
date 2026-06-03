@@ -5,6 +5,10 @@ class Views::Registrations::New < Views::Base
     @email = email
   end
 
+  def page_title
+    t(".title")
+  end
+
   def view_template
     div(class: "flex min-h-screen items-center") do
       div(class: "max-w-lg grow-1 mx-auto p-2") do

@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 class Views::Users::Edit < Views::LoggedIn
+  def page_title
+    t(".title")
+  end
+
   def render_title
     div(class: "grid") do
       div(class: "grid-row pt-1") do
