@@ -60,6 +60,19 @@ class ManualParserTest < ActiveSupport::TestCase
     end
   end
 
+  test "merges repeated country lines in missing" do
+    missing_text = "FWC: 00, 3\nFWC: 4, 6"
+    duplicates_text = ""
+
+    result = ManualParser.new(missing_text: missing_text, duplicates_text: duplicates_text).call
+
+    assert_equal 990, result[:owned].size
+    refute_includes result[:owned], 1   # FWC 00
+    refute_includes result[:owned], 4   # FWC 3
+    refute_includes result[:owned], 5   # FWC 4
+    refute_includes result[:owned], 7   # FWC 6
+  end
+
   test "parses emoji after country code" do
     missing_text = "FWC \u{1F3C6}: 00, 3, 4\nMEX \u{1F1F2}\u{1F1FD}: 5, 8"
     duplicates_text = ""

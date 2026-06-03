@@ -24,6 +24,7 @@ en:
     user_menu:
       my_collection: "My collection"
       settings: "Settings"
+      diff: "Diff"
       logout: "Log out"
     sticker_list:
       copy: "📋 Copy"
@@ -50,6 +51,7 @@ en:
         subtitle: "Compare your World Cup 2026 sticker collection with friends and find trades."
         cta: "Register your collection"
         login: "Log in"
+        diff: "🔀 Diff tool"
     registrations:
       new:
         title: "Register your collection"
@@ -115,6 +117,18 @@ en:
         form_title: "Import"
         submit: "Update collection"
         warning: "⚠️ This will replace your entire collection. Re-export from the app first."
+    diffs:
+      show:
+        title: "Sticker List Diff"
+        subtitle: "Paste two sticker lists and see what's in one but not the other."
+        list_a_label: "List A"
+        list_b_label: "List B"
+        placeholder: "🇧🇷 BRA: 1, 5, 7, 12\nMEX: 3, 11"
+        submit: "Compare"
+        only_in_a: "Only in List A"
+        only_in_b: "Only in List B"
+        empty: "(nothing)"
+        parse_warning: "Could not find"
 
   # Controller flash messages (not view-rendered)
   sessions:

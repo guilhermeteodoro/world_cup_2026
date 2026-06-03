@@ -64,7 +64,11 @@ class ManualParser
   end
 
   def parse_team_lines(text)
-    results = []
+    self.class.parse_team_lines(text)
+  end
+
+  def self.parse_team_lines(text)
+    grouped = {}
     text.each_line do |line|
       line = line.strip
       next if line.empty? || line.start_with?("Hey") || line.start_with?("Download")
@@ -74,9 +78,10 @@ class ManualParser
 
       team = match[1]
       numbers = match[2].split(",").map(&:strip)
-      results << [ team, numbers ]
+      grouped[team] ||= Set.new
+      numbers.each { |n| grouped[team].add(n) }
     end
-    results
+    grouped.map { |team, numbers| [ team, numbers.to_a ] }
   end
 
   def parse_team_lines_with_counts(text)

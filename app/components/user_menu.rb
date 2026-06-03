@@ -25,6 +25,9 @@ class Components::UserMenu < Components::Base
             Link(href: edit_user_path(@user), variant: :ghost, class: "w-full justify-start pl-2") do
               plain "⚙️ #{t(".settings")}"
             end
+            Link(href: diff_path, variant: :ghost, class: "w-full justify-start pl-2") do
+              plain "🔀 #{t(".diff")}"
+            end
             div(class: "border-t my-1")
             form(action: session_path, method: "post") do
               input(type: "hidden", name: "_method", value: "delete")

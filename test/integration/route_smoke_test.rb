@@ -59,4 +59,9 @@ class RouteSmokeTest < ActionDispatch::IntegrationTest
     post session_path, params: { email: "unknown@test.com" }
     assert_redirected_to new_registration_path(email: "unknown@test.com")
   end
+
+  test "diff page loads without login" do
+    get diff_path
+    assert_response :success
+  end
 end

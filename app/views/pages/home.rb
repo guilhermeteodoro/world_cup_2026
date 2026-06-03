@@ -11,6 +11,7 @@ class Views::Pages::Home < Views::Base
       div(class: "flex items-center justify-center gap-4 mb-6") do
         Link(variant: :primary, href: new_registration_path) { t(".cta") }
         Link(variant: :outline, href: new_session_path) { t(".login") }
+        Link(variant: :ghost, href: diff_path) { t(".diff") }
       end
 
       div(class: "flex justify-center mt-4") do

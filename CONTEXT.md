@@ -54,6 +54,10 @@ _Avoid_: Spare, extra, surplus
 A pipe-delimited string exported by the Sticker Album 2026 app that encodes owned stickers (as sequential ID ranges) and duplicates (as ID:count pairs). Format: `SA26|1|<owned_ranges>|<duplicates>`.
 _Avoid_: Export, backup
 
+**Sticker list diff**:
+A utility that takes two arbitrary sticker lists (in display format) and shows what's in each list that isn't in the other. Operates on parsed text resolved against the sticker catalog.
+_Avoid_: Compare (reserved for trade comparison between users)
+
 **Trade comparison**:
 A computed view showing what a logged-in user can exchange with another user. Calculated on-the-fly from both users' live collections.
 _Avoid_: Trade session, swap

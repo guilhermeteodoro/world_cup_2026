@@ -17,5 +17,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resource :diff, only: [ :show, :create ]
+
   get "up" => "rails/health#show", as: :rails_health_check
 end

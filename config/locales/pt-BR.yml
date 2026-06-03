@@ -24,6 +24,7 @@ pt-BR:
     user_menu:
       my_collection: "Minha coleção"
       settings: "Configurações"
+      diff: "Diff"
       logout: "Sair"
     sticker_list:
       copy: "📋 Copiar"
@@ -50,6 +51,7 @@ pt-BR:
         subtitle: "Compare sua coleção de figurinhas da Copa 2026 com amigos e encontre trocas."
         cta: "Cadastre sua coleção"
         login: "Entrar"
+        diff: "🔀 Ferramenta de diff"
     registrations:
       new:
         title: "Cadastre sua coleção"
@@ -115,6 +117,18 @@ pt-BR:
         form_title: "Importação"
         submit: "Atualizar coleção"
         warning: "⚠️ Isso vai substituir toda sua coleção. Re-exporte do app antes."
+    diffs:
+      show:
+        title: "Diff de Listas"
+        subtitle: "Cole duas listas de figurinhas e veja o que está em uma mas não na outra."
+        list_a_label: "Lista A"
+        list_b_label: "Lista B"
+        placeholder: "🇧🇷 BRA: 1, 5, 7, 12\nMEX: 3, 11"
+        submit: "Comparar"
+        only_in_a: "Só na Lista A"
+        only_in_b: "Só na Lista B"
+        empty: "(nada)"
+        parse_warning: "Não encontrado"
 
   # Controller flash messages
   sessions:
