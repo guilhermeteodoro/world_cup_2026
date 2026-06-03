@@ -67,7 +67,7 @@ ADRs live in `docs/adr/`, managed by [adr-tools](https://github.com/npryce/adr-t
 - Before implementing, check existing ADRs: `adr list`
 - Read relevant ADRs to understand rationale and constraints
 - Suggest an ADR when a decision is hard to reverse, surprising without context, and the result of a real trade-off
-- ADR format is lightweight — a title and one to three sentences is enough
+- ADR format follows a structured template (Date, Status, Context, Decision, Consequences) — keep each section concise
 - Load the `adr-workflow` skill for the full workflow
 - If `adr` is not installed, create the file manually (next sequential number in `docs/adr/`) and suggest the user installs adr-tools
 

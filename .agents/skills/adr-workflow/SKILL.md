@@ -33,21 +33,31 @@ adr new -s N "Title"        # Create ADR that supersedes ADR N
 
 ## Format
 
-ADRs are lightweight. A title and one to three sentences is enough:
+ADRs follow a structured template:
 
 ```markdown
-# Short title of the decision
+# N. Title
 
-{1-3 sentences: what's the context, what did we decide, and why.}
+Date: YYYY-MM-DD
+
+## Status
+
+Proposed | Accepted | Deprecated | Superseded by [N](link)
+
+## Context
+
+What is the issue? What forces are at play?
+
+## Decision
+
+What is the change we're making?
+
+## Consequences
+
+What becomes easier or harder?
 ```
 
-### Optional sections
-
-Only include when they add genuine value:
-
-- **Status** (`proposed | accepted | deprecated | superseded by ADR-NNNN`) — when decisions are revisited
-- **Considered Options** — only when rejected alternatives are worth remembering
-- **Consequences** — only when non-obvious downstream effects need calling out
+Keep each section concise — a few sentences is enough. Don't pad for length.
 
 ## Location
 
