@@ -9,10 +9,12 @@ class Components::StickerList < Components::Base
   def view_template
     if @copyable
       div(data: { controller: "clipboard", clipboard_text_value: clipboard_text }) do
-        div(class: "flex items-center justify-end mb-1") do
-          Button(variant: :ghost, size: :sm, type: "button", data: { action: "clipboard#copy", copy_button: "" }) { t(".copy") }
+        div(class: "flex items-start gap-2") do
+          div(class: "flex-1") do
+            render_grouped_stickers
+          end
+          Button(variant: :ghost, size: :sm, type: "button", class: "-mt-1.5", data: { action: "clipboard#copy", copy_button: "" }) { t(".copy") }
         end
-        render_grouped_stickers
       end
     else
       render_grouped_stickers

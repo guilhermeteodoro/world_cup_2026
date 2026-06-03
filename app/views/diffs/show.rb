@@ -82,19 +82,23 @@ class Views::Diffs::Show < Views::Base
   end
 
   def render_results
-    div(class: "mt-8 space-y-6") do
+    div(class: "mt-8 grid grid-cols-1 md:grid-cols-2 gap-4") do
       render_diff_section(t(".only_in_a"), @only_in_a)
       render_diff_section(t(".only_in_b"), @only_in_b)
     end
   end
 
   def render_diff_section(title, stickers)
-    div do
-      Heading(level: 3, class: "mb-2") { title }
-      if stickers.any?
-        render Components::StickerList.new(stickers: stickers, copyable: true)
-      else
-        p(class: "text-sm text-muted-foreground") { t(".empty") }
+    Card(class: "bg-white") do
+      CardHeader do
+        CardTitle { title }
+      end
+      CardContent do
+        if stickers.any?
+          render Components::StickerList.new(stickers: stickers, copyable: true)
+        else
+          p(class: "text-sm text-muted-foreground") { t(".empty") }
+        end
       end
     end
   end
