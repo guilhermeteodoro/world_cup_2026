@@ -6,12 +6,10 @@ require "rails/test_help"
 
 module ActiveSupport
   class TestCase
-    # Load seeds once for the test suite (sticker catalog)
-    setup do
-      unless Sticker.any?
-        Rails.application.load_seed
-      end
-    end
+    # Load the sticker catalog once for the entire test suite.
+    # The catalog is immutable (994 stickers, 49 countries) and shared
+    # across all tests via transactional rollback.
+    Rails.application.load_seed unless Sticker.any?
 
     def create_user(name: "Test", email: "test@example.com", dump: nil)
       user = User.create!(name: name, email: email)

@@ -57,13 +57,18 @@ bin/setup
 bin/dev
 ```
 
+## Checks
+
+```bash
+bundle exec rubocop -A
+bin/rails test
+```
+
 ## Tests
 
 ```bash
 bin/rails test
 ```
-
-40 tests covering parsers, services, views (clipboard output), and full E2E flows.
 
 ## Documentation
 
