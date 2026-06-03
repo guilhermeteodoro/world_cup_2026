@@ -13,7 +13,7 @@ class Components::StickerList < Components::Base
           div(class: "flex-1") do
             render_grouped_stickers
           end
-          Button(variant: :ghost, size: :sm, type: "button", data: { action: "clipboard#copy", copy_button: "" }) { t(".copy") }
+          Button(variant: :ghost, size: :sm, type: "button", class: "-mt-1.5", data: { action: "clipboard#copy", copy_button: "" }) { t(".copy") }
         end
       end
     else
