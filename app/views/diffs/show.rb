@@ -50,7 +50,7 @@ class Views::Diffs::Show < Views::Base
             name: "list_a",
             id: "list_a",
             rows: 10,
-            class: "w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring",
+            class: "w-full rounded-md border border-input bg-white px-3 py-2 text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring",
             placeholder: t(".placeholder")
           ) { @list_a }
         end
@@ -61,7 +61,7 @@ class Views::Diffs::Show < Views::Base
             name: "list_b",
             id: "list_b",
             rows: 10,
-            class: "w-full rounded-md border border-input bg-background px-3 py-2 text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring",
+            class: "w-full rounded-md border border-input bg-white px-3 py-2 text-sm font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring",
             placeholder: t(".placeholder")
           ) { @list_b }
         end
