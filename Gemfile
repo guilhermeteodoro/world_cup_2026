@@ -4,9 +4,10 @@ source "https://rubygems.org"
 gem "rails", "~> 8.1.3"
 # The modern asset pipeline for Rails [https://github.com/rails/propshaft]
 gem "propshaft"
-# Use postgresql as the database for Active Record
-gem "sqlite3", "~> 2.9", group: [ :development, :test ]
-gem "pg", "~> 1.1", group: [ :production, :development ]
+# Use sqlite3 as the database for Active Record
+gem "sqlite3", "~> 2.9"
+# Keep pg available for one-shot data migration from Postgres
+gem "pg", "~> 1.1", require: false
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", "~> 8.0"
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
@@ -33,7 +34,7 @@ gem "solid_cable", "~> 4.0"
 gem "bootsnap", "~> 1.24", require: false
 
 # Deploy this application anywhere as a Docker container [https://kamal-deploy.org]
-gem "kamal", "~> 2.11", require: false
+# gem "kamal", "~> 2.11", require: false
 
 # Add HTTP asset caching/compression and X-Sendfile acceleration to Puma [https://github.com/basecamp/thruster/]
 gem "thruster", "~> 0.1", require: false

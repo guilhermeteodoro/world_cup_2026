@@ -77,8 +77,8 @@ UI code lives in `app/ui/` (components, fragments, layouts) — not `app/views/`
 
 ## Environment
 
-- `DATABASE_URL` lives in `.env.production` (loaded only when `RAILS_ENV=production`)
-- Dev and test use SQLite via `database.yml` — do NOT set `DATABASE_URL` in `.env`
+- All environments use SQLite via `database.yml`
+- Production database lives at `/var/data/production.sqlite3` (Render persistent disk)
 
 ## Domain language
 
