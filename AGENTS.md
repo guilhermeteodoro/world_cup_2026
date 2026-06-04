@@ -34,6 +34,7 @@ When amending commits on an open PR, review whether the PR title and description
 - Force-push only when explicitly asked
 - When a PR is merged and new work is requested, always pull the target branch (usually main) and create a new branch from it before starting. If the target might be a feature branch, confirm before branching.
 - **Never push directly to main or merge without explicit user consent. Always open a PR and wait for approval.**
+- **Never alter production infrastructure without explicit consent.** This includes env vars, Render service settings, database operations, deploy triggers, and any other production-affecting action. Always ask first.
 
 ### Commit messages and PR titles
 
