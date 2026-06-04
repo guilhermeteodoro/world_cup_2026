@@ -1,4 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
+import { post, patch, destroy } from "@rails/request.js"
 
 export default class extends Controller {
   static targets = ["card", "badge", "actions"]
@@ -27,19 +28,16 @@ export default class extends Controller {
     this.copiesValue = 0
     this.#render()
 
-    fetch(this.createUrlValue, {
-      method: "POST",
-      headers: this.#headers(),
-      body: JSON.stringify({ sticker_id: this.stickerIdValue })
-    })
-      .then(res => res.json())
-      .then(data => {
-        this.userStickerIdValue = data.id
-        this.#updateUrls(data.id)
-      })
-      .catch(() => {
-        this.gluedValue = false
-        this.#render()
+    post(this.createUrlValue, { body: { sticker_id: this.stickerIdValue } })
+      .then(async (response) => {
+        if (response.ok) {
+          const data = await response.json
+          this.userStickerIdValue = data.id
+          this.#updateUrls(data.id)
+        } else {
+          this.gluedValue = false
+          this.#render()
+        }
       })
   }
 
@@ -68,10 +66,7 @@ export default class extends Controller {
     this.copiesValue = 0
     this.#render()
 
-    fetch(this.destroyUrlValue, {
-      method: "DELETE",
-      headers: this.#headers()
-    }).catch(() => {
+    destroy(this.destroyUrlValue).catch(() => {
       this.gluedValue = true
       this.#render()
     })
@@ -80,13 +75,7 @@ export default class extends Controller {
   #debouncedSync() {
     clearTimeout(this.#debounceTimer)
     this.#debounceTimer = setTimeout(() => {
-      fetch(this.updateUrlValue, {
-        method: "PATCH",
-        headers: this.#headers(),
-        body: JSON.stringify({ copies: this.copiesValue })
-      }).catch(() => {
-        // TODO: revert on failure
-      })
+      patch(this.updateUrlValue, { body: { copies: this.copiesValue } })
     }, 500)
   }
 
@@ -124,13 +113,6 @@ export default class extends Controller {
       } else {
         this.actionsTarget.classList.add("invisible")
       }
-    }
-  }
-
-  #headers() {
-    return {
-      "Content-Type": "application/json",
-      "X-CSRF-Token": document.querySelector('meta[name="csrf-token"]').content
     }
   }
 }
