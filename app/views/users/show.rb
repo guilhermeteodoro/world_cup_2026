@@ -203,7 +203,11 @@ class Views::Users::Show < Views::LoggedIn
                   end
                 end
 
-                Heading(level: 4) { t(".history_with", name: participation.other_user.name) }
+                Heading(level: 4) do
+                  a(href: user_path(participation.other_user), class: "hover:underline") do
+                    t(".history_with", name: participation.other_user.name)
+                  end
+                end
                 Badge(variant: :outline) { t(".sticker_count", given: participation.given.count, received: participation.received.count) }
               end
 
