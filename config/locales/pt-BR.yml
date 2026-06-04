@@ -26,6 +26,9 @@ pt-BR:
         logout: "Sair"
       sticker_list:
         copy: "📋 Copiar"
+      album_grid:
+        expand_all: "Expandir tudo"
+        collapse_all: "Recolher tudo"
 
   trades:
     create:

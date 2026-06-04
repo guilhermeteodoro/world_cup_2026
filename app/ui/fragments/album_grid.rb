@@ -8,7 +8,20 @@ class UI::Fragments::AlbumGrid < UI::Base
   end
 
   def view_template
-    div(class: "space-y-2 px-2") do
+    div(class: "space-y-2 px-2", data: { controller: "album-toggle" }) do
+      div(class: "flex justify-end mb-2") do
+        button(
+          type: "button",
+          class: "text-xs text-muted-foreground hover:text-foreground px-2 py-1 rounded border",
+          data: {
+            action: "click->album-toggle#toggleAll",
+            album_toggle_target: "btn",
+            expand_text: t(".expand_all"),
+            collapse_text: t(".collapse_all")
+          }
+        ) { t(".expand_all") }
+      end
+
       @stickers_by_country.each do |country, stickers|
         render_country_section(country, stickers)
       end
@@ -33,7 +46,7 @@ class UI::Fragments::AlbumGrid < UI::Base
       end
 
       CollapsibleContent(class: "hidden") do
-        div(class: "grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 pb-4") do
+        div(class: "grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-2 p-2") do
           stickers.each do |sticker|
             render_card(sticker, country)
           end
