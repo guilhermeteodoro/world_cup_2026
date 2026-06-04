@@ -30,6 +30,8 @@ export default class extends Controller {
     if (animate) {
       el.style.height = '0px'
       el.style.overflow = 'hidden'
+      // Force layout so scrollHeight is computed with content visible
+      void el.offsetHeight
       requestAnimationFrame(() => {
         el.style.transition = 'height 200ms ease-out'
         el.style.height = el.scrollHeight + 'px'
