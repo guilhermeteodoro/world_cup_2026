@@ -74,7 +74,7 @@ class Views::Users::Show < Views::LoggedIn
           Card(class: "pt-6 bg-card") do
             CardContent do
               if duplicates.any?
-                render Components::StickerList.new(stickers: duplicates, copyable: true)
+                render UI::Fragments::StickerList.new(stickers: duplicates, copyable: true)
               else
                 p(class: "text-muted-foreground italic") { t(".no_duplicates") }
               end
@@ -105,7 +105,7 @@ class Views::Users::Show < Views::LoggedIn
       p(class: "text-sm text-gray-500 mb-2") { subtitle }
 
       if stickers.any?
-        render Components::StickerList.new(stickers: stickers)
+        render UI::Fragments::StickerList.new(stickers: stickers)
       else
         p(class: "text-gray-500 italic text-sm") { t(".nothing") }
       end
@@ -132,11 +132,11 @@ class Views::Users::Show < Views::LoggedIn
             div(class: "grid grid-cols-2 gap-4") do
               div do
                 p(class: "text-xs text-muted-foreground mb-1") { t(".gives", name: @current_user.name) }
-                render Components::StickerList.new(stickers: pair.a_gives, copyable: true)
+                render UI::Fragments::StickerList.new(stickers: pair.a_gives, copyable: true)
               end
               div do
                 p(class: "text-xs text-muted-foreground mb-1") { t(".gives", name: @user.name) }
-                render Components::StickerList.new(stickers: pair.b_gives, copyable: true)
+                render UI::Fragments::StickerList.new(stickers: pair.b_gives, copyable: true)
               end
             end
           end
@@ -171,14 +171,14 @@ class Views::Users::Show < Views::LoggedIn
         if leftovers.a_has.any?
           div(class: "mb-3") do
             p(class: "text-sm font-medium text-muted-foreground mb-1") { t(".still_has", name: @current_user.name, count: leftovers.a_has.size) }
-            render Components::StickerList.new(stickers: leftovers.a_has, copyable: true)
+            render UI::Fragments::StickerList.new(stickers: leftovers.a_has, copyable: true)
           end
         end
 
         if leftovers.b_has.any?
           div do
             p(class: "text-sm font-medium text-muted-foreground mb-1") { t(".still_has", name: @user.name, count: leftovers.b_has.size) }
-            render Components::StickerList.new(stickers: leftovers.b_has, copyable: true)
+            render UI::Fragments::StickerList.new(stickers: leftovers.b_has, copyable: true)
           end
         end
       end
@@ -221,13 +221,13 @@ class Views::Users::Show < Views::LoggedIn
                       p(class: "font-medium text-muted-foreground mb-1") do
                         "#{t(".i_gave")} (#{participation.given.count})"
                       end
-                      render Components::StickerList.new(stickers: participation.given, copyable: true)
+                      render UI::Fragments::StickerList.new(stickers: participation.given, copyable: true)
                     end
                     div do
                       p(class: "font-medium text-muted-foreground mb-1") do
                         "#{t(".i_received")} (#{participation.received.count})"
                       end
-                      render Components::StickerList.new(stickers: participation.received, copyable: true)
+                      render UI::Fragments::StickerList.new(stickers: participation.received, copyable: true)
                     end
                   end
                 end

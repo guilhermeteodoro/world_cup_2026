@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Components::StickerList < Components::Base
+class UI::Fragments::StickerList < UI::Base
   def initialize(stickers:, copyable: false)
     @stickers = stickers
     @copyable = copyable

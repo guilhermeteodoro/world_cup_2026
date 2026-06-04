@@ -3,8 +3,20 @@
 module Views
 end
 
-module Components
+module UI
   extend Phlex::Kit
+
+  module Components
+    extend Phlex::Kit
+  end
+
+  module Fragments
+    extend Phlex::Kit
+  end
+
+  module Layouts
+    extend Phlex::Kit
+  end
 end
 
 Rails.autoloaders.main.push_dir(
@@ -12,5 +24,5 @@ Rails.autoloaders.main.push_dir(
 )
 
 Rails.autoloaders.main.push_dir(
-  Rails.root.join("app/components"), namespace: Components
+  Rails.root.join("app/ui"), namespace: UI
 )

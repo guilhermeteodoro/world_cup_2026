@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Views::Trades::Export < Components::Base
+class Views::Trades::Export < UI::Base
   def initialize(trade:, dump:, missing:, duplicates:, current_user:)
     @trade = trade
     @dump = dump

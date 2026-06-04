@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Components::CollectionImporter < Components::Base
+class UI::Fragments::CollectionImporter < UI::Base
   def view_template
     FormField do
       FormFieldLabel { t(".method_label") }

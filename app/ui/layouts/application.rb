@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Components::Layout < Components::Base
+class UI::Layouts::Application < UI::Base
   def initialize(title: "StickTrader", current_user: nil)
     @title = title
     @current_user = current_user

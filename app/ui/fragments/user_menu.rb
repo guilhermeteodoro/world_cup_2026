@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Components::UserMenu < Components::Base
+class UI::Fragments::UserMenu < UI::Base
   def initialize(user:)
     @user = user
   end

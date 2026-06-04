@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Components::LocaleSwitcher < Components::Base
+class UI::Components::LocaleSwitcher < UI::Base
   def view_template
     current = I18n.locale.to_s
 

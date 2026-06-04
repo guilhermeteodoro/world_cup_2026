@@ -15,7 +15,7 @@ class Views::Pages::Home < Views::Base
       end
 
       div(class: "flex justify-center mt-4") do
-        render Components::LocaleSwitcher.new
+        render UI::Components::LocaleSwitcher.new
       end
     end
   end

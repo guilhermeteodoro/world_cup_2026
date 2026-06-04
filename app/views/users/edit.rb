@@ -55,7 +55,7 @@ class Views::Users::Edit < Views::LoggedIn
       end
 
       div(class: "justify-self-end") do
-        div { render Components::LocaleSwitcher.new }
+        div { render UI::Components::LocaleSwitcher.new }
       end
     end
   end

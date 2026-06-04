@@ -1,33 +1,31 @@
 pt-BR:
   app_name: "StickerTrader"
 
-  components:
-    collection_importer:
-      method_label: "Método de importação"
-      dump: "Exportação do app Sticker Album 2026"
-      manual: "Manual (faltantes + repetidas)"
-      dump_label: "Cole seu dump"
-      dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
-      missing_label: "Cole suas figurinhas faltantes"
-      missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
-      duplicates_label: "Cole suas repetidas"
-      duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
-      how_to_export: "Como exportar?"
-      tutorial_title: "Como exportar do Sticker Album 2026"
-    layout:
-      login: "Entrar"
-      register: "Cadastrar"
-    nav:
-      login: "Entrar"
-      register: "Cadastrar"
-      logout: "Sair"
-    user_menu:
-      my_collection: "Minha coleção"
-      settings: "Configurações"
-      diff: "Diff"
-      logout: "Sair"
-    sticker_list:
-      copy: "📋 Copiar"
+  ui:
+    fragments:
+      collection_importer:
+        method_label: "Método de importação"
+        dump: "Exportação do app Sticker Album 2026"
+        manual: "Manual (faltantes + repetidas)"
+        dump_label: "Cole seu dump"
+        dump_placeholder: "SA26|1|2-3,6,9-13,...|10:1,38:3,..."
+        missing_label: "Cole suas figurinhas faltantes"
+        missing_placeholder: "FWC: 00, 3, 4, 6, 7\nBRA: 2, 3, 4, 6, 7, 8..."
+        duplicates_label: "Cole suas repetidas"
+        duplicates_placeholder: "FWC: 9(1x), 10(1x)\nMEX: 4(3x), 5(1x)..."
+        how_to_export: "Como exportar?"
+        tutorial_title: "Como exportar do Sticker Album 2026"
+      nav:
+        login: "Entrar"
+        register: "Cadastrar"
+        logout: "Sair"
+      user_menu:
+        my_collection: "Minha coleção"
+        settings: "Configurações"
+        diff: "Diff"
+        logout: "Sair"
+      sticker_list:
+        copy: "📋 Copiar"
 
   trades:
     create:

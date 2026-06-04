@@ -14,7 +14,7 @@ class Views::LoggedIn < Views::Base
           end
 
           div(class: "grow-0") do
-            render Components::UserMenu.new(user: @current_user) if @current_user && !@hide_user_menu
+            render UI::Fragments::UserMenu.new(user: @current_user) if @current_user && !@hide_user_menu
           end
         end
       end

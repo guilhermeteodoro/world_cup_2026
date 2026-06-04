@@ -24,7 +24,7 @@ class Views::Diffs::Show < Views::Base
         end
 
         div(class: "grow-0") do
-          render Components::UserMenu.new(user: @current_user) if @current_user
+          render UI::Fragments::UserMenu.new(user: @current_user) if @current_user
         end
       end
 
@@ -95,7 +95,7 @@ class Views::Diffs::Show < Views::Base
       end
       CardContent do
         if stickers.any?
-          render Components::StickerList.new(stickers: stickers, copyable: true)
+          render UI::Fragments::StickerList.new(stickers: stickers, copyable: true)
         else
           p(class: "text-sm text-muted-foreground") { t(".empty") }
         end
