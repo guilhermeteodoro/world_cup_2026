@@ -24,7 +24,7 @@ class UI::Fragments::AlbumGrid < UI::Base
 
     Collapsible do
       CollapsibleTrigger do
-        div(class: "flex items-center gap-2 py-2 cursor-pointer") do
+        div(class: "flex items-center gap-2 py-3 px-3 cursor-pointer bg-muted/50 rounded-lg") do
           span(class: "transition-transform duration-200 text-sm", data: { ruby_ui__collapsible_target: "icon" }) { "▼" }
           span(class: "font-semibold text-sm") { "#{country.emoji} #{country.code}" }
           span(class: "text-xs text-muted-foreground") { "#{owned}/#{total}" }
@@ -52,7 +52,7 @@ class UI::Fragments::AlbumGrid < UI::Base
     color = country.color || "#6B7280"
 
     div(
-      class: "relative rounded-lg border p-2 text-center text-xs cursor-pointer select-none #{glued ? "text-white" : "opacity-40"}",
+      class: "relative rounded-lg border p-2 text-center text-xs cursor-pointer select-none #{glued ? "text-white border-transparent" : "text-gray-600 border-gray-300 bg-gray-50"}",
       style: glued ? "background-color: #{color}" : "",
       data: {
         controller: "album-card",
@@ -76,19 +76,19 @@ class UI::Fragments::AlbumGrid < UI::Base
       # Sticker label
       span(class: "font-mono font-medium leading-tight block") { "#{country.code} #{sticker.number}" }
 
-      # +/- actions
+      # +/- actions (invisible but space-reserving when not glued)
       div(
-        class: "flex items-center justify-center gap-1 mt-1 #{glued ? "" : "hidden"}",
+        class: "flex items-center justify-center gap-1 mt-1 #{glued ? "" : "invisible"}",
         data: { album_card_target: "actions" }
       ) do
         button(
           type: "button",
-          class: "w-6 h-6 rounded bg-muted text-foreground text-sm font-bold hover:bg-accent active:scale-95",
+          class: "w-6 h-6 rounded bg-white/30 text-white text-sm font-bold active:scale-95",
           data: { action: "click->album-card#decrement" }
         ) { "−" }
         button(
           type: "button",
-          class: "w-6 h-6 rounded bg-muted text-foreground text-sm font-bold hover:bg-accent active:scale-95",
+          class: "w-6 h-6 rounded bg-white/30 text-white text-sm font-bold active:scale-95",
           data: { action: "click->album-card#increment" }
         ) { "+" }
       end

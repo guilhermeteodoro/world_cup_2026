@@ -100,12 +100,12 @@ export default class extends Controller {
     const card = this.element
 
     if (this.gluedValue) {
-      card.classList.remove("opacity-40")
-      card.classList.add("text-white")
+      card.classList.remove("text-gray-600", "border-gray-300", "bg-gray-50")
+      card.classList.add("text-white", "border-transparent")
       card.style.backgroundColor = this.colorValue
     } else {
-      card.classList.add("opacity-40")
-      card.classList.remove("text-white")
+      card.classList.add("text-gray-600", "border-gray-300", "bg-gray-50")
+      card.classList.remove("text-white", "border-transparent")
       card.style.backgroundColor = ""
     }
 
@@ -120,9 +120,9 @@ export default class extends Controller {
 
     if (this.hasActionsTarget) {
       if (this.gluedValue) {
-        this.actionsTarget.classList.remove("hidden")
+        this.actionsTarget.classList.remove("invisible")
       } else {
-        this.actionsTarget.classList.add("hidden")
+        this.actionsTarget.classList.add("invisible")
       }
     }
   }
