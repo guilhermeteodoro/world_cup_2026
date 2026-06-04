@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_05_31_124455) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_04_180115) do
   create_table "countries", force: :cascade do |t|
     t.string "code", null: false
+    t.string "color"
     t.string "emoji", null: false
     t.index ["code"], name: "index_countries_on_code", unique: true
   end

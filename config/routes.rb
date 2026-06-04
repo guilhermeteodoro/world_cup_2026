@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   resources :users, path: "u", param: :slug, only: [ :show, :edit, :update ] do
     resource :collection, path: "c", only: [ :edit, :update ]
+    resources :user_stickers, path: "album", only: [ :create, :update, :destroy ]
     resources :trades, only: [ :create ]
   end
 

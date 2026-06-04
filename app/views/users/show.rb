@@ -31,6 +31,7 @@ class Views::Users::Show < Views::LoggedIn
   end
 
   def render_content
+    render_album_grid if @is_owner
     render_user_info
     render_trade if @trade_result
     render_duplicates
@@ -38,6 +39,21 @@ class Views::Users::Show < Views::LoggedIn
   end
 
   private
+
+  def render_album_grid
+    stickers_by_country = Sticker.includes(:country).ordered.group_by(&:country)
+    user_stickers_index = @user.user_stickers.each_with_object({}) do |us, hash|
+      hash[us.sticker_id] = { id: us.id, copies: us.copies }
+    end
+
+    div(class: "mb-6") do
+      render UI::Fragments::AlbumGrid.new(
+        user: @user,
+        stickers_by_country: stickers_by_country,
+        user_stickers_index: user_stickers_index
+      )
+    end
+  end
 
   def render_user_info
     div(class: "mb-6") do

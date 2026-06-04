@@ -4,6 +4,12 @@
 
 import { application } from "./application"
 
+import AlbumCardController from "./album_card_controller"
+application.register("album-card", AlbumCardController)
+
+import AlbumToggleController from "./album_toggle_controller"
+application.register("album-toggle", AlbumToggleController)
+
 import ClipboardController from "./clipboard_controller"
 application.register("clipboard", ClipboardController)
 

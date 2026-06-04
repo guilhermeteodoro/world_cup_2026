@@ -11,7 +11,7 @@ A collectible item identified by a country code and number (e.g. BRA 5). Physica
 _Avoid_: Card, figurinha (in code)
 
 **Country**:
-A group in the album (e.g. BRA, FWC, CC). Has a code, emoji flag, and localized name via i18n. Not always a real country (FWC = FIFA World Cup, CC = Coca-Cola).
+A group in the album (e.g. BRA, FWC, CC). Has a code, emoji flag, dominant color (hex), and localized name via i18n. Not always a real country (FWC = FIFA World Cup, CC = Coca-Cola).
 _Avoid_: Team, group
 
 **Sticker catalog**:
@@ -36,7 +36,7 @@ _Avoid_: Regular, common
 
 **Collection**:
 A user's sticker state, represented by the `user_stickers` pivot table. Row exists = user owns that sticker (glued). The `copies` attribute tracks tradeable extras.
-_Avoid_: Album, inventory
+_Avoid_: Inventory
 
 **Copies**:
 The number of extra tradeable copies a user has beyond the one glued. 0 = owned but no extras. No row = missing entirely.
@@ -49,6 +49,14 @@ _Avoid_: Needed, wanted
 **Duplicate**:
 An extra copy of a sticker available for trading. A sticker is a duplicate when its `user_stickers.copies > 0`.
 _Avoid_: Spare, extra, surplus
+
+**Glue**:
+The act of adding a sticker to a user's collection. Creates a `user_stickers` row with `copies: 0`.
+_Avoid_: Add, own, collect
+
+**Unglue**:
+The act of removing a sticker from a user's collection. Deletes the `user_stickers` row entirely.
+_Avoid_: Remove, delete
 
 **Dump**:
 A pipe-delimited string exported by the Sticker Album 2026 app that encodes owned stickers (as sequential ID ranges) and duplicates (as ID:count pairs). Format: `SA26|1|<owned_ranges>|<duplicates>`.
@@ -89,13 +97,16 @@ _Avoid_: Collector, participant
 ## Key components
 
 **StickerList**:
-Phlex component (`Components::StickerList`) — the standard way to display stickers. Takes a stickers array, groups by country, renders as monospace text. Supports an optional copy-to-clipboard button via `copyable: true`.
+Phlex fragment (`UI::Fragments::StickerList`) — the standard way to display stickers as text. Takes a stickers array, groups by country, renders as monospace text. Supports an optional copy-to-clipboard button via `copyable: true`.
+
+**AlbumGrid**:
+Phlex fragment (`UI::Fragments::AlbumGrid`) — interactive card grid for managing a collection. Displays stickers as colored cards grouped by country in collapsible sections. Cards can be tapped to glue/unglue, with +/- buttons for tracking copies.
 
 **CollectionImporter**:
-Phlex component (`Components::CollectionImporter`) — the import method form fields shared between registration and collection edit. Contains a Combobox for method selection, a "How to export?" link that opens a video tutorial dialog, and the dump/manual textareas.
+Phlex fragment (`UI::Fragments::CollectionImporter`) — the import method form fields shared between registration and collection edit. Contains a Combobox for method selection, a "How to export?" link that opens a video tutorial dialog, and the dump/manual textareas.
 
 **LocaleSwitcher**:
-Phlex component (`Components::LocaleSwitcher`) — flag-based language toggle (🇧🇷/🇬🇧). Used on home page and user settings.
+Phlex component (`UI::Components::LocaleSwitcher`) — flag-based language toggle (🇧🇷/🇬🇧). Used on home page and user settings.
 
 ## Example dialogue
 
