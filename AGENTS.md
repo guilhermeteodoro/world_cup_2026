@@ -71,6 +71,10 @@ Examples:
 3. **No content assertions in integration tests** — if you're asserting `response.body` includes specific text, it probably belongs in a view test.
 4. **Edge cases in unit tests** — integration tests cover the happy path. Parser edge cases, empty states, error handling, and rendering variations go in service or view tests.
 
+## Presentation layer
+
+UI code lives in `app/ui/` (components, fragments, layouts) — not `app/views/`. See [ADR-0006](docs/adr/0006-presentation-layer-organization.md) for the decision guide on where to place new UI classes.
+
 ## Environment
 
 - `DATABASE_URL` lives in `.env.production` (loaded only when `RAILS_ENV=production`)
