@@ -76,7 +76,7 @@ class UI::Fragments::AlbumGrid < UI::Base
     end
 
     div(
-      class: "relative rounded-md border border-gray-900 p-1 cursor-pointer select-none aspect-[5/7] flex flex-col #{glued ? "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]" : "opacity-50"} #{card_bg_class}",
+      class: "relative rounded-md border border-gray-900 p-1 cursor-pointer select-none aspect-[5/7] flex flex-col hover:scale-105 hover:brightness-110 transition-transform #{glued ? "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]" : "opacity-50"} #{card_bg_class}",
       style: glued ? "background-color: #{color}" : "",
       data: {
         controller: "album-card",
@@ -115,12 +115,12 @@ class UI::Fragments::AlbumGrid < UI::Base
       ) do
         button(
           type: "button",
-          class: "w-4 h-4 rounded bg-white/30 text-white text-[10px] font-bold active:scale-95",
+          class: "w-4 h-4 rounded bg-white/30 text-white text-[10px] font-bold active:scale-95 cursor-pointer",
           data: { action: "click->album-card#decrement" }
         ) { "−" }
         button(
           type: "button",
-          class: "w-4 h-4 rounded bg-white/30 text-white text-[10px] font-bold active:scale-95",
+          class: "w-4 h-4 rounded bg-white/30 text-white text-[10px] font-bold active:scale-95 cursor-pointer",
           data: { action: "click->album-card#increment" }
         ) { "+" }
       end
