@@ -92,7 +92,7 @@ export default class extends Controller {
 
     if (this.gluedValue) {
       card.classList.remove("opacity-50", "bg-gray-100")
-      card.classList.add("text-white")
+      card.classList.add("text-white", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]")
       if (this.foilValue) {
         card.classList.add("foil-card")
       } else {
@@ -101,7 +101,7 @@ export default class extends Controller {
       card.style.backgroundColor = color
     } else {
       card.classList.add("opacity-50", "bg-gray-100")
-      card.classList.remove("text-white", "foil-card")
+      card.classList.remove("text-white", "foil-card", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]")
       card.style.backgroundColor = ""
     }
 
