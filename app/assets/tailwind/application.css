@@ -78,16 +78,22 @@
   overflow: hidden;
 }
 
-.foil-card::after {
+.foil-card::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(125deg, #ff008450, #fca40050, #ffff0050, #00ff8750, #00bfff50, #a855f750);
+  background: linear-gradient(125deg, #ff008480, #fca40080, #ffff0080, #00ff8780, #00bfff80, #a855f780);
   background-size: 400% 400%;
   animation: holo-shift 6s ease infinite;
-  mix-blend-mode: color-dodge;
+  mix-blend-mode: overlay;
   border-radius: inherit;
   pointer-events: none;
+  z-index: 1;
+}
+
+.foil-card > * {
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes holo-shift {
