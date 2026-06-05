@@ -104,12 +104,6 @@ class UI::Fragments::AlbumGrid < UI::Base
         span(class: "font-black tracking-tight tabular-nums") { sticker.number }
       end
 
-      # Extras count - bottom right
-      span(
-        class: "absolute bottom-0.5 right-1 text-[10px] font-black #{copies > 0 ? "" : "hidden"}",
-        data: { album_card_target: "badge" }
-      ) { "×#{copies}" }
-
       # Center: player name
       div(class: "flex-1 flex flex-col items-center justify-center text-center px-0.5") do
         render_sticker_name(sticker)
@@ -132,6 +126,12 @@ class UI::Fragments::AlbumGrid < UI::Base
           class: button_class,
           data: { action: "click->album-card#increment" }
         ) { "+" }
+
+        # Extras count - bottom right
+        span(
+          class: "absolute bottom-0.5 right-1 text-[10px] font-black #{copies > 0 ? "" : "hidden"}",
+          data: { album_card_target: "badge" }
+        ) { copies }
       end
     end
   end
