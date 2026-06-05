@@ -10,6 +10,9 @@ application.register("album-card", AlbumCardController)
 import AlbumToggleController from "./album_toggle_controller"
 application.register("album-toggle", AlbumToggleController)
 
+import TabsController from "./tabs_controller"
+application.register("tabs", TabsController)
+
 import ClipboardController from "./clipboard_controller"
 application.register("clipboard", ClipboardController)
 

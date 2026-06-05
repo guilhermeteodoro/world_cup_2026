@@ -75,6 +75,8 @@ pt-BR:
     users:
       show_owner:
         title: "Minha coleção"
+        tab_album: "Álbum"
+        tab_trades: "Trocas"
         owned: "%{count}/994 coladas"
         missing: "%{count} faltantes"
         duplicates: "%{count} repetidas"

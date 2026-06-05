@@ -25,12 +25,42 @@ class Views::Users::ShowOwner < Views::LoggedIn
   end
 
   def render_content
-    render_album_grid
-    render_duplicates
-    render_trade_history
+    div(data: { controller: "tabs", tabs_active_value: "album" }) do
+      render_tab_bar
+      render_album_panel
+      render_trades_panel
+    end
   end
 
   private
+
+  def render_tab_bar
+    div(class: "flex gap-4 border-b mb-6") do
+      button(
+        type: "button",
+        class: "pb-2 px-1 text-sm font-medium border-b-2 transition-colors border-primary text-foreground",
+        data: { tabs_target: "tab", tab: "album", action: "click->tabs#switch" }
+      ) { t(".tab_album") }
+      button(
+        type: "button",
+        class: "pb-2 px-1 text-sm font-medium border-b-2 transition-colors border-transparent text-muted-foreground",
+        data: { tabs_target: "tab", tab: "trades", action: "click->tabs#switch" }
+      ) { t(".tab_trades") }
+    end
+  end
+
+  def render_album_panel
+    div(data: { tabs_target: "panel", tab: "album" }) do
+      render_album_grid
+    end
+  end
+
+  def render_trades_panel
+    div(class: "hidden", data: { tabs_target: "panel", tab: "trades" }) do
+      render_trade_history
+      render_duplicates
+    end
+  end
 
   def render_album_grid
     stickers_by_country = Sticker.includes(:country).ordered.group_by(&:country)

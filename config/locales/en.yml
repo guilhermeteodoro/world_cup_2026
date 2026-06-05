@@ -75,6 +75,8 @@ en:
     users:
       show_owner:
         title: "My collection"
+        tab_album: "Album"
+        tab_trades: "Trades"
         owned: "%{count}/994 owned"
         missing: "%{count} missing"
         duplicates: "%{count} duplicates"
