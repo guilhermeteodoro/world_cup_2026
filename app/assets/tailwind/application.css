@@ -75,7 +75,6 @@
 
 .foil-card {
   position: relative;
-  overflow: hidden;
 }
 
 .foil-card::before {
@@ -92,22 +91,17 @@
       hsl(240, 60%, 75%) 240deg,
       hsl(300, 60%, 75%) 300deg,
       hsl(360, 60%, 75%) 360deg
-    ) 0 0 / 4px 4px;
-  animation: holo-shift 4s linear infinite;
-  mix-blend-mode: overlay;
-  opacity: 0.65;
+    ) 0 0 / 10px 10px;
+  animation: holo-shift 2s ease-in infinite;
+  mix-blend-mode: soft-light;
+  opacity: 0.5;
   border-radius: inherit;
   pointer-events: none;
   z-index: 1;
 }
 
-.foil-card > * {
-  position: relative;
-  z-index: 2;
-}
-
 @keyframes holo-shift {
   0% { filter: hue-rotate(0deg) brightness(1); }
-  50% { filter: hue-rotate(180deg) brightness(1.2); }
+  50% { filter: hue-rotate(180deg) brightness(1.1); }
   100% { filter: hue-rotate(360deg) brightness(1); }
 }

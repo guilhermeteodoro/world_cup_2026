@@ -38,16 +38,17 @@ class UI::Fragments::AlbumGrid < UI::Base
 
     Collapsible do
       CollapsibleTrigger do
-        div(class: "flex items-center gap-2 py-3 px-3 cursor-pointer bg-muted/50 rounded-lg") do
+        div(class: "flex items-center gap-2 py-3 px-3 cursor-pointer rounded-lg bg-gray-200") do
           span(class: "transition-transform duration-200 text-sm", data: { ruby_ui__collapsible_target: "icon" }) { "▼" }
           span(class: "font-semibold text-sm") { "#{country.emoji} #{country.code}" }
+          span(class: "italic font-extralight font-stretch-50% text-sm") { country.name }
           span(class: "text-xs text-muted-foreground") { "#{owned}/#{total}" }
           span(class: "text-xs text-muted-foreground") { "(#{dups} dups)" } if dups > 0
         end
       end
 
       CollapsibleContent(class: "hidden") do
-        div(class: "grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-1.5 p-2") do
+        div(class: "grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-1.5 p-2 bg-gray-200") do
           stickers.each do |sticker|
             render_card(sticker, country)
           end
@@ -65,18 +66,18 @@ class UI::Fragments::AlbumGrid < UI::Base
     base_url = user_user_stickers_path(@user)
     color = country.color || "#6B7280"
     is_foil = sticker.shiny?
-    is_team_photo = sticker.name == "Team Photo"
 
-    card_bg_class = if glued && is_foil
-      "foil-card"
-    elsif glued
-      ""
-    else
-      "bg-gray-100"
-    end
+    card_bg_class =
+      if glued && is_foil
+        "foil-card"
+      elsif glued
+        ""
+      else
+        "bg-gray-100"
+      end
 
     div(
-      class: "relative rounded-md border border-gray-900 p-1 cursor-pointer select-none aspect-[5/7] flex flex-col hover:scale-105 hover:brightness-110 transition-transform #{glued ? "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]" : "opacity-50"} #{card_bg_class}",
+      class: "relative border rounded border-gray-500 p-1 select-none aspect-5/7 flex flex-col hover:scale-105 hover:brightness-105 transition-transform #{glued ? "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]" : "opacity-50 cursor-pointer"} #{card_bg_class}",
       style: glued ? "background-color: #{color}" : "",
       data: {
         controller: "album-card",
@@ -93,13 +94,14 @@ class UI::Fragments::AlbumGrid < UI::Base
       }
     ) do
       # Top row: number right-aligned
-      div(class: "flex items-start justify-end") do
-        span(class: "font-black text-sm leading-none tracking-tight tabular-nums") { sticker.number }
+      div(class: "flex items-start justify-end text-sm leading-none gap-0.3") do
+        span(class: "font-extralight text-nowrap font-stretch-50% opacity-30") { sticker.country.code }
+        span(class: "font-black tracking-tight tabular-nums") { sticker.number }
       end
 
       # Extras badge (green circle) - bottom right
       span(
-        class: "absolute -bottom-1 -right-1 bg-green-600 text-white rounded-full w-4 h-4 text-[8px] flex items-center justify-center font-bold border border-gray-900 #{copies > 0 ? "" : "hidden"}",
+        class: "absolute -top-1 -left-1 bg-green-600 text-white rounded-full w-4 h-4 text-[8px] flex items-center justify-center font-black border border-gray-900 outline outline-background  #{copies > 0 ? "" : "hidden"}",
         data: { album_card_target: "badge" }
       ) { copies.to_s }
 
@@ -113,14 +115,16 @@ class UI::Fragments::AlbumGrid < UI::Base
         class: "flex items-center justify-center gap-0.5 #{glued ? "" : "invisible"}",
         data: { album_card_target: "actions" }
       ) do
+        button_class = "w-4 h-4 rounded-lg bg-white/30 text-white text-[10px] font-bold active:scale-95 cursor-pointer hover:opacity-70"
+
         button(
           type: "button",
-          class: "w-4 h-4 rounded bg-white/30 text-white text-[10px] font-bold active:scale-95 cursor-pointer",
+          class: button_class,
           data: { action: "click->album-card#decrement" }
         ) { "−" }
         button(
           type: "button",
-          class: "w-4 h-4 rounded bg-white/30 text-white text-[10px] font-bold active:scale-95 cursor-pointer",
+          class: button_class,
           data: { action: "click->album-card#increment" }
         ) { "+" }
       end
@@ -132,7 +136,7 @@ class UI::Fragments::AlbumGrid < UI::Base
 
     if sticker.shiny? || sticker.name == "Team Photo"
       # FWC specials + Team Logo + Team Photo: show full name centered
-      span(class: "text-[9px] sm:text-[10px] leading-tight opacity-75") { sticker.name.sub(" (Foil)", "") }
+      span(class: "text-[9px] sm:text-[10px] leading-tight opacity-75 italic") { sticker.name.sub(" (Foil)", "") }
     else
       # Players (normal + coke): Last Name bold, First Name below
       parts = sticker.name.split(" ", 2)
