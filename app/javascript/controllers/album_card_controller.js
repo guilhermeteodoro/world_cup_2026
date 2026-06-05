@@ -91,8 +91,8 @@ export default class extends Controller {
     const color = this.colorValue
 
     if (this.gluedValue) {
-      card.classList.remove("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100")
-      card.classList.add("opacity-100", "text-white", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]")
+      card.classList.remove("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100", "border-gray-300")
+      card.classList.add("opacity-100", "text-white", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "border-gray-700")
       if (this.foilValue) {
         card.classList.add("foil-card")
       } else {
@@ -100,8 +100,8 @@ export default class extends Controller {
       }
       card.style.backgroundColor = color
     } else {
-      card.classList.add("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100")
-      card.classList.remove("opacity-100", "text-white", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "foil-card")
+      card.classList.add("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100", "border-gray-300")
+      card.classList.remove("opacity-100", "text-white", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "foil-card", "border-gray-700")
       card.style.backgroundColor = ""
     }
 
@@ -109,10 +109,10 @@ export default class extends Controller {
       if (this.copiesValue > 0) {
         this.badgeTarget.textContent = this.copiesValue
         this.badgeTarget.classList.remove("hidden")
-        card.classList.add("shadow-[3px_3px_0_#374151]", "border-transparent")
+        card.classList.add("shadow-[3px_3px_0_#374151]")
       } else {
         this.badgeTarget.classList.add("hidden")
-        card.classList.remove("shadow-[3px_3px_0_#374151]", "border-transparent")
+        card.classList.remove("shadow-[3px_3px_0_#374151]")
       }
     }
 

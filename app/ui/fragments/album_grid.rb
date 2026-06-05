@@ -74,9 +74,9 @@ class UI::Fragments::AlbumGrid < UI::Base
 
     has_copies = copies > 0
 
-    glued_classes = "opacity-100 text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]"
+    glued_classes = "opacity-100 text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)] border-gray-700"
     unglued_classes = "opacity-50 cursor-pointer text-gray-600 bg-gray-100"
-    copies_classes = has_copies ? "shadow-[3px_3px_0_#374151] border-transparent" : ""
+    copies_classes = has_copies ? "shadow-[3px_3px_0_#374151]" : ""
 
     card_classes = glued ? glued_classes : unglued_classes
     card_classes += " #{copies_classes}" if has_copies
@@ -112,10 +112,10 @@ class UI::Fragments::AlbumGrid < UI::Base
 
       # +/- actions (invisible but space-reserving when not glued)
       div(
-        class: "flex items-center justify-center gap-0.5 #{glued ? "" : "invisible"}",
+        class: "grid grid-cols-2 gap-1 #{glued ? "" : "invisible"}",
         data: { album_card_target: "actions" }
       ) do
-        button_class = "w-4 h-4 rounded-lg bg-white/30 text-white text-[10px] font-bold active:scale-95 cursor-pointer hover:opacity-70"
+        button_class = "rounded-lg bg-white/30 text-white text-sm font-bold active:scale-95 cursor-pointer hover:opacity-70"
 
         button(
           type: "button",
