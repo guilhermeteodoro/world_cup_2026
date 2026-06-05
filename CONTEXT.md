@@ -7,11 +7,11 @@ Based on the [Sticker Album 2026](https://apps.apple.com/br/app/sticker-album-20
 ## Language
 
 **Sticker**:
-A collectible item identified by a country code and number (e.g. BRA 5). Physically printed and glued into an album.
+A collectible item identified by a country code and number (e.g. BRA 5). Has a name (player name, "Team Logo", or "Team Photo"). Physically printed and glued into an album.
 _Avoid_: Card, figurinha (in code)
 
 **Country**:
-A group in the album (e.g. BRA, FWC, CC). Has a code, emoji flag, dominant color (hex), and localized name via i18n. Not always a real country (FWC = FIFA World Cup, CC = Coca-Cola).
+A group in the album (e.g. BRA, FWC, CC). Has a code, emoji flag, dominant color (hex), group name, and localized name via i18n. Not always a real country (FWC = FIFA World Cup, CC = Coca-Cola).
 _Avoid_: Team, group
 
 **Sticker catalog**:
