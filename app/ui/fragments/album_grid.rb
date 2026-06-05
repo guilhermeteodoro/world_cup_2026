@@ -79,8 +79,10 @@ class UI::Fragments::AlbumGrid < UI::Base
         "bg-gray-100"
       end
 
+    has_copies = copies > 0
+
     div(
-      class: "relative border rounded border-gray-300 p-1 select-none aspect-5/7 flex flex-col hover:scale-105 hover:brightness-105 transition-transform #{glued ? "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]" : "opacity-50 cursor-pointer text-gray-600"} #{card_bg_class}",
+      class: "relative border rounded border-gray-300 p-1 select-none aspect-5/7 flex flex-col hover:scale-105 hover:brightness-105 transition-transform #{glued ? "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]" : "opacity-50 cursor-pointer text-gray-600"} #{has_copies ? "shadow-[3px_3px_0_rgba(0,0,0,0.3)]" : ""} #{card_bg_class}",
       style: glued ? "background-color: #{color}" : "",
       data: {
         controller: "album-card",
@@ -98,15 +100,15 @@ class UI::Fragments::AlbumGrid < UI::Base
     ) do
       # Top row: country code left, number right
       div(class: "flex items-start justify-between text-sm leading-none") do
-        span(class: "font-extralight text-nowrap font-stretch-50% opacity-30") { sticker.country.code }
+        span(class: "font-extralight text-nowrap font-stretch-50% opacity-50") { sticker.country.code }
         span(class: "font-black tracking-tight tabular-nums") { sticker.number }
       end
 
-      # Extras badge (green circle) - bottom right
+      # Extras count - bottom right
       span(
-        class: "absolute -top-1 -left-1 bg-green-600 text-white rounded-full w-4 h-4 text-[8px] flex items-center justify-center font-black border border-gray-200 outline outline-background  #{copies > 0 ? "" : "hidden"}",
+        class: "absolute bottom-0.5 right-1 text-[10px] font-black #{copies > 0 ? "" : "hidden"}",
         data: { album_card_target: "badge" }
-      ) { copies.to_s }
+      ) { "×#{copies}" }
 
       # Center: player name
       div(class: "flex-1 flex flex-col items-center justify-center text-center px-0.5") do
