@@ -119,17 +119,16 @@
   box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
 }
 
-.sticker-number {
-  color: transparent;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(255,255,255,0.2));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-stroke: 0.5px rgba(0,0,0,0.15);
+.sticker-carved {
+  color: rgba(0, 0, 0, 0.25);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4),
+    0 -1px 0 rgba(0, 0, 0, 0.2);
 }
 
-.is-glued .sticker-number {
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(255,255,255,0.3));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-stroke: 0.5px rgba(255,255,255,0.2);
+.is-glued .sticker-carved {
+  color: rgba(255, 255, 255, 0.3);
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.3),
+    0 -1px 0 rgba(0, 0, 0, 0.4);
 }

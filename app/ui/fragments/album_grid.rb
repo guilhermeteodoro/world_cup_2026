@@ -97,7 +97,7 @@ class UI::Fragments::AlbumGrid < UI::Base
       # Top row: country code left, number right
       div(class: "flex items-start justify-between text-sm leading-none") do
         span(class: "font-extralight text-nowrap font-stretch-50% opacity-50") { sticker.country.code }
-        span(class: "font-black tracking-tight tabular-nums sticker-number") { sticker.number }
+        span(class: "font-black tracking-tight tabular-nums") { sticker.number }
       end
 
       # Center: player name
@@ -123,9 +123,9 @@ class UI::Fragments::AlbumGrid < UI::Base
           data: { action: "click->album-card#increment" }
         ) { "+" }
 
-        # Extras count - bottom right
+        # Extras count - bottom right (carved)
         span(
-          class: "absolute bottom-0.5 right-1 text-[10px] font-black #{copies > 0 ? "" : "hidden"}",
+          class: "absolute bottom-0.5 right-1 text-[10px] font-black sticker-carved #{copies > 0 ? "" : "hidden"}",
           data: { album_card_target: "badge" }
         ) { copies }
       end
