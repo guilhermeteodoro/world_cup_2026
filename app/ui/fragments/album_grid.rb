@@ -65,10 +65,19 @@ class UI::Fragments::AlbumGrid < UI::Base
     base_url = user_user_stickers_path(@user)
     color = country.color || "#6B7280"
     is_foil = sticker.shiny?
+    is_team_photo = sticker.name == "Team Photo"
+
+    card_style = if glued && is_foil
+      "background: linear-gradient(135deg, #C0C0C0 0%, #{color} 50%, #C0C0C0 100%)"
+    elsif glued
+      "background: linear-gradient(135deg, #{color} 0%, #{color}cc 100%)"
+    else
+      ""
+    end
 
     div(
       class: "relative rounded-md border border-gray-900 p-1 cursor-pointer select-none aspect-[5/7] flex flex-col #{glued ? "text-white" : "opacity-50"}",
-      style: glued ? "background: linear-gradient(135deg, #{color} 0%, #{color}cc 100%)" : "",
+      style: card_style,
       data: {
         controller: "album-card",
         album_card_sticker_id_value: sticker.id,
@@ -82,10 +91,8 @@ class UI::Fragments::AlbumGrid < UI::Base
         action: "click->album-card#glue"
       }
     ) do
-      # Top row: foil + number
-      div(class: "flex items-start justify-between") do
-        span(class: "text-[9px]") { "✨" } if is_foil
-        span(class: "text-[9px]") { "" } unless is_foil
+      # Top row: number right-aligned
+      div(class: "flex items-start justify-end") do
         span(class: "font-black text-sm leading-none tracking-tight tabular-nums") { sticker.number }
       end
 
@@ -122,8 +129,8 @@ class UI::Fragments::AlbumGrid < UI::Base
   def render_sticker_name(sticker)
     return unless sticker.name
 
-    if sticker.shiny?
-      # FWC special stickers: show full name centered
+    if sticker.shiny? || sticker.name == "Team Photo"
+      # FWC specials + Team Logo + Team Photo: show full name centered
       span(class: "text-[7px] leading-tight opacity-75") { sticker.name.sub(" (Foil)", "") }
     else
       # Players (normal + coke): Last Name bold, First Name below
