@@ -68,7 +68,7 @@ class UI::Fragments::AlbumGrid < UI::Base
     is_team_photo = sticker.name == "Team Photo"
 
     card_bg_class = if glued && is_foil
-      "metallicss"
+      "foil-card"
     elsif glued
       ""
     else

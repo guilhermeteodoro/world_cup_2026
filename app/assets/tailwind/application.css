@@ -72,3 +72,25 @@
     @apply bg-background text-foreground;
   }
 }
+
+.foil-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.foil-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(125deg, #ff008450, #fca40050, #ffff0050, #00ff8750, #00bfff50, #a855f750);
+  background-size: 400% 400%;
+  animation: holo-shift 6s ease infinite;
+  mix-blend-mode: color-dodge;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+@keyframes holo-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
