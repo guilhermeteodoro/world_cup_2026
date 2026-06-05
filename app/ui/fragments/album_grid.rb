@@ -74,10 +74,10 @@ class UI::Fragments::AlbumGrid < UI::Base
 
     glued_classes = "opacity-100 text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]"
     unglued_classes = "opacity-50 cursor-pointer text-gray-600 bg-gray-100"
-    copies_shadow = "shadow-[3px_3px_0_rgba(0,0,0,0.3)]"
+    copies_classes = has_copies ? "shadow-[3px_3px_0_rgba(0,0,0,0.3)] border-transparent" : ""
 
     card_classes = glued ? glued_classes : unglued_classes
-    card_classes += " #{copies_shadow}" if has_copies
+    card_classes += " #{copies_classes}" if has_copies
     card_classes += " foil-card" if glued && is_foil
 
     div(
@@ -126,9 +126,9 @@ class UI::Fragments::AlbumGrid < UI::Base
           data: { action: "click->album-card#increment" }
         ) { "+" }
 
-        # Extras count - bottom right
+        # Extras count - blends with shadow
         span(
-          class: "absolute -bottom-1 -right-1 bg-gray-300 border border-gray-300 rounded text-[9px] font-bold text-gray-700 w-4 h-4 flex items-center justify-center #{copies > 0 ? "" : "hidden"}",
+          class: "absolute -bottom-1 -right-1 bg-black/30 rounded text-[9px] font-bold text-white w-4 h-4 flex items-center justify-center #{copies > 0 ? "" : "hidden"}",
           data: { album_card_target: "badge" }
         ) { copies }
       end
