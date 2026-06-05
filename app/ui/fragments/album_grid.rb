@@ -96,8 +96,8 @@ class UI::Fragments::AlbumGrid < UI::Base
         action: "click->album-card#glue"
       }
     ) do
-      # Top row: number right-aligned
-      div(class: "flex items-start justify-end text-sm leading-none gap-0.3") do
+      # Top row: country code left, number right
+      div(class: "flex items-start justify-between text-sm leading-none") do
         span(class: "font-extralight text-nowrap font-stretch-50% opacity-30") { sticker.country.code }
         span(class: "font-black tracking-tight tabular-nums") { sticker.number }
       end
