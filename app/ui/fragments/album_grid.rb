@@ -126,9 +126,9 @@ class UI::Fragments::AlbumGrid < UI::Base
           data: { action: "click->album-card#increment" }
         ) { "+" }
 
-        # Extras count - bottom right (carved)
+        # Extras count - bottom right
         span(
-          class: "absolute bottom-0.5 right-1 text-[10px] font-black text-black/25 [text-shadow:_0_1px_0_rgba(255,255,255,0.4),_0_-1px_0_rgba(0,0,0,0.2)] #{copies > 0 ? "" : "hidden"}",
+          class: "absolute -bottom-1 -right-1 bg-gray-300 border border-gray-300 rounded text-[9px] font-bold text-gray-700 w-4 h-4 flex items-center justify-center #{copies > 0 ? "" : "hidden"}",
           data: { album_card_target: "badge" }
         ) { copies }
       end
