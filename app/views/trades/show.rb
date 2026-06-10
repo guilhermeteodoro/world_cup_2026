@@ -280,16 +280,29 @@ class Views::Trades::Show < Views::LoggedIn
   end
 
   def render_agreement_info
-    div(class: "mt-4 rounded-md bg-muted/50 p-3 text-sm text-muted-foreground") do
-      if @trade.accepted_by?(@current_user) && @trade.accepted_by?(@other_user)
-        # Should not happen (would be agreed), but defensive
-        plain t(".agreement_info.both_accepted")
-      elsif @trade.accepted_by?(@current_user)
-        plain t(".agreement_info.you_accepted", name: @other_user.name)
-      elsif @trade.accepted_by?(@other_user)
-        plain t(".agreement_info.they_accepted", name: @other_user.name)
-      else
-        plain t(".agreement_info.explanation")
+    variant = if @trade.accepted_by?(@other_user) && !@trade.accepted_by?(@current_user)
+                :warning
+              else
+                :info
+              end
+
+    classes = if variant == :warning
+                "border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200"
+              else
+                "border-blue-200 bg-blue-50 text-blue-800 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-200"
+              end
+
+    div(class: "mt-4 rounded-md border px-3 py-2 text-sm #{classes}") do
+      p do
+        if @trade.accepted_by?(@current_user) && @trade.accepted_by?(@other_user)
+          plain t(".agreement_info.both_accepted")
+        elsif @trade.accepted_by?(@current_user)
+          plain t(".agreement_info.you_accepted", name: @other_user.name)
+        elsif @trade.accepted_by?(@other_user)
+          plain t(".agreement_info.they_accepted", name: @other_user.name)
+        else
+          plain t(".agreement_info.explanation")
+        end
       end
     end
   end
