@@ -3,7 +3,7 @@
 module RubyUI
   class Button < Base
     BASE_CLASSES = [
-      "whitespace-nowrap inline-flex items-center justify-center rounded-md font-medium transition-colors",
+      "whitespace-nowrap inline-flex items-center justify-center rounded-md font-medium transition-colors cursor-pointer",
       "disabled:pointer-events-none disabled:opacity-50",
       "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",
       "aria-disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:cursor-not-allowed"
