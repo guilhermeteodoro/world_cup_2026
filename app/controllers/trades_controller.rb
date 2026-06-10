@@ -100,6 +100,10 @@ class TradesController < ApplicationController
 
   # POST /trades/:id/cancel
   def cancel
+    if @trade.agreed?
+      redirect_to trade_path(@trade), alert: t("trades.cancel.already_agreed")
+      return
+    end
     @trade.discard!
     redirect_to user_path(@trade.other_user(current_user)), notice: t("trades.cancel.success")
   end

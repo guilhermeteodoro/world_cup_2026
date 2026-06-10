@@ -45,6 +45,7 @@ pt-BR:
       success: "Aceite retirado."
     cancel:
       success: "Troca cancelada."
+      already_agreed: "Não é possível cancelar uma troca já acordada."
     confirm_receipt:
       success: "Recebimento confirmado!"
       unauthorized: "Apenas o destinatário pode confirmar o recebimento."

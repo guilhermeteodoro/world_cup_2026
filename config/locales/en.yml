@@ -45,6 +45,7 @@ en:
       success: "Acceptance withdrawn."
     cancel:
       success: "Trade cancelled."
+      already_agreed: "Cannot cancel an agreed trade."
     confirm_receipt:
       success: "Receipt confirmed!"
       unauthorized: "Only the receiver can confirm receipt."
