@@ -11,23 +11,27 @@ export default class extends CollapsibleController {
   }
 
   connect() {
+    this.connected = false
     if (this.keyValue) {
-      const stored = sessionStorage.getItem(this.#storageKey)
+      const stored = sessionStorage.getItem(`ui-state:${this.keyValue}`)
       if (stored !== null) {
+        // Override the HTML attribute before parent reads it
+        this.element.setAttribute(
+          `data-persistent-collapsible-open-value`,
+          stored
+        )
+        // Stimulus re-reads the attribute for openValue
         this.openValue = stored === "true"
       }
     }
     super.connect()
+    this.connected = true
   }
 
   openValueChanged(isOpen, wasOpen) {
     super.openValueChanged(isOpen, wasOpen)
-    if (this.keyValue && wasOpen !== undefined) {
-      sessionStorage.setItem(this.#storageKey, isOpen)
+    if (this.connected && this.keyValue) {
+      sessionStorage.setItem(`ui-state:${this.keyValue}`, isOpen)
     }
-  }
-
-  get #storageKey() {
-    return `ui-state:${this.keyValue}`
   }
 }
