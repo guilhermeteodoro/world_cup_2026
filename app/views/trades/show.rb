@@ -254,17 +254,16 @@ class Views::Trades::Show < Views::LoggedIn
   end
 
   def render_agree_split_button
-    div(class: "inline-flex rounded-md shadow-sm", data: { controller: "split-button" }) do
+    div(class: "inline-flex items-stretch rounded-md shadow-sm", data: { controller: "split-button" }) do
       form(
         action: agree_trade_path(@trade),
         method: "post",
-        class: "flex",
         data: { split_button_target: "form" }
       ) do
         input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
         button(
           type: "submit",
-          class: "inline-flex items-center whitespace-nowrap px-4 py-2 text-sm font-medium text-white bg-primary rounded-l-md hover:bg-primary/90 cursor-pointer",
+          class: "whitespace-nowrap h-full px-4 py-2 text-sm font-medium text-white bg-primary rounded-l-md hover:bg-primary/90 cursor-pointer",
           data: { split_button_target: "label" }
         ) { t(".accept") }
       end
@@ -273,7 +272,7 @@ class Views::Trades::Show < Views::LoggedIn
         DropdownMenuTrigger do
           button(
             type: "button",
-            class: "inline-flex items-center self-stretch px-2 text-sm font-medium text-white bg-primary border-l border-primary-foreground/20 rounded-r-md hover:bg-primary/90 cursor-pointer"
+            class: "h-full px-2 py-2 text-sm font-medium text-white bg-primary border-l border-primary-foreground/20 rounded-r-md hover:bg-primary/90 cursor-pointer"
           ) { "▾" }
         end
 
