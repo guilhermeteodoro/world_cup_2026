@@ -119,11 +119,11 @@ class UI::Fragments::AlbumGrid < UI::Base
 
       # +/- actions (invisible but space-reserving when not glued)
       div(
-        class: "grid grid-cols-2 gap-1 #{glued ? "" : "invisible"}",
+        class: "grid grid-cols-2 gap-1 mt-auto #{glued ? "" : "invisible"}",
         data: { album_card_target: "actions" }
       ) do
         btn_color = light_color?(color) ? "bg-black/20 text-gray-900" : "bg-white/30 text-white"
-        button_class = "w-7 h-7 rounded-lg #{btn_color} text-sm font-bold active:scale-95 cursor-pointer touch-manipulation"
+        button_class = "h-6 rounded-lg #{btn_color} text-xs font-bold active:scale-95 cursor-pointer"
 
         button(
           type: "button",
@@ -135,13 +135,13 @@ class UI::Fragments::AlbumGrid < UI::Base
           class: button_class,
           data: { action: "click->album-card#increment" }
         ) { "+" }
-
-        # Extras count - blends with shadow
-        span(
-          class: "absolute -bottom-1 -right-1 bg-[#374151] rounded text-[9px] font-bold text-white w-4 h-4 flex items-center justify-center #{copies > 0 ? "" : "hidden"}",
-          data: { album_card_target: "badge" }
-        ) { copies }
       end
+
+      # Extras count - blends with shadow
+      span(
+        class: "absolute -bottom-1 -right-1 bg-[#374151] rounded text-[9px] font-bold text-white w-4 h-4 flex items-center justify-center #{copies > 0 ? "" : "hidden"}",
+        data: { album_card_target: "badge" }
+      ) { copies }
     end
   end
 
