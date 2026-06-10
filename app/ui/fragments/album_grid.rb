@@ -44,12 +44,9 @@ class UI::Fragments::AlbumGrid < UI::Base
     dups = stickers.sum { |s| @user_stickers_index.dig(s.id, :copies) || 0 }
     to_glue = stickers.count { |s| @user_stickers_index.dig(s.id, :to_be_glued) }
 
-    render UI::Components::Collapsible.new(open: false) do
-      div(
-        class: "flex items-center gap-2 py-3 px-3 cursor-pointer bg-gray-200 text-gray-800 rounded-lg",
-        data: { action: "click->collapsible#toggle", collapsible_target: "trigger" }
-      ) do
-        span(class: "transition-transform duration-200 text-sm", data: { collapsible_target: "icon" }) { "▼" }
+    render UI::Components::Collapsible.new(open: false) do |c|
+      c.trigger(class: "flex items-center gap-2 py-3 px-3 cursor-pointer bg-gray-200 text-gray-800 rounded-lg") do
+        c.icon(class: "text-sm") { "▼" }
         span(class: "font-semibold text-sm") { "#{country.emoji} #{country.code}" }
         span(class: "italic font-extralight font-stretch-50% text-sm text-gray-500") { country.name }
         span(class: "text-xs text-gray-500") { "#{owned}/#{total}" }
@@ -57,7 +54,7 @@ class UI::Fragments::AlbumGrid < UI::Base
         span(class: "text-xs text-amber-600") { "(#{to_glue} new)" } if to_glue > 0
       end
 
-      div(class: "hidden", data: { collapsible_target: "content" }) do
+      c.content do
         div(class: "grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-1.5 p-2 bg-gray-200 rounded-b-lg") do
           stickers.each do |sticker|
             render_card(sticker, country)

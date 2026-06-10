@@ -88,14 +88,12 @@ class Views::Trades::Show < Views::LoggedIn
       unless @trade.agreed?
         render UI::Components::Collapsible.new(open: true,
           persist_key: "trade_#{@trade.id}_pool_#{giver.id}",
-          class: "rounded-md border border-dashed") do
-          div(class: "flex items-center justify-between p-3 cursor-pointer hover:bg-muted/50 transition-colors",
-            data: { action: "click->collapsible#toggle" }) do
+          class: "rounded-md border border-dashed") do |c|
+          c.trigger(class: "flex items-center justify-between p-3 cursor-pointer hover:bg-muted/50 transition-colors") do
             p(class: "text-xs font-semibold text-muted-foreground") { t(".available", count: pool_stickers.size) }
-            span(class: "text-xs text-muted-foreground transition-transform", style: "display:inline-block",
-              data: { collapsible_target: "icon" }) { "▾" }
+            c.icon(class: "text-xs text-muted-foreground") { "▾" }
           end
-          div(data: { collapsible_target: "content" }, class: "p-3 pt-0") do
+          c.content(class: "p-3 pt-0") do
             if pool_stickers.any?
               render_grouped_pool_stickers(pool_stickers, giver: giver)
             else

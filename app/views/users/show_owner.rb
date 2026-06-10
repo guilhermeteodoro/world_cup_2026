@@ -176,13 +176,11 @@ class Views::Users::ShowOwner < Views::LoggedIn
 
       participations.each do |participation|
         div(class: "mb-4") do
-          render UI::Components::Collapsible.new(open: true) do
-            div(class: "flex items-center justify-between mb-2") do
+          render UI::Components::Collapsible.new(open: true) do |c|
+            c.trigger(class: "flex items-center justify-between mb-2") do
               div(class: "flex items-center gap-2") do
-                div(class: "cursor-pointer", data: { action: "click->collapsible#toggle" }) do
-                  Button(variant: :ghost, icon: true) do
-                    span(class: "transition-transform duration-200", data: { collapsible_target: "icon" }) { "⬇️" }
-                  end
+                Button(variant: :ghost, icon: true) do
+                  c.icon { "⬇️" }
                 end
 
                 Heading(level: 4) do
@@ -199,7 +197,7 @@ class Views::Users::ShowOwner < Views::LoggedIn
               end
             end
 
-            div(data: { collapsible_target: "content" }) do
+            c.content do
               Card(class: "pt-6 bg-card") do
                 CardContent do
                   div(class: "grid grid-cols-2 gap-4 text-sm") do
