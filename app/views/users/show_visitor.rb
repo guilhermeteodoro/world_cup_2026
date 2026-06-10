@@ -50,12 +50,12 @@ class Views::Users::ShowVisitor < Views::LoggedIn
     duplicates = @user.duplicate_stickers
 
     div do
-      Collapsible(open: true) do
+      render UI::Components::Collapsible.new(open: true) do
         div(class: "flex items-center justify-between mb-2") do
           div(class: "flex items-center gap-2") do
-            CollapsibleTrigger do
+            div(class: "cursor-pointer", data: { action: "click->collapsible#toggle" }) do
               Button(variant: :ghost, icon: true) do
-                span(class: "transition-transform duration-200", data: { ruby_ui__collapsible_target: "icon" }) { "⬇️" }
+                span(class: "transition-transform duration-200", data: { collapsible_target: "icon" }) { "⬇️" }
               end
             end
 
@@ -64,7 +64,7 @@ class Views::Users::ShowVisitor < Views::LoggedIn
           end
         end
 
-        CollapsibleContent do
+        div(data: { collapsible_target: "content" }) do
           Card(class: "pt-6 bg-card") do
             CardContent do
               if duplicates.any?

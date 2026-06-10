@@ -176,12 +176,12 @@ class Views::Users::ShowOwner < Views::LoggedIn
 
       participations.each do |participation|
         div(class: "mb-4") do
-          Collapsible(open: true) do
+          render UI::Components::Collapsible.new(open: true) do
             div(class: "flex items-center justify-between mb-2") do
               div(class: "flex items-center gap-2") do
-                CollapsibleTrigger do
+                div(class: "cursor-pointer", data: { action: "click->collapsible#toggle" }) do
                   Button(variant: :ghost, icon: true) do
-                    span(class: "transition-transform duration-200", data: { ruby_ui__collapsible_target: "icon" }) { "⬇️" }
+                    span(class: "transition-transform duration-200", data: { collapsible_target: "icon" }) { "⬇️" }
                   end
                 end
 
@@ -199,7 +199,7 @@ class Views::Users::ShowOwner < Views::LoggedIn
               end
             end
 
-            CollapsibleContent do
+            div(data: { collapsible_target: "content" }) do
               Card(class: "pt-6 bg-card") do
                 CardContent do
                   div(class: "grid grid-cols-2 gap-4 text-sm") do
