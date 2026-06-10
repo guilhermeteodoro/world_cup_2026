@@ -11,6 +11,20 @@ class UserStickersController < ApplicationController
     render json: { id: user_sticker.id, state: user_sticker.state, copies: duplicates_count(sticker) }, status: :created
   end
 
+  # Glue all to_be_glued stickers
+  def glue_all
+    @user.user_stickers.to_be_glued.find_each do |us|
+      if @user.user_stickers.glued.exists?(sticker_id: us.sticker_id)
+        # Already have it glued — becomes a duplicate
+        us.update!(state: :duplicate)
+      else
+        us.update!(state: :glued)
+      end
+    end
+
+    redirect_back fallback_location: user_path(@user), notice: I18n.t("user_stickers.glue_all.success")
+  end
+
   # Add or remove duplicate copies
   def update
     user_sticker = @user.user_stickers.find(params[:id])

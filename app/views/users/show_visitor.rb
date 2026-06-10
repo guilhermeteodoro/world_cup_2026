@@ -130,10 +130,19 @@ class Views::Users::ShowVisitor < Views::LoggedIn
     has_any = [ :shiny, :coke, :normal ].any? { balanced.send(it).a_gives.any? }
     return unless has_any
 
-    div(class: "mt-4 flex justify-end") do
+    div(class: "mt-4 flex flex-wrap gap-3") do
+      # Link to existing pending trade if any
+      existing_trade = Trade.involving(@current_user).involving(@user).pending.first if @current_user
+      if existing_trade
+        a(href: trade_path(existing_trade), class: "inline-flex") do
+          Button(variant: :outline) { t(".view_existing_trade") }
+        end
+      end
+
+      # New trade button
       form(action: user_trades_path(@user), method: "post") do
         input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
-        Button(type: :submit, variant: :primary) { t(".consolidate") }
+        Button(type: :submit, variant: :primary) { t(".new_trade") }
       end
     end
   end
