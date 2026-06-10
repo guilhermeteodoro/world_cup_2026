@@ -108,6 +108,22 @@ If you notice a multi-step workflow being repeated across sessions (complex enou
 - [docs/adr/](docs/adr/) — architecture decision records
 - [.agents/skills/](.agents/skills/) — reusable workflow skills
 
+## DOX (Adapted)
+
+This project uses an adapted version of [DOX](https://github.com/agent0ai/dox) where child documentation files live under `.agents/dox/` in a mirror-tree structure instead of co-located `AGENTS.md` files in source folders. See [ADR-0007](docs/adr/0007-adapted-dox-mirror-tree.md).
+
+- **Read before editing**: walk from root to target path, reading each DOX file along the route
+- **Update after editing**: run a closeout pass — update nearest owning DOX file if purpose/scope/contracts changed
+- **Convention**: folder contracts → `.agents/dox/{path}/_index.md`, file contracts (rare) → `.agents/dox/{path}/{name}.md`
+- Load the `dox` skill for the full workflow
+
+## Child DOX Index
+
+- [.agents/dox/app/_index.md](.agents/dox/app/_index.md) — application source code
+- [.agents/dox/test/_index.md](.agents/dox/test/_index.md) — test suite
+- [.agents/dox/config/_index.md](.agents/dox/config/_index.md) — Rails configuration
+- [.agents/dox/db/_index.md](.agents/dox/db/_index.md) — database schema, migrations, seeds
+
 ## Contributing to AGENTS.md
 
 - Let rules emerge from practice — add guidelines after encountering real problems, not preemptively
