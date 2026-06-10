@@ -270,7 +270,7 @@ class Views::Trades::Show < Views::LoggedIn
       end
 
       # Dropdown to switch mode
-      DropdownMenu do
+      DropdownMenu(options: { placement: "bottom-end" }) do
         DropdownMenuTrigger do
           button(
             type: "button",
@@ -282,12 +282,12 @@ class Views::Trades::Show < Views::LoggedIn
           button(
             type: "button",
             class: "relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
-            data: { action: "agree-mode#switchToAuto" }
+            data: { action: "agree-mode#switchToAuto", agree_mode_target: "autoOption" }
           ) { t(".auto_agree") }
           button(
             type: "button",
-            class: "relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground",
-            data: { action: "agree-mode#switchToDefault" }
+            class: "relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground hidden",
+            data: { action: "agree-mode#switchToDefault", agree_mode_target: "defaultOption" }
           ) { t(".accept") }
         end
       end
