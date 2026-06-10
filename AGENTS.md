@@ -110,12 +110,82 @@ If you notice a multi-step workflow being repeated across sessions (complex enou
 
 ## DOX (Adapted)
 
-This project uses an adapted version of [DOX](https://github.com/agent0ai/dox) where child documentation files live under `.agents/dox/` in a mirror-tree structure instead of co-located `AGENTS.md` files in source folders. See [ADR-0007](docs/adr/0007-adapted-dox-mirror-tree.md).
+This project uses [DOX](https://github.com/agent0ai/dox) — a hierarchical documentation framework for AI agents. DOX files are binding work contracts for their subtrees. See [ADR-0007](docs/adr/0007-adapted-dox-mirror-tree.md) for the adaptation rationale.
 
-- **Read before editing**: walk from root to target path, reading each DOX file along the route
-- **Update after editing**: run a closeout pass — update nearest owning DOX file if purpose/scope/contracts changed
-- **Convention**: folder contracts → `.agents/dox/{path}/_index.md`, file contracts (rare) → `.agents/dox/{path}/{name}.md`
-- Load the `dox` skill for the full workflow
+**Adaptation:** child DOX files live under `.agents/dox/` in a mirror-tree structure instead of co-located `AGENTS.md` files in source folders. The root `AGENTS.md` stays here (DOX rail).
+
+### Path Convention
+
+- Folder contracts → `.agents/dox/{path}/_index.md`
+- File contracts (rare) → `.agents/dox/{path}/{filename_without_ext}.md`
+
+Examples:
+- `app/services/` → `.agents/dox/app/services/_index.md`
+- `app/services/trade_comparer.rb` → `.agents/dox/app/services/trade_comparer.md`
+
+### Read Before Editing
+
+1. Identify every file or folder you expect to touch
+2. Walk from the repository root to each target path
+3. Read this root `AGENTS.md`
+4. For each path segment, check if `.agents/dox/{accumulated_path}/_index.md` exists — read it if so
+5. Use the nearest DOX file as the local contract; parent docs for repo-wide rules
+6. If docs conflict, the closer doc controls local work details
+
+Do not rely on memory. Re-read the applicable DOX chain in the current session before editing.
+
+### Update After Editing
+
+Every meaningful change requires a DOX pass before the task is done.
+
+Update the closest owning DOX file when a change affects:
+- purpose, scope, ownership, or responsibilities
+- durable structure, contracts, workflows, or operating rules
+- required inputs, outputs, permissions, constraints, side effects, or artifacts
+
+Update parent docs when parent-level structure, ownership, or child index changes. Update child docs when parent changes alter local rules. Remove stale or contradictory text immediately.
+
+Small edits that do not change behavior or contracts may leave docs unchanged, but the DOX pass still must happen.
+
+### Hierarchy
+
+- This root AGENTS.md is the DOX rail: project-wide instructions, global preferences, and the top-level Child DOX Index
+- Child DOX files own domain-specific instructions and their own Child DOX Index
+- Each parent explains what its direct children cover
+- The closer a doc is to the work, the more specific and practical it must be
+
+### Creating Child Docs
+
+Create `.agents/dox/{path}/_index.md` when a folder becomes a durable boundary with its own purpose, rules, responsibilities, workflow, or quality standards.
+
+Default section order:
+- Purpose
+- Ownership
+- Local Contracts
+- Work Guidance
+- Verification
+- Child DOX Index
+
+Omit empty sections. File-level docs are rare — only when a file outgrows its folder's `_index.md`.
+
+### Closeout
+
+1. Re-check changed paths against the DOX chain
+2. Update nearest owning docs and any affected parents or children
+3. Refresh every affected Child DOX Index
+4. Remove stale or contradictory text
+5. Run existing verification when relevant
+
+### Style
+
+- Concise, current, operational
+- Document stable contracts, not diary entries
+- Broad rules in parent docs, concrete details in child docs
+- Direct bullets with explicit names
+- No duplication across files unless each scope needs a local version
+- Delete stale notes immediately
+
+Load the `dox` skill for operational helpers (commands, templates, orphan checks).
 
 ## Child DOX Index
 
