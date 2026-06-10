@@ -2,6 +2,10 @@
 
 Instructions for AI coding agents working on this codebase.
 
+## Baseline
+
+Rails 8 application. Assume standard Rails conventions unless explicitly overridden in this file, a DOX file, or an ADR.
+
 ## Checks
 
 Run before pushing or updating a PR:
@@ -114,6 +118,10 @@ This project uses [DOX](https://github.com/agent0ai/dox) — a hierarchical docu
 
 **Adaptation:** child DOX files live under `.agents/dox/` in a mirror-tree structure instead of co-located `AGENTS.md` files in source folders. The root `AGENTS.md` stays here (DOX rail).
 
+### Core Contract
+
+Work products, source materials, instructions, records, assets, and durable docs must stay understandable from the nearest applicable DOX file (`.agents/dox/{path}/_index.md`) plus every parent DOX file above it up to this root.
+
 ### Path Convention
 
 - Folder contracts → `.agents/dox/{path}/_index.md`
@@ -129,9 +137,8 @@ Examples:
 2. Identify every file or folder you expect to touch
 3. Walk from the repository root to each target path
 4. For each path segment, check if `.agents/dox/{accumulated_path}/_index.md` exists — read it if so
-5. If a parent DOX file lists a child DOX file whose scope contains the path, read that child and continue from there
-6. Use the nearest DOX file as the local contract; parent docs for repo-wide rules
-7. If docs conflict, the closer doc controls local work details, but no child doc may weaken DOX
+5. Use the nearest DOX file as the local contract; parent docs for repo-wide rules
+6. If docs conflict, the closer doc controls local work details, but no child doc may weaken DOX
 
 Do not rely on memory. Re-read the applicable DOX chain in the current session before editing.
 
@@ -152,9 +159,9 @@ Small edits that do not change behavior or contracts may leave docs unchanged, b
 
 ### Hierarchy
 
-- This root AGENTS.md is the DOX rail: project-wide instructions, global preferences, and the top-level Child DOX Index
+- This root AGENTS.md is the DOX rail: project-wide instructions, global preferences, durable workflow rules, and the top-level Child DOX Index
 - Child DOX files own domain-specific instructions and their own Child DOX Index
-- Each parent explains what its direct children cover
+- Each parent explains what its direct children cover and what stays owned by the parent
 - The closer a doc is to the work, the more specific and practical it must be
 
 ### Creating Child Docs
@@ -180,11 +187,12 @@ Omit empty sections. File-level docs are rare — only when a file outgrows its 
 3. Refresh every affected Child DOX Index
 4. Remove stale or contradictory text
 5. Run existing verification when relevant
-6. Report any docs intentionally left unchanged and why
 
 ### Style
 
 - Concise, current, operational
+- Document stable interfaces, non-obvious technical decisions, and information that saves tokens in future agentic interactions
+- Do not describe what the source code makes obvious — document what an agent would otherwise waste tokens discovering
 - Document stable contracts, not diary entries
 - Broad rules in parent docs, concrete details in child docs
 - Direct bullets with explicit names
@@ -193,7 +201,7 @@ Omit empty sections. File-level docs are rare — only when a file outgrows its 
 
 ### User Preferences
 
-When the user requests a durable behavior change, record it in this section or in the relevant child DOX file.
+When the user requests a durable behavior change (e.g., "always do X", "never do Y", "I prefer Z"), persist it immediately in this section or in the relevant child DOX file. Do not wait for the end of the task.
 
 Load the `dox` skill for operational helpers (commands, templates, orphan checks).
 

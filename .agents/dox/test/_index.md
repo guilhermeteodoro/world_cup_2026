@@ -1,26 +1,18 @@
 # Purpose
 
-Test suite. Minitest with Rails test helpers.
-
-# Ownership
-
-- `integration/` — broad smoke tests: routes, redirects, status codes
-- `services/` — service object unit tests (parsers, comparer, importer, exporter)
-- `views/` — Phlex component/fragment rendering tests via ComponentTestHelper
+Test suite (Minitest).
 
 # Local Contracts
 
-- Integration tests: happy-path only, no HTML content assertions
-- View tests: render Phlex components directly, assert HTML with Nokogiri
-- Service tests: edge cases, error handling, business logic in isolation
-- Sticker catalog (994 stickers, 49 countries) is seeded once at suite startup — shared via transactional rollback
+- `integration/` — happy-path smoke tests: routes, redirects, status codes. No HTML content assertions.
+- `services/` — business logic, parser edge cases, error handling.
+- `views/` — Phlex rendering via `ComponentTestHelper`, assert HTML with Nokogiri.
+- Sticker catalog seeded once at suite startup, shared via transactional rollback. Don't re-seed.
 
 # Work Guidance
 
-- Minimal data: create only records needed for the assertion
-- Use small inline dumps (`"SA26|1|1-5|1:1"`) instead of `sample_dump`
-- Don't re-seed or depend on seed order
-- Run full suite: `bin/rails test`
+- Minimal data: only records needed for assertion. Use inline dumps (`"SA26|1|1-5|1:1"`).
+- Content assertions belong in view tests, not integration tests.
 
 # Verification
 
