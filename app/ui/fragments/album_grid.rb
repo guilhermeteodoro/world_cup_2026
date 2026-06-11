@@ -44,7 +44,7 @@ class UI::Fragments::AlbumGrid < UI::Base
     dups = stickers.sum { |s| @user_stickers_index.dig(s.id, :copies) || 0 }
     to_glue = stickers.count { |s| @user_stickers_index.dig(s.id, :to_be_glued) }
 
-    render UI::Components::Collapsible.new(open: false) do |c|
+    render UI::Components::Collapsible.new(open: false, persist_key: "album_#{@user.id}_#{country.code}") do |c|
       c.trigger(class: "flex items-center gap-2 py-3 px-3 cursor-pointer bg-gray-200 text-gray-800 rounded-lg") do
         c.icon(class: "text-sm") { "▼" }
         span(class: "font-semibold text-sm") { "#{country.emoji} #{country.code}" }

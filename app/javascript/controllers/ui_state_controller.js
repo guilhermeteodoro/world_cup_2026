@@ -44,11 +44,25 @@ export default class extends Controller {
   }
 
   toggle() {
-    this.openValue = !this.openValue
+    this.openValue ? this.close() : this.open()
+  }
+
+  open() {
+    this.openValue = true
+    this.#persist()
+    this.#apply()
+  }
+
+  close() {
+    this.openValue = false
+    this.#persist()
+    this.#apply()
+  }
+
+  #persist() {
     if (this.keyValue) {
       sessionStorage.setItem(`${PREFIX}${this.keyValue}:open`, this.openValue)
     }
-    this.#apply()
   }
 
   #apply() {

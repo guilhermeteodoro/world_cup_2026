@@ -8,9 +8,9 @@ export default class extends Controller {
   toggleAll() {
     this.#expanded = !this.#expanded
 
-    const collapsibles = this.element.querySelectorAll('[data-controller="ruby-ui--collapsible"]')
+    const collapsibles = this.element.querySelectorAll('[data-controller="ui-state"]')
     collapsibles.forEach(el => {
-      const controller = this.application.getControllerForElementAndIdentifier(el, "ruby-ui--collapsible")
+      const controller = this.application.getControllerForElementAndIdentifier(el, "ui-state")
       if (controller) {
         this.#expanded ? controller.open() : controller.close()
       }
