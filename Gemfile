@@ -75,3 +75,5 @@ gem "dotenv"
 gem "tailwind_merge", "~> 1.5"
 
 gem "jsbundling-rails", "~> 1.3"
+
+gem "discard", "~> 2.0"

@@ -33,12 +33,39 @@ pt-BR:
         unglue_confirmation: "Remover esta figurinha da sua coleção?"
         cancel: "Cancelar"
         unglue: "Remover"
+        new_count:
+          one: "(%{count} nova)"
+          other: "(%{count} novas)"
 
   trades:
     create:
       success: "Troca consolidada!"
+    accept:
+      success: "Troca aceita!"
+    auto_agree:
+      success: "Aceite automático ativado! Não será resetado."
+    withdraw:
+      success: "Aceite retirado."
+    cancel:
+      success: "Troca cancelada."
+      already_agreed: "Não é possível cancelar uma troca já acordada."
+    confirm_receipt:
+      success: "Recebimento confirmado!"
+      unauthorized: "Apenas o destinatário pode confirmar o recebimento."
+    confirm_all_receipts:
+      success: "Todos os recebimentos confirmados!"
+    unauthorized: "Você não tem acesso a essa troca."
     export:
       unauthorized: "Você não tem acesso a essa troca."
+
+  receipts:
+    unauthorized: "Apenas o destinatário pode confirmar o recebimento."
+    already_ended: "Você já encerrou a fase de confirmação."
+    ended: "Confirmação encerrada! Figurinhas confirmadas estão no seu álbum."
+
+  user_stickers:
+    glue_all:
+      success: "Todas as figurinhas coladas no álbum!"
 
   views:
     trades:
@@ -50,6 +77,58 @@ pt-BR:
         missing_label: "Suas faltantes atualizadas"
         duplicates_label: "Suas repetidas atualizadas"
         copy: "📋 Copiar"
+      show:
+        title: "Troca com %{name}"
+        title_with_id: "Troca #%{id} com "
+        you_give: "Você dá"
+        they_give: "%{name} dá"
+        your_available: "Suas figurinhas disponíveis"
+        their_available: "Figurinhas disponíveis de %{name}"
+        empty_zone: "Nenhuma figurinha ainda"
+        empty_pool: "Nenhuma figurinha disponível"
+        in_trade: "Na troca (%{count})"
+        available: "Disponíveis (%{count})"
+        help_text: "Clique nas figurinhas abaixo para editar a troca"
+        accept: "Aceitar troca"
+        accepted: "Aceito ✓"
+        auto_agree: "Aceitar automaticamente"
+        auto_agreed: "Aceite automático ✓"
+        reject: "Rejeitar troca"
+        reject_confirm:
+          title: "Rejeitar esta troca?"
+          description: "Isso vai cancelar permanentemente a troca com %{name}. Todas as figurinhas serão devolvidas."
+          confirm: "Sim, rejeitar troca"
+        receipt_title: "Confirmar recebimento"
+        receipt_help: "Você recebeu suas figurinhas? Confirme cada uma abaixo — as figurinhas confirmadas serão adicionadas ao seu álbum como 'para colar' ao encerrar a confirmação."
+        confirm_all_and_end: "Confirmar tudo & encerrar"
+        end_confirmation: "Encerrar confirmação"
+        end_confirm_all:
+          message: "Você está confirmando o recebimento de todas as %{count} figurinhas. Elas aparecerão no seu álbum como 'para colar'. Isso não pode ser desfeito."
+        end_confirm_partial:
+          message: "Você está confirmando o recebimento de %{confirmed} de %{total} figurinhas. As %{unconfirmed} figurinhas não confirmadas não serão adicionadas ao seu álbum. Isso não pode ser desfeito."
+        receipt_ended: "Confirmação encerrada"
+        confirm_all: "Confirmar todos recebidos"
+        status:
+          agreed: "Combinado ✓"
+          confirmed: "Confirmado ✓"
+          negotiating: "Negociando"
+          waiting_for_other: "Aguardando %{name}"
+          other_accepted: "%{name} aceitou"
+        agreement_info:
+          explanation: "Ambos precisam aceitar para confirmar a troca. Se alguém editar as figurinhas, os aceites resetam. Use 'Aceitar automaticamente' para travar seu aceite nas edições."
+          you_accepted: "Você aceitou esta troca. Aguardando %{name} aceitar. Se alguém editar a troca, seu aceite reseta (a menos que tenha usado aceite automático)."
+          they_accepted: "%{name} já aceitou esta troca. Revise as figurinhas e aceite para confirmar o negócio."
+          both_accepted: "Ambos os lados aceitaram. A troca está confirmada!"
+      index:
+        title: "Minhas Trocas"
+        empty: "Nenhuma troca pendente."
+        stickers_count:
+          one: "%{count} figurinha"
+          other: "%{count} figurinhas"
+        agreed: "Combinado"
+        waiting: "Aguardando"
+        their_turn: "Vez deles"
+        negotiating: "Negociando"
     pages:
       home:
         title: "StickerTrader"
@@ -94,6 +173,14 @@ pt-BR:
         export_title: "Exportar troca com %{name}"
         export_description: "Copie sua coleção atualizada para colar no seu app de figurinhas."
         loading: "Carregando..."
+        pending_trades: "Trocas pendentes"
+        status_agreed: "Combinado"
+        status_waiting: "Aguardando"
+        status_negotiating: "Negociando"
+        to_be_glued_count:
+          one: "Você tem %{count} figurinha para colar"
+          other: "Você tem %{count} figurinhas para colar"
+        glue_all: "Colar todas"
       show_visitor:
         title: "Coleção de %{name}"
         owned: "%{count}/994 coladas"
@@ -112,6 +199,9 @@ pt-BR:
         leftovers_title: "🤝 Sobras"
         still_has: "%{name} ainda pode oferecer (%{count}):"
         consolidate: "Consolidar troca"
+        new_trade: "Nova troca"
+        auto_agree: "Trocar agora (acordo automático)"
+        view_existing_trade: "Ver troca existente"
       edit:
         title: "Configurações da conta"
         breadcrumb: "Minha coleção"
@@ -139,6 +229,21 @@ pt-BR:
         only_in_b: "Só na Lista B"
         empty: "(nada)"
         parse_warning: "Não encontrado"
+    anonymous_trades:
+      new:
+        title: "Registrar troca avulsa"
+        description: "Registre uma troca com alguém que não usa o StickerTrader."
+        given_label: "Figurinhas que você deu"
+        given_placeholder: "IDs das figurinhas que você deu"
+        given_help: "Um ID por linha, ou separados por vírgula"
+        received_label: "Figurinhas que você recebeu"
+        received_placeholder: "IDs das figurinhas que você recebeu"
+        received_help: "Um ID por linha, ou separados por vírgula"
+        submit: "Registrar troca"
+
+  anonymous_trades:
+    create:
+      success: "Troca avulsa registrada!"
 
   # Controller flash messages
   sessions:

@@ -8,7 +8,7 @@ Phlex-based presentation layer. Replaces `app/views/` for component rendering (A
 - `fragments/` — domain-aware composable pieces
 - `layouts/` — page wrappers (application layout)
 
-This doc owns `layouts/`. Components and fragments have their own DOX.
+This doc owns `layouts/`. Components and fragments have their own AGENTS.md.
 
 # Local Contracts
 
@@ -24,5 +24,5 @@ This doc owns `layouts/`. Components and fragments have their own DOX.
 
 # Child DOX Index
 
-- [components/_index.md](components/_index.md) — reusable UI atoms
-- [fragments/_index.md](fragments/_index.md) — domain-specific composable pieces
+- [components/AGENTS.md](components/AGENTS.md) — reusable UI atoms
+- [fragments/AGENTS.md](fragments/AGENTS.md) — domain-specific composable pieces

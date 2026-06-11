@@ -1,39 +1,28 @@
-# 7. Adapted DOX with mirror tree under .agents/dox/
+# 7. DOX convention: co-located AGENTS.md files
 
 Date: 2026-06-10
 
 ## Status
 
-Accepted
+Accepted (supersedes original mirror-tree adaptation)
 
 ## Context
 
-We want hierarchical, folder-scoped documentation contracts for AI agents (the DOX model from agent0ai/dox). DOX's upstream convention places `AGENTS.md` files inside every source folder they govern.
+The original adaptation (`.agents/dox/` mirror tree) made DOX files invisible to agents. The hidden directory didn't appear in workspace trees or directory listings, so agents consistently skipped the "read DOX before editing" rule — they never encountered the files during normal navigation.
 
-Rails projects separate files by type. Scattering `AGENTS.md` files throughout `app/models/`, `app/services/`, etc. adds visual noise for developers and conflicts with the "docs live in docs/" convention this project already uses (`docs/adr/`, `CONTEXT.md`, `.agents/skills/`).
-
-AI agents don't need co-location — they need **predictability**. A deterministic path transform plus a skill that teaches the convention provides the same lookup speed without polluting the source tree.
+The upstream DOX convention (co-located `AGENTS.md` in each governed folder) solves this: agents see the file every time they `read` a directory before editing files in it.
 
 ## Decision
 
-Adopt DOX's content model (hierarchical contracts, depth = specificity, update-after-editing discipline) with a single adaptation: child DOX files live under `.agents/dox/` in a nested structure that mirrors the source tree.
+DOX files are co-located `AGENTS.md` files inside the source folders they govern:
+- `app/controllers/AGENTS.md` governs `app/controllers/`
+- `app/ui/fragments/AGENTS.md` governs `app/ui/fragments/`
 
-Path convention:
-
-| Source path | DOX file |
-|-------------|----------|
-| `app/services/` (folder contract) | `.agents/dox/app/services/_index.md` |
-| `app/services/trade_comparer.rb` (rare, file-level) | `.agents/dox/app/services/trade_comparer.md` |
-
-Rules:
-- Root `AGENTS.md` stays at the repo root (DOX rail, auto-discovered by tools)
-- Folder-level contracts use `_index.md` (sorts first, signals "meta")
-- File-level contracts are rare — only when a file is a durable boundary with its own purpose/rules
-- DOX hierarchy, child doc shape, style rules, and closeout pass apply unchanged
-- A project skill (`dox`) teaches agents the path transform and enforces the discipline
+The root `AGENTS.md` remains the DOX rail.
 
 ## Consequences
 
-- **Easier**: Source tree stays clean; developers see only code in code folders. DOX files are browsable as a coherent tree under `.agents/dox/`.
-- **Harder**: Mirror tree can drift from source on renames/deletes — the closeout pass must check for stale DOX files. No filesystem nudge (co-located file) reminds agents to update docs.
-- **Mitigated by**: The `dox` skill enforces the lookup and closeout pass. `_index.md` convention makes the transform trivial and reversible.
+- **Discoverable**: agents see `AGENTS.md` in every directory listing — impossible to miss.
+- **One extra file per governed folder**: minimal visual noise (one markdown file alongside source).
+- **No path transform needed**: the file is where it governs, no mirror-tree mapping.
+- **Renames track automatically**: moving a folder moves its AGENTS.md with it.

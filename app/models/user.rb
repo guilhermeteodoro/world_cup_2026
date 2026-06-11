@@ -29,7 +29,7 @@ class User < ApplicationRecord
   before_validation :generate_slug, on: :create
 
   def owned_count
-    user_stickers.count
+    user_stickers.glued.count
   end
 
   def missing_count
@@ -37,15 +37,23 @@ class User < ApplicationRecord
   end
 
   def duplicates_count
-    user_stickers.where("copies > 0").count
+    user_stickers.duplicates.count
   end
 
   def duplicate_stickers
-    stickers.includes(:country).merge(UserSticker.where("copies > 0")).order(:position)
+    stickers.includes(:country).merge(UserSticker.duplicates).order(:position)
   end
 
   def missing_stickers
-    Sticker.includes(:country).where.not(id: user_stickers.select(:sticker_id)).order(:position)
+    Sticker.includes(:country).where.not(id: user_stickers.glued.select(:sticker_id)).order(:position)
+  end
+
+  def pending_trades
+    Trade.involving(self).pending
+  end
+
+  def pending_trades_count
+    pending_trades.count
   end
 
   def trade_history

@@ -50,13 +50,11 @@ class Views::Users::ShowVisitor < Views::LoggedIn
     duplicates = @user.duplicate_stickers
 
     div do
-      Collapsible(open: true) do
-        div(class: "flex items-center justify-between mb-2") do
+      render UI::Components::Collapsible.new(open: true) do |c|
+        c.trigger(class: "flex items-center justify-between mb-2") do
           div(class: "flex items-center gap-2") do
-            CollapsibleTrigger do
-              Button(variant: :ghost, icon: true) do
-                span(class: "transition-transform duration-200", data: { ruby_ui__collapsible_target: "icon" }) { "⬇️" }
-              end
+            Button(variant: :ghost, icon: true) do
+              c.icon { "⬇️" }
             end
 
             Heading(level: 3) { t(".available_for_trade") }
@@ -64,7 +62,7 @@ class Views::Users::ShowVisitor < Views::LoggedIn
           end
         end
 
-        CollapsibleContent do
+        c.content do
           Card(class: "pt-6 bg-card") do
             CardContent do
               if duplicates.any?
@@ -130,10 +128,26 @@ class Views::Users::ShowVisitor < Views::LoggedIn
     has_any = [ :shiny, :coke, :normal ].any? { balanced.send(it).a_gives.any? }
     return unless has_any
 
-    div(class: "mt-4 flex justify-end") do
+    div(class: "mt-4 flex flex-wrap gap-3") do
+      # Link to existing pending trade if any
+      existing_trade = Trade.between(@current_user, @user).pending.first if @current_user
+      if existing_trade
+        a(href: trade_path(existing_trade), class: "inline-flex") do
+          Button(variant: :outline) { t(".view_existing_trade") }
+        end
+      end
+
+      # New trade button
       form(action: user_trades_path(@user), method: "post") do
         input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
-        Button(type: :submit, variant: :primary) { t(".consolidate") }
+        Button(type: :submit, variant: :primary) { t(".new_trade") }
+      end
+
+      # Auto-agree button (for in-person trading)
+      form(action: user_trades_path(@user), method: "post") do
+        input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+        input(type: "hidden", name: "auto_agree", value: "true")
+        Button(type: :submit, variant: :outline) { t(".auto_agree") }
       end
     end
   end

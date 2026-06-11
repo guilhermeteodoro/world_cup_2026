@@ -33,15 +33,90 @@ en:
         unglue_confirmation: "Remove this sticker from your collection?"
         cancel: "Cancel"
         unglue: "Remove"
+        new_count:
+          one: "(%{count} new)"
+          other: "(%{count} new)"
 
   trades:
     create:
-      success: "Trade consolidated!"
+      success: "Trade created!"
+    accept:
+      success: "Trade accepted!"
+    auto_agree:
+      success: "Auto agreed! Your acceptance won't be reset."
+    withdraw:
+      success: "Acceptance withdrawn."
+    cancel:
+      success: "Trade cancelled."
+      already_agreed: "Cannot cancel an agreed trade."
+    confirm_receipt:
+      success: "Receipt confirmed!"
+      unauthorized: "Only the receiver can confirm receipt."
+    confirm_all_receipts:
+      success: "All receipts confirmed!"
+    unauthorized: "You don't have access to this trade."
     export:
       unauthorized: "You don't have access to this trade."
 
+  receipts:
+    unauthorized: "Only the receiver can confirm receipt."
+    already_ended: "You already ended the confirmation phase."
+    ended: "Confirmation ended! Confirmed stickers are now in your album."
+
   views:
     trades:
+      show:
+        title: "Trade with %{name}"
+        title_with_id: "Trade #%{id} with "
+        you_give: "You give"
+        they_give: "%{name} gives"
+        your_available: "Your available stickers"
+        their_available: "%{name}'s available stickers"
+        empty_zone: "No stickers yet"
+        empty_pool: "No stickers available"
+        in_trade: "In trade (%{count})"
+        available: "Available (%{count})"
+        help_text: "Click stickers below to edit the trade"
+        accept: "Accept trade"
+        accepted: "Accepted ✓"
+        auto_agree: "Auto agree"
+        auto_agreed: "Auto agreed ✓"
+        reject: "Reject trade"
+        reject_confirm:
+          title: "Reject this trade?"
+          description: "This will permanently cancel the trade with %{name}. All stickers will be returned to their owners."
+          confirm: "Yes, reject trade"
+        receipt_title: "Confirm receipt"
+        receipt_help: "Have you received your stickers? Confirm each one below — confirmed stickers will be added to your album as 'to be glued' once you end the confirmation."
+        confirm_all_and_end: "Confirm all & end"
+        end_confirmation: "End confirmation"
+        end_confirm_all:
+          message: "You're confirming receipt of all %{count} stickers. They'll appear in your album as 'to be glued'. This cannot be undone."
+        end_confirm_partial:
+          message: "You're confirming receipt of %{confirmed} out of %{total} stickers. The %{unconfirmed} unconfirmed stickers will not be added to your album. This cannot be undone."
+        receipt_ended: "Confirmation ended"
+        confirm_all: "Confirm all received"
+        status:
+          agreed: "Agreed ✓"
+          confirmed: "Confirmed ✓"
+          negotiating: "Negotiating"
+          waiting_for_other: "Waiting for %{name}"
+          other_accepted: "%{name} accepted"
+        agreement_info:
+          explanation: "Both users must accept for the trade to be confirmed. If either side edits the stickers, acceptances reset. Use 'Auto agree' to lock your acceptance through edits."
+          you_accepted: "You accepted this trade. Waiting for %{name} to accept. If either side edits the trade, your acceptance resets (unless you used auto agree)."
+          they_accepted: "%{name} already accepted this trade. Review the stickers and accept to confirm the deal."
+          both_accepted: "Both sides have accepted. The trade is confirmed!"
+      index:
+        title: "My Trades"
+        empty: "No pending trades."
+        stickers_count:
+          one: "%{count} sticker"
+          other: "%{count} stickers"
+        agreed: "Agreed"
+        waiting: "Waiting"
+        their_turn: "Their turn"
+        negotiating: "Negotiating"
       export:
         format_label: "Export format"
         dump: "Sticker Album 2026 app export"
@@ -85,6 +160,14 @@ en:
         duplicates: "%{count} duplicates"
         available_for_trade: "Available for trade"
         no_duplicates: "No duplicates available."
+        pending_trades: "Pending trades"
+        status_agreed: "Agreed"
+        status_waiting: "Waiting"
+        status_negotiating: "Negotiating"
+        to_be_glued_count:
+          one: "You have %{count} sticker to be glued"
+          other: "You have %{count} stickers to be glued"
+        glue_all: "Glue all"
         history_title: "Trade history"
         history_with: "Trade with %{name}"
         sticker_count: "%{given} ↔ %{received}"
@@ -112,6 +195,9 @@ en:
         leftovers_title: "🤝 Leftovers"
         still_has: "%{name} still has to offer (%{count}):"
         consolidate: "Consolidate trade"
+        new_trade: "New trade"
+        auto_agree: "Trade now (auto-agree)"
+        view_existing_trade: "View existing trade"
       edit:
         title: "Account settings"
         breadcrumb: "My collection"
@@ -139,6 +225,25 @@ en:
         only_in_b: "Only in List B"
         empty: "(nothing)"
         parse_warning: "Could not find"
+    anonymous_trades:
+      new:
+        title: "Record anonymous trade"
+        description: "Record a trade with someone who doesn't use StickerTrader."
+        given_label: "Stickers you gave"
+        given_placeholder: "Enter sticker IDs you gave away"
+        given_help: "One sticker ID per line, or comma-separated"
+        received_label: "Stickers you received"
+        received_placeholder: "Enter sticker IDs you received"
+        received_help: "One sticker ID per line, or comma-separated"
+        submit: "Record trade"
+
+  user_stickers:
+    glue_all:
+      success: "All stickers glued to your album!"
+
+  anonymous_trades:
+    create:
+      success: "Anonymous trade recorded!"
 
   # Controller flash messages (not view-rendered)
   sessions:

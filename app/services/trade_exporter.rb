@@ -20,12 +20,19 @@ class TradeExporter
   private
 
   def build_virtual_collection
-    # Load current collection: { position => copies }
-    # Row exists = owned (copies = extra tradeable copies)
-    # No row = missing
-    collection = @user.user_stickers.reload.pluck(:sticker_id, :copies).each_with_object({}) do |(sticker_id, copies), hash|
-      position = sticker_positions[sticker_id]
-      hash[position] = copies if position
+    # Load current collection: { position => copies_count }
+    # Glued stickers have 0 extra copies, duplicates add to count
+    collection = {}
+
+    @user.user_stickers.includes(:sticker).each do |us|
+      position = us.sticker.position
+      case us.state
+      when "glued"
+        collection[position] ||= 0
+      when "duplicate"
+        collection[position] ||= 0
+        collection[position] += 1
+      end
     end
 
     # Apply trade: subtract given, add received

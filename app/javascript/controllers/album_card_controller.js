@@ -8,6 +8,7 @@ export default class extends Controller {
     userStickerId: Number,
     copies: Number,
     glued: Boolean,
+    toBeGlued: Boolean,
     color: String,
     foil: Boolean,
     darkText: Boolean,
@@ -23,24 +24,44 @@ export default class extends Controller {
   }
 
   glue(event) {
-    if (this.gluedValue) return
+    if (this.gluedValue && !this.toBeGluedValue) return
     if (event.target.closest('[data-album-card-target="actions"]')) return
 
-    this.gluedValue = true
-    this.copiesValue = 0
-    this.#render()
+    if (this.toBeGluedValue) {
+      // Transition to_be_glued → glued
+      this.toBeGluedValue = false
+      this.gluedValue = true
+      this.#ensureActions()
+      this.#render()
+      this.#decrementNewCount()
 
-    post(this.createUrlValue, { body: { sticker_id: this.stickerIdValue } })
-      .then(async (response) => {
-        if (response.ok) {
-          const data = await response.json
-          this.userStickerIdValue = data.id
-          this.#updateUrls(data.id)
-        } else {
-          this.gluedValue = false
-          this.#render()
-        }
-      })
+      patch(this.updateUrlValue, { body: { state: "glued" } })
+        .then(async (response) => {
+          if (!response.ok) {
+            this.toBeGluedValue = true
+            this.#render()
+            this.#incrementNewCount()
+          }
+        })
+    } else {
+      // Create new glued sticker
+      this.gluedValue = true
+      this.copiesValue = 0
+      this.#ensureActions()
+      this.#render()
+
+      post(this.createUrlValue, { body: { sticker_id: this.stickerIdValue } })
+        .then(async (response) => {
+          if (response.ok) {
+            const data = await response.json
+            this.userStickerIdValue = data.id
+            this.#updateUrls(data.id)
+          } else {
+            this.gluedValue = false
+            this.#render()
+          }
+        })
+    }
   }
 
   increment(event) {
@@ -91,7 +112,7 @@ export default class extends Controller {
     const card = this.element
     const color = this.colorValue
 
-    if (this.gluedValue) {
+    if (this.gluedValue || this.toBeGluedValue) {
       card.classList.remove("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100", "border-gray-300")
       card.classList.add("opacity-100", "border-gray-700")
       if (this.darkTextValue) {
@@ -107,9 +128,16 @@ export default class extends Controller {
         card.classList.remove("foil-card")
       }
       card.style.backgroundColor = color
+
+      // to_be_glued visual: rotated with amber ring
+      if (this.toBeGluedValue) {
+        card.classList.add("rotate-3", "ring-2", "ring-amber-400")
+      } else {
+        card.classList.remove("rotate-3", "ring-2", "ring-amber-400")
+      }
     } else {
       card.classList.add("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100", "border-gray-300")
-      card.classList.remove("opacity-100", "text-white", "text-gray-900", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]", "foil-card", "border-gray-700")
+      card.classList.remove("opacity-100", "text-white", "text-gray-900", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]", "foil-card", "border-gray-700", "rotate-3", "ring-2", "ring-amber-400")
       card.style.backgroundColor = ""
     }
 
@@ -126,10 +154,70 @@ export default class extends Controller {
 
     if (this.hasActionsTarget) {
       if (this.gluedValue) {
-        this.actionsTarget.classList.remove("invisible")
+        this.actionsTarget.removeAttribute("hidden")
       } else {
-        this.actionsTarget.classList.add("invisible")
+        this.actionsTarget.setAttribute("hidden", "")
       }
     }
+  }
+
+  #findNewCountEl() {
+    // Walk up to the collapsible wrapper, then find the new count span in its trigger
+    const section = this.element.closest('[data-controller="ui-state"]')
+    return section?.querySelector('[data-new-count]')
+  }
+
+  #decrementNewCount() {
+    const el = this.#findNewCountEl()
+    if (!el) return
+    const match = el.textContent.match(/\d+/)
+    if (!match) return
+    const count = parseInt(match[0]) - 1
+    if (count <= 0) {
+      el.remove()
+    } else {
+      el.textContent = el.textContent.replace(/\d+/, count)
+    }
+  }
+
+  #incrementNewCount() {
+    const el = this.#findNewCountEl()
+    if (!el) return
+    const match = el.textContent.match(/\d+/)
+    if (!match) return
+    const count = parseInt(match[0]) + 1
+    el.textContent = el.textContent.replace(/\d+/, count)
+  }
+
+  #ensureActions() {
+    if (this.hasActionsTarget) return
+
+    const isDark = this.darkTextValue
+    const btnColor = isDark ? "bg-black/20 text-gray-900" : "bg-white/30 text-white"
+    const btnClass = `h-6 rounded-lg ${btnColor} text-xs font-bold active:scale-95 cursor-pointer`
+
+    const wrapper = document.createElement("div")
+    wrapper.setAttribute("data-album-card-target", "actions")
+
+    const grid = document.createElement("div")
+    grid.className = "grid grid-cols-2 gap-1"
+
+    const dec = document.createElement("button")
+    dec.type = "button"
+    dec.className = btnClass
+    dec.setAttribute("data-action", "click->album-card#decrement")
+    dec.textContent = "−"
+
+    const inc = document.createElement("button")
+    inc.type = "button"
+    inc.className = btnClass
+    inc.setAttribute("data-action", "click->album-card#increment")
+    inc.textContent = "+"
+
+    grid.append(dec, inc)
+    wrapper.append(grid)
+    // Insert before the badge span
+    const badge = this.element.querySelector('[data-album-card-target="badge"]')
+    this.element.insertBefore(wrapper, badge)
   }
 }

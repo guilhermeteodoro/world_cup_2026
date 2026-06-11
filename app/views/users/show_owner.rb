@@ -35,6 +35,8 @@ class Views::Users::ShowOwner < Views::LoggedIn
   private
 
   def render_tab_bar
+    pending_count = @user.pending_trades_count
+
     div(class: "flex gap-4 border-b mb-6") do
       button(
         type: "button",
@@ -45,7 +47,12 @@ class Views::Users::ShowOwner < Views::LoggedIn
         type: "button",
         class: "pb-2 px-1 text-sm font-medium border-b-2 transition-colors border-transparent text-muted-foreground",
         data: { tabs_target: "tab", tab: "trades", action: "click->tabs#switch" }
-      ) { t(".tab_trades") }
+      ) do
+        plain t(".tab_trades")
+        if pending_count > 0
+          span(class: "ml-1 inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-primary rounded-full") { pending_count.to_s }
+        end
+      end
     end
   end
 
@@ -57,15 +64,77 @@ class Views::Users::ShowOwner < Views::LoggedIn
 
   def render_trades_panel
     div(class: "hidden", data: { tabs_target: "panel", tab: "trades" }) do
+      render_pending_trades
+      render_glue_all_button
       render_trade_history
       render_duplicates
     end
   end
 
+  def render_pending_trades
+    pending = @user.pending_trades
+    return if pending.empty?
+
+    div(class: "mb-6") do
+      Heading(level: 3, class: "mb-4") { t(".pending_trades") }
+
+      div(class: "space-y-2") do
+        pending.each do |trade|
+          other = trade.other_user(@user)
+          a(href: trade_path(trade), class: "block") do
+            Card(class: "hover:border-primary transition-colors") do
+              CardContent(class: "flex items-center justify-between py-3") do
+                div do
+                  p(class: "font-medium text-sm") { other.name }
+                  p(class: "text-xs text-muted-foreground") { "#{trade.trade_stickers.count} stickers" }
+                end
+                if trade.agreed?
+                  Badge(variant: :default) { t(".status_agreed") }
+                elsif trade.accepted_by?(@user)
+                  Badge(variant: :outline) { t(".status_waiting") }
+                else
+                  Badge(variant: :outline) { t(".status_negotiating") }
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+
+  def render_glue_all_button
+    to_be_glued_count = @user.user_stickers.to_be_glued.count
+    return if to_be_glued_count == 0
+
+    div(class: "mb-6") do
+      Card(class: "border-amber-200 bg-amber-50") do
+        CardContent(class: "flex items-center justify-between py-3") do
+          p(class: "text-sm font-medium") { t(".to_be_glued_count", count: to_be_glued_count) }
+          form(action: glue_all_user_user_stickers_path(@user), method: "post") do
+            input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+            Button(type: :submit, variant: :primary, size: :sm) { t(".glue_all") }
+          end
+        end
+      end
+    end
+  end
+
   def render_album_grid
     stickers_by_country = Sticker.includes(:country).ordered.group_by(&:country)
-    user_stickers_index = @user.user_stickers.each_with_object({}) do |us, hash|
-      hash[us.sticker_id] = { id: us.id, copies: us.copies }
+    user_stickers_index = {}
+    @user.user_stickers.each do |us|
+      case us.state
+      when "glued"
+        user_stickers_index[us.sticker_id] ||= { id: us.id, copies: 0, state: "glued" }
+      when "duplicate"
+        user_stickers_index[us.sticker_id] ||= { id: nil, copies: 0, state: nil }
+        user_stickers_index[us.sticker_id][:copies] += 1
+      when "to_be_glued"
+        user_stickers_index[us.sticker_id] ||= { id: nil, copies: 0, state: nil }
+        user_stickers_index[us.sticker_id][:to_be_glued] = true
+        user_stickers_index[us.sticker_id][:to_be_glued_id] = us.id
+      end
     end
 
     div(class: "mb-6") do
@@ -107,13 +176,11 @@ class Views::Users::ShowOwner < Views::LoggedIn
 
       participations.each do |participation|
         div(class: "mb-4") do
-          Collapsible(open: true) do
-            div(class: "flex items-center justify-between mb-2") do
+          render UI::Components::Collapsible.new(open: true) do |c|
+            c.trigger(class: "flex items-center justify-between mb-2") do
               div(class: "flex items-center gap-2") do
-                CollapsibleTrigger do
-                  Button(variant: :ghost, icon: true) do
-                    span(class: "transition-transform duration-200", data: { ruby_ui__collapsible_target: "icon" }) { "⬇️" }
-                  end
+                Button(variant: :ghost, icon: true) do
+                  c.icon { "⬇️" }
                 end
 
                 Heading(level: 4) do
@@ -130,7 +197,7 @@ class Views::Users::ShowOwner < Views::LoggedIn
               end
             end
 
-            CollapsibleContent do
+            c.content do
               Card(class: "pt-6 bg-card") do
                 CardContent do
                   div(class: "grid grid-cols-2 gap-4 text-sm") do

@@ -62,29 +62,20 @@ Examples:
 
 ## Tests
 
-### Guidelines
-
-**Integration tests** are broad smoke tests — one or two happy-path flows per feature. They verify routes work, redirects happen, and the right status codes come back. Don't assert HTML content in integration tests.
-
-**View tests** verify rendering: what text appears, what components are present, clipboard data attributes, Turbo frame structure. Render Phlex components directly via `ComponentTestHelper` and assert on the HTML output with Nokogiri.
-
-**Service/model tests** verify business logic in isolation.
-
-### Rules
-
-1. **Minimal data** — create only the records needed for the assertion. Use small inline dumps (`"SA26|1|1-5|1:1"`) instead of `sample_dump`. A test for balanced trading needs 5 stickers per user, not 591.
-2. **Seed is shared** — the sticker catalog (994 stickers, 49 countries) is loaded once at suite startup and shared via transactional rollback. Don't re-seed or depend on seed order.
-3. **No content assertions in integration tests** — if you're asserting `response.body` includes specific text, it probably belongs in a view test.
-4. **Edge cases in unit tests** — integration tests cover the happy path. Parser edge cases, empty states, error handling, and rendering variations go in service or view tests.
+See [test/AGENTS.md](test/AGENTS.md) for guidelines, rules, and conventions.
 
 ## Presentation layer
 
-UI code lives in `app/ui/` (components, fragments, layouts) — not `app/views/`. See [ADR-0006](docs/adr/0006-presentation-layer-organization.md) for the decision guide on where to place new UI classes.
+UI code lives in `app/ui/` (components, fragments, layouts) — not `app/views/`. See [ADR-0006](docs/adr/0006-presentation-layer-organization.md) and [app/ui/AGENTS.md](app/ui/AGENTS.md).
 
 ## Environment
 
 - All environments use SQLite via `database.yml`
 - Production database lives at `/var/data/production.sqlite3` (Render persistent disk)
+
+## Schema conventions
+
+See [db/AGENTS.md](db/AGENTS.md). Key rule: models own defaults/validations; DB constraints only for race conditions.
 
 ## Domain language
 
@@ -112,34 +103,34 @@ If you notice a multi-step workflow being repeated across sessions (complex enou
 - [docs/adr/](docs/adr/) — architecture decision records
 - [.agents/skills/](.agents/skills/) — reusable workflow skills
 
-## DOX (Adapted)
+## DOX
 
-This project uses [DOX](https://github.com/agent0ai/dox) — a hierarchical documentation framework for AI agents. DOX files are binding work contracts for their subtrees. See [ADR-0007](docs/adr/0007-adapted-dox-mirror-tree.md) for the adaptation rationale.
+This project uses [DOX](https://github.com/agent0ai/dox) — a hierarchical documentation framework for AI agents. DOX files are binding work contracts for their subtrees.
 
-**Adaptation:** child DOX files live under `.agents/dox/` in a mirror-tree structure instead of co-located `AGENTS.md` files in source folders. The root `AGENTS.md` stays here (DOX rail).
+**Convention:** child DOX files are co-located `AGENTS.md` files inside the source folders they govern. The root `AGENTS.md` (this file) is the DOX rail.
 
 ### Core Contract
 
-Work products, source materials, instructions, records, assets, and durable docs must stay understandable from the nearest applicable DOX file (`.agents/dox/{path}/_index.md`) plus every parent DOX file above it up to this root.
+Work products, source materials, instructions, records, assets, and durable docs must stay understandable from the nearest applicable `AGENTS.md` plus every parent `AGENTS.md` above it up to this root.
 
 DOX assumes [CONTEXT.md](CONTEXT.md) has been read. Reference it for domain terminology — don't restate definitions. When a DOX pass introduces or clarifies a domain concept, update CONTEXT.md in the same commit.
 
 ### Path Convention
 
-- Folder contracts → `.agents/dox/{path}/_index.md`
-- File contracts (rare) → `.agents/dox/{path}/{filename_without_ext}.md`
+- Folder contracts → `{path}/AGENTS.md`
+- File contracts (rare) → covered in the folder's `AGENTS.md`
 
 Examples:
-- `app/services/` → `.agents/dox/app/services/_index.md`
-- `app/services/trade_comparer.rb` → `.agents/dox/app/services/trade_comparer.md`
+- `app/services/` → `app/services/AGENTS.md`
+- `app/ui/components/` → `app/ui/components/AGENTS.md`
 
 ### Read Before Editing
 
 1. Read this root `AGENTS.md`
 2. Identify every file or folder you expect to touch
 3. Walk from the repository root to each target path
-4. For each path segment, check if `.agents/dox/{accumulated_path}/_index.md` exists — read it if so
-5. Use the nearest DOX file as the local contract; parent docs for repo-wide rules
+4. For each path segment, check if `{accumulated_path}/AGENTS.md` exists — read it if so
+5. Use the nearest AGENTS.md as the local contract; parent docs for repo-wide rules
 6. If docs conflict, the closer doc controls local work details, but no child doc may weaken DOX
 
 Do not rely on memory. Re-read the applicable DOX chain in the current session before editing.
@@ -148,12 +139,12 @@ Do not rely on memory. Re-read the applicable DOX chain in the current session b
 
 Every meaningful change requires a DOX pass before the task is done.
 
-Update the closest owning DOX file when a change affects:
+Update the closest owning AGENTS.md when a change affects:
 - purpose, scope, ownership, or responsibilities
 - durable structure, contracts, workflows, or operating rules
 - required inputs, outputs, permissions, constraints, side effects, or artifacts
 - user preferences about behavior, communication, process, organization, or quality
-- DOX file creation, deletion, move, rename, or index contents
+- AGENTS.md creation, deletion, move, rename, or index contents
 
 Update parent docs when parent-level structure, ownership, workflow, or child index changes. Update child docs when parent changes alter local rules. Remove stale or contradictory text immediately.
 
@@ -162,13 +153,13 @@ Small edits that do not change behavior or contracts may leave docs unchanged, b
 ### Hierarchy
 
 - This root AGENTS.md is the DOX rail: project-wide instructions, global preferences, durable workflow rules, and the top-level Child DOX Index
-- Child DOX files own domain-specific instructions and their own Child DOX Index
+- Child AGENTS.md files own domain-specific instructions and their own Child DOX Index
 - Each parent explains what its direct children cover and what stays owned by the parent
 - The closer a doc is to the work, the more specific and practical it must be
 
 ### Creating Child Docs
 
-Create `.agents/dox/{path}/_index.md` when a folder becomes a durable boundary with its own purpose, rules, responsibilities, workflow, materials, or quality standards.
+Create `{path}/AGENTS.md` when a folder becomes a durable boundary with its own purpose, rules, responsibilities, workflow, materials, or quality standards.
 
 Work Guidance must reflect the current standards of the project or user instructions; if there are no specific standards or instructions yet, leave it empty. Verification must reflect an existing check; if no verification framework exists yet, leave it empty and update it when one exists.
 
@@ -180,7 +171,7 @@ Default section order:
 - Verification
 - Child DOX Index
 
-Omit empty sections. File-level docs are rare — only when a file outgrows its folder's `_index.md`.
+Omit empty sections. File-level docs are rare — only when a file outgrows its folder's AGENTS.md.
 
 ### Closeout
 
@@ -203,16 +194,16 @@ Omit empty sections. File-level docs are rare — only when a file outgrows its 
 
 ### User Preferences
 
-When the user requests a durable behavior change (e.g., "always do X", "never do Y", "I prefer Z"), persist it immediately in this section or in the relevant child DOX file. Do not wait for the end of the task.
+When the user requests a durable behavior change (e.g., "always do X", "never do Y", "I prefer Z"), persist it immediately in this section or in the relevant child AGENTS.md file. Do not wait for the end of the task.
 
-Load the `dox` skill for operational helpers (commands, templates, orphan checks).
+- **DOX-first editing is non-negotiable.** Before writing any source code, read the DOX chain for every file you intend to touch. Never skip this step due to momentum, context, or familiarity. If you catch yourself editing without having read DOX, stop immediately, read them, and course-correct.
 
 ## Child DOX Index
 
-- [.agents/dox/app/_index.md](.agents/dox/app/_index.md) — application source code
-- [.agents/dox/test/_index.md](.agents/dox/test/_index.md) — test suite
-- [.agents/dox/config/_index.md](.agents/dox/config/_index.md) — Rails configuration
-- [.agents/dox/db/_index.md](.agents/dox/db/_index.md) — database schema, migrations, seeds
+- [app/AGENTS.md](app/AGENTS.md) — application source code
+- [test/AGENTS.md](test/AGENTS.md) — test suite
+- [config/AGENTS.md](config/AGENTS.md) — Rails configuration
+- [db/AGENTS.md](db/AGENTS.md) — database schema, migrations, seeds
 
 ## Contributing to AGENTS.md
 

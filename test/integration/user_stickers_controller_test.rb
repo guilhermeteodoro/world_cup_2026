@@ -15,20 +15,20 @@ class UserStickersControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
     data = response.parsed_body
     assert_equal 0, data["copies"]
-    assert @user.user_stickers.exists?(sticker: @sticker)
+    assert @user.user_stickers.exists?(sticker: @sticker, state: "glued")
   end
 
   test "increment copies" do
-    us = @user.user_stickers.create!(sticker: @sticker, copies: 0)
+    us = @user.user_stickers.create!(sticker: @sticker, state: :glued)
 
     patch user_user_sticker_path(@user, us), params: { copies: 3 }, as: :json
 
     assert_response :success
-    assert_equal 3, us.reload.copies
+    assert_equal 3, @user.user_stickers.duplicates.where(sticker_id: @sticker.id).count
   end
 
   test "unglue a sticker" do
-    us = @user.user_stickers.create!(sticker: @sticker, copies: 0)
+    us = @user.user_stickers.create!(sticker: @sticker, state: :glued)
 
     delete user_user_sticker_path(@user, us), as: :json
 
@@ -52,10 +52,11 @@ class UserStickersControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_equal 1, response.parsed_body["copies"]
 
-    # Unglue
+    # Unglue (only the glued row is discarded, 1 duplicate remains)
     delete user_user_sticker_path(@user, us_id), as: :json
     assert_response :no_content
-    assert_equal 0, @user.user_stickers.count
+    assert_equal 1, @user.user_stickers.count
+    assert_equal 1, @user.user_stickers.duplicates.count
   end
 
   test "cannot modify another user's stickers" do

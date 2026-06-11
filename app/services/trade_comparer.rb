@@ -77,7 +77,7 @@ class TradeComparer
 
   def missing_sticker_ids(user)
     all_ids = Sticker.pluck(:id).to_set
-    owned_ids = user.user_stickers.pluck(:sticker_id).to_set
+    owned_ids = user.user_stickers.glued.pluck(:sticker_id).to_set
     all_ids - owned_ids
   end
 
