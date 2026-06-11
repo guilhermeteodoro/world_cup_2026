@@ -224,6 +224,7 @@ class Views::Trades::Show < Views::LoggedIn
       render_receipt_ended
     else
       render_receipt_actions
+      render_receipt_card
     end
     render_trade_zones
   end
@@ -265,6 +266,16 @@ class Views::Trades::Show < Views::LoggedIn
   def render_receipt_ended
     div(class: "rounded-md border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-600") do
       p { t(".receipt_ended") }
+    end
+  end
+
+  def render_receipt_card
+    my_receipts = receipts_for_current_user.includes(sticker: :country).order("stickers.position")
+    return if my_receipts.empty?
+
+    div(class: "mt-4 rounded-md border-2 border-green-300 bg-green-50 p-3") do
+      p(class: "text-xs font-semibold text-green-800 mb-2") { t(".receipt_title") }
+      render_grouped_trade_stickers(my_receipts, removable: false)
     end
   end
 
