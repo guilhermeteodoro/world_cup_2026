@@ -64,6 +64,7 @@ en:
     trades:
       show:
         title: "Trade with %{name}"
+        title_with_id: "Trade #%{id} with "
         you_give: "You give"
         they_give: "%{name} gives"
         your_available: "Your available stickers"

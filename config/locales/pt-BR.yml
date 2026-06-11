@@ -76,6 +76,7 @@ pt-BR:
         copy: "📋 Copiar"
       show:
         title: "Troca com %{name}"
+        title_with_id: "Troca #%{id} com "
         you_give: "Você dá"
         they_give: "%{name} dá"
         your_available: "Suas figurinhas disponíveis"

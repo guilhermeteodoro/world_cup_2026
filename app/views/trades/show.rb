@@ -16,8 +16,14 @@ class Views::Trades::Show < Views::LoggedIn
   def render_title
     div(class: "flex items-center justify-between gap-4") do
       div do
-        Heading(level: 2) { t(".title", name: @other_user.name) }
-        render_status_badge
+        Heading(level: 2) do
+          plain t(".title_with_id", id: @trade.id)
+          a(href: user_path(@other_user), class: "underline hover:no-underline") { @other_user.name }
+        end
+        div(class: "flex items-center gap-2 mt-1") do
+          render_status_badge_inline
+          span(class: "text-xs text-muted-foreground") { "· #{I18n.l(trade_latest_date, format: :short)}" }
+        end
       end
     end
   end
@@ -34,19 +40,15 @@ class Views::Trades::Show < Views::LoggedIn
     end
   end
 
-  private
-
-  def render_status_badge
-    div(class: "flex gap-2 mt-2") do
-      if @trade.agreed?
-        Badge(variant: :default) { t(".status.agreed") }
-      elsif @trade.accepted_by?(@current_user)
-        Badge(variant: :outline) { t(".status.waiting_for_other", name: @other_user.name) }
-      elsif @trade.accepted_by?(@other_user)
-        Badge(variant: :outline) { t(".status.other_accepted", name: @other_user.name) }
-      else
-        Badge(variant: :outline) { t(".status.negotiating") }
-      end
+  def render_status_badge_inline
+    if @trade.agreed?
+      Badge(variant: :default) { t(".status.agreed") }
+    elsif @trade.accepted_by?(@current_user)
+      Badge(variant: :outline) { t(".status.waiting_for_other", name: @other_user.name) }
+    elsif @trade.accepted_by?(@other_user)
+      Badge(variant: :outline) { t(".status.other_accepted", name: @other_user.name) }
+    else
+      Badge(variant: :outline) { t(".status.negotiating") }
     end
   end
 
@@ -424,5 +426,14 @@ class Views::Trades::Show < Views::LoggedIn
 
   def confirmation_phase?
     @trade.agreed? && !receipt_ended?
+  end
+
+  def trade_latest_date
+    receipt_ended_at = if @trade.user_a_id == @current_user.id
+                         @trade.user_a_receipt_ended_at
+    else
+                         @trade.user_b_receipt_ended_at
+    end
+    [ receipt_ended_at, @trade.confirmed_at, @trade.created_at ].compact.max
   end
 end
