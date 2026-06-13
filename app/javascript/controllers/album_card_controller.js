@@ -44,20 +44,34 @@ export default class extends Controller {
           }
         })
     } else {
-      // Create new glued sticker
-      this.gluedValue = true
-      this.copiesValue = 0
-      this.#ensureActions()
+      // Determine state based on click position
+      const rect = this.element.getBoundingClientRect()
+      const x = event.clientX - rect.left
+      const y = event.clientY - rect.top
+      const isTopRight = x > rect.width * 0.5 && y < rect.height * 0.5
+      const state = isTopRight ? "to_be_glued" : "glued"
+
+      if (state === "to_be_glued") {
+        this.toBeGluedValue = true
+      } else {
+        this.gluedValue = true
+        this.copiesValue = 0
+        this.#ensureActions()
+      }
       this.#render()
 
-      post(this.createUrlValue, { body: { sticker_id: this.stickerIdValue } })
+      post(this.createUrlValue, { body: { sticker_id: this.stickerIdValue, state } })
         .then(async (response) => {
           if (response.ok) {
             const data = await response.json
             this.userStickerIdValue = data.id
             this.#updateUrls(data.id)
+            if (state === "to_be_glued") {
+              this.#incrementNewCount()
+            }
           } else {
             this.gluedValue = false
+            this.toBeGluedValue = false
             this.#render()
           }
         })
@@ -129,15 +143,15 @@ export default class extends Controller {
       }
       card.style.backgroundColor = color
 
-      // to_be_glued visual: rotated with amber ring
+      // to_be_glued visual: folded corner
       if (this.toBeGluedValue) {
-        card.classList.add("rotate-3", "ring-2", "ring-amber-400")
+        card.classList.add("folded-corner")
       } else {
-        card.classList.remove("rotate-3", "ring-2", "ring-amber-400")
+        card.classList.remove("folded-corner")
       }
     } else {
       card.classList.add("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100", "border-gray-300")
-      card.classList.remove("opacity-100", "text-white", "text-gray-900", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]", "foil-card", "border-gray-700", "rotate-3", "ring-2", "ring-amber-400")
+      card.classList.remove("opacity-100", "text-white", "text-gray-900", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]", "foil-card", "border-gray-700", "folded-corner")
       card.style.backgroundColor = ""
     }
 

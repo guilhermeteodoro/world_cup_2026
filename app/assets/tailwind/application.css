@@ -106,4 +106,20 @@
   100% { filter: hue-rotate(360deg) brightness(1); }
 }
 
+.folded-corner {
+  overflow: hidden;
+}
+
+.folded-corner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 30%;
+  aspect-ratio: 1;
+  background: linear-gradient(225deg, white 50%, rgba(0,0,0,0.08) 50%);
+  border-bottom-left-radius: 3px;
+  pointer-events: none;
+  z-index: 2;
+}
 

@@ -80,7 +80,7 @@ class UI::Fragments::AlbumGrid < UI::Base
     text_class = light_color?(color) ? "text-gray-900 [text-shadow:_0_1px_0_rgba(255,255,255,0.3)]" : "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]"
     glued_classes = "opacity-100 #{text_class} border-gray-700"
     unglued_classes = "opacity-50 cursor-pointer text-gray-600 bg-gray-100"
-    to_be_glued_classes = "opacity-100 #{text_class} border-gray-700 rotate-3 ring-2 ring-amber-400"
+    to_be_glued_classes = "opacity-100 #{text_class} border-gray-700 folded-corner"
     copies_classes = has_copies ? "shadow-[3px_3px_0_#374151]" : ""
 
     card_classes = if to_be_glued

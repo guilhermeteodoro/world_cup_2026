@@ -6,7 +6,8 @@ class UserStickersController < ApplicationController
   # Glue a sticker to the album
   def create
     sticker = Sticker.find(params[:sticker_id])
-    user_sticker = @user.user_stickers.create!(sticker: sticker, state: :glued)
+    state = %w[glued to_be_glued].include?(params[:state]) ? params[:state] : "glued"
+    user_sticker = @user.user_stickers.create!(sticker: sticker, state: state)
 
     render json: { id: user_sticker.id, state: user_sticker.state, copies: duplicates_count(sticker) }, status: :created
   end
