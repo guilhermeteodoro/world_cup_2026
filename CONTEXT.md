@@ -55,8 +55,12 @@ The destructive act of removing a glued sticker from the album. Soft-deletes the
 _Avoid_: Remove, delete
 
 **To be glued**:
-A sticker copy that has been received (from a trade or other source) but not yet applied to the album. Displayed in the AlbumGrid as a slightly rotated card over an empty slot. Tapping glues it.
+A sticker copy that has been received (from a trade or other source) but not yet applied to the album. Displayed in the AlbumGrid as a colored card with a folded corner, rotated and offset over its placeholder. Tapping glues it.
 _Avoid_: Available, received, pending
+
+**Placeholder**:
+The visual representation of an empty album slot (no user_sticker exists). Rendered as a gray card showing the sticker's number, country code, and name. When a `to_be_glued` sticker exists for that slot, the placeholder renders behind it as a visual anchor.
+_Avoid_: Empty slot, missing card
 
 **Allocated**:
 An inferred state (not stored). A `duplicate` sticker referenced by a `trade_sticker` in an agreed trade. Cannot be offered in other trades (exclusive allocation).

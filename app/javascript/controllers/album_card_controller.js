@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { post, patch, destroy } from "@rails/request.js"
 
 export default class extends Controller {
-  static targets = ["card", "badge", "actions"]
+  static targets = ["topCard", "placeholder", "badge", "actions"]
   static values = {
     stickerId: Number,
     userStickerId: Number,
@@ -123,11 +123,12 @@ export default class extends Controller {
   }
 
   #render() {
-    const card = this.element
+    const card = this.hasTopCardTarget ? this.topCardTarget : this.element
     const color = this.colorValue
 
     if (this.gluedValue || this.toBeGluedValue) {
-      card.classList.remove("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100", "border-gray-300")
+      // Top card visible
+      card.classList.remove("opacity-0", "pointer-events-none")
       card.classList.add("opacity-100", "border-gray-700")
       if (this.darkTextValue) {
         card.classList.add("text-gray-900", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]")
@@ -143,16 +144,20 @@ export default class extends Controller {
       }
       card.style.backgroundColor = color
 
-      // to_be_glued visual: folded corner
+      // to_be_glued visual: folded corner + offset
       if (this.toBeGluedValue) {
         card.classList.add("folded-corner")
+        card.style.transform = "rotate(2deg) translate(2px, 2px)"
       } else {
         card.classList.remove("folded-corner")
+        card.style.transform = ""
       }
     } else {
-      card.classList.add("opacity-50", "cursor-pointer", "text-gray-600", "bg-gray-100", "border-gray-300")
+      // Top card hidden — placeholder shows through
+      card.classList.add("opacity-0", "pointer-events-none")
       card.classList.remove("opacity-100", "text-white", "text-gray-900", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]", "foil-card", "border-gray-700", "folded-corner")
       card.style.backgroundColor = ""
+      card.style.transform = ""
     }
 
     if (this.hasBadgeTarget) {
@@ -230,8 +235,9 @@ export default class extends Controller {
 
     grid.append(dec, inc)
     wrapper.append(grid)
-    // Insert before the badge span
-    const badge = this.element.querySelector('[data-album-card-target="badge"]')
-    this.element.insertBefore(wrapper, badge)
+    // Insert before the badge span in topCard
+    const topCard = this.hasTopCardTarget ? this.topCardTarget : this.element
+    const badge = topCard.querySelector('[data-album-card-target="badge"]')
+    topCard.insertBefore(wrapper, badge)
   }
 }

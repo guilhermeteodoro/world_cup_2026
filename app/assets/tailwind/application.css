@@ -108,7 +108,6 @@
 
 .folded-corner {
   overflow: hidden;
-  transform: rotate(2deg);
 }
 
 .folded-corner::after {
