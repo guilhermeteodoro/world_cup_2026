@@ -49,6 +49,8 @@ class TradesController < ApplicationController
       end
     end
 
+    trade.process_agreement! if auto_agree
+
     redirect_to trade_path(trade)
   end
 
@@ -115,18 +117,6 @@ class TradesController < ApplicationController
     render Views::Trades::Index.new(trades: @trades, current_user: current_user)
   end
 
-  def export
-    result = TradeExporter.new(user: current_user, trade: @trade).call
-
-    render Views::Trades::Export.new(
-      trade: @trade,
-      dump: result[:dump],
-      missing: result[:missing],
-      duplicates: result[:duplicates],
-      current_user: current_user
-    ), layout: false
-  end
-
   private
 
   def require_login
@@ -145,14 +135,17 @@ class TradesController < ApplicationController
 
   def check_agreement!
     @trade.reload
-    @trade.update!(confirmed_at: Time.current) if @trade.agreed?
+    if @trade.agreed? && @trade.confirmed_at.nil?
+      @trade.update!(confirmed_at: Time.current)
+      @trade.process_agreement!
+    end
   end
 
   def add_sticker_to_trade
     sticker = Sticker.find(params[:sticker_id])
     giver = User.find(params[:giver_id])
     receiver = @trade.other_user(giver)
-    user_sticker = giver.user_stickers.available_for_trade.find_by(sticker_id: sticker.id)
+    user_sticker = giver.user_stickers.duplicates.find_by(sticker_id: sticker.id)
 
     return unless user_sticker
 

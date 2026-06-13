@@ -18,7 +18,6 @@ Rails.application.routes.draw do
 
   resources :trades, only: [ :index, :show, :update ] do
     member do
-      get :export
       post :agree
       post :withdraw
       post :cancel
@@ -27,6 +26,7 @@ Rails.application.routes.draw do
     resources :receipts, only: [ :update ] do
       collection do
         post :end_confirmation
+        post :reclaim
       end
     end
   end

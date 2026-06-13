@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_001521) do
+ActiveRecord::Schema[8.1].define(version: 2026_06_13_202931) do
   create_table "countries", force: :cascade do |t|
     t.string "code", null: false
     t.string "color"
@@ -77,11 +77,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_001521) do
     t.datetime "deleted_at"
     t.string "state"
     t.integer "sticker_id", null: false
+    t.integer "trade_id"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["deleted_at"], name: "index_user_stickers_on_deleted_at"
     t.index ["state"], name: "index_user_stickers_on_state"
     t.index ["sticker_id"], name: "index_user_stickers_on_sticker_id"
+    t.index ["trade_id"], name: "index_user_stickers_on_trade_id"
     t.index ["user_id", "sticker_id"], name: "index_user_stickers_unique_glued", unique: true, where: "state = 'glued' AND deleted_at IS NULL"
     t.index ["user_id"], name: "index_user_stickers_on_user_id"
   end
@@ -106,5 +108,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_001521) do
   add_foreign_key "trades", "users", column: "user_a_id"
   add_foreign_key "trades", "users", column: "user_b_id"
   add_foreign_key "user_stickers", "stickers"
+  add_foreign_key "user_stickers", "trades"
   add_foreign_key "user_stickers", "users"
 end

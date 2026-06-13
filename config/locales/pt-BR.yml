@@ -36,6 +36,9 @@ pt-BR:
         new_count:
           one: "(%{count} nova)"
           other: "(%{count} novas)"
+        incoming_count:
+          one: "(%{count} a caminho)"
+          other: "(%{count} a caminho)"
 
   trades:
     create:
@@ -55,13 +58,12 @@ pt-BR:
     confirm_all_receipts:
       success: "Todos os recebimentos confirmados!"
     unauthorized: "Você não tem acesso a essa troca."
-    export:
-      unauthorized: "Você não tem acesso a essa troca."
 
   receipts:
     unauthorized: "Apenas o destinatário pode confirmar o recebimento."
     already_ended: "Você já encerrou a fase de confirmação."
     ended: "Confirmação encerrada! Figurinhas confirmadas estão no seu álbum."
+    reclaimed: "Figurinhas recuperadas de volta para suas repetidas."
 
   user_stickers:
     glue_all:
@@ -69,14 +71,6 @@ pt-BR:
 
   views:
     trades:
-      export:
-        format_label: "Formato de exportação"
-        dump: "Exportação do app Sticker Album 2026"
-        manual: "Manual (faltantes + repetidas)"
-        dump_label: "Seu dump atualizado"
-        missing_label: "Suas faltantes atualizadas"
-        duplicates_label: "Suas repetidas atualizadas"
-        copy: "📋 Copiar"
       show:
         title: "Troca com %{name}"
         title_with_id: "Troca #%{id} com "
@@ -107,6 +101,10 @@ pt-BR:
         end_confirm_partial:
           message: "Você está confirmando o recebimento de %{confirmed} de %{total} figurinhas. As %{unconfirmed} figurinhas não confirmadas não serão adicionadas ao seu álbum. Isso não pode ser desfeito."
         receipt_ended: "Confirmação encerrada"
+        reclaim:
+          title: "Figurinhas não confirmadas"
+          help_text: "Essas figurinhas não foram confirmadas pelo outro usuário. Você pode recuperá-las de volta para suas repetidas — elas ficarão disponíveis para troca novamente."
+          reclaim_all: "Recuperar todas"
         confirm_all: "Confirmar todos recebidos"
         status:
           agreed: "Combinado ✓"
@@ -169,10 +167,7 @@ pt-BR:
         sticker_count: "%{given} ↔ %{received}"
         i_gave: "Dei:"
         i_received: "Recebi:"
-        export: "Exportar"
-        export_title: "Exportar troca com %{name}"
-        export_description: "Copie sua coleção atualizada para colar no seu app de figurinhas."
-        loading: "Carregando..."
+        view_trade: "Ver"
         pending_trades: "Trocas pendentes"
         status_agreed: "Combinado"
         status_waiting: "Aguardando"
@@ -181,6 +176,10 @@ pt-BR:
           one: "Você tem %{count} figurinha para colar"
           other: "Você tem %{count} figurinhas para colar"
         glue_all: "Colar todas"
+        incoming_count:
+          one: "%{count} figurinha a caminho de trocas combinadas"
+          other: "%{count} figurinhas a caminho de trocas combinadas"
+        incoming_warning: "Cuidado para não trocar por figurinhas que você já está esperando receber."
       show_visitor:
         title: "Coleção de %{name}"
         owned: "%{count}/994 coladas"

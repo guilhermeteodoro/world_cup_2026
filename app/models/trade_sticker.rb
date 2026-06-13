@@ -35,7 +35,7 @@ class TradeSticker < ApplicationRecord
   belongs_to :sticker
   belongs_to :giver, class_name: "User"
   belongs_to :receiver, class_name: "User"
-  belongs_to :user_sticker, optional: true
+  belongs_to :user_sticker, -> { with_discarded }, optional: true
 
   validates :sticker_id, uniqueness: { scope: :trade_id }
 
@@ -48,17 +48,14 @@ class TradeSticker < ApplicationRecord
     joins(sticker: :country).where(**params)
   end
 
-  # Confirm receipt: soft-delete giver's copy, create to_be_glued for receiver
+  # Confirm receipt: transition receiver's incoming row to to_be_glued
   def confirm_receipt!
-    transaction do
-      user_sticker&.discard!
+    incoming_row = UserSticker.kept.find_by(user: receiver, sticker: sticker, state: :incoming, trade: trade)
+    incoming_row&.update!(state: :to_be_glued, trade_id: nil)
+  end
 
-      # Create to_be_glued row for receiver
-      UserSticker.create!(
-        user: receiver,
-        sticker: sticker,
-        state: :to_be_glued
-      )
-    end
+  # Reclaim: giver gets their duplicate back after receiver didn't confirm
+  def reclaim!
+    user_sticker&.undiscard!
   end
 end

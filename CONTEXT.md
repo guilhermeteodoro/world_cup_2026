@@ -63,8 +63,16 @@ The visual representation of an empty album slot (no user_sticker exists). Rende
 _Avoid_: Empty slot, missing card
 
 **Allocated**:
-An inferred state (not stored). A `duplicate` sticker referenced by a `trade_sticker` in an agreed trade. Cannot be offered in other trades (exclusive allocation).
+A `duplicate` sticker that has been committed to an agreed trade. Manifests as a soft-deleted giver row (the duplicate is gone from their active collection) plus an `incoming` row on the receiver's side. Cannot be offered in other trades because the row no longer exists.
 _Avoid_: Locked, reserved, committed
+
+**Incoming**:
+A `user_sticker` state representing a sticker committed to the receiver in an agreed trade but not yet physically received. Created on agreement for both sides (each user receives stickers from the other). Rendered in the album grid with reduced opacity. Transitions to `to_be_glued` on receipt confirmation, or gets soft-deleted on non-confirmation.
+_Avoid_: Reserved, pending, in-transit
+
+**Reclaim**:
+The act of a giver recovering their duplicate after the receiver did not confirm receipt. Undoes the soft-delete on the giver's `user_sticker`, returning it to `duplicate` state. Only available after the receiver explicitly ends confirmation with unconfirmed stickers.
+_Avoid_: Restore, undo, return
 
 **Dump**:
 A pipe-delimited string exported by the Sticker Album 2026 app that encodes owned stickers (as sequential ID ranges) and duplicates (as ID:count pairs). Format: `SA26|1|<owned_ranges>|<duplicates>`.

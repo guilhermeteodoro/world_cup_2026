@@ -36,6 +36,9 @@ en:
         new_count:
           one: "(%{count} new)"
           other: "(%{count} new)"
+        incoming_count:
+          one: "(%{count} incoming)"
+          other: "(%{count} incoming)"
 
   trades:
     create:
@@ -55,13 +58,12 @@ en:
     confirm_all_receipts:
       success: "All receipts confirmed!"
     unauthorized: "You don't have access to this trade."
-    export:
-      unauthorized: "You don't have access to this trade."
 
   receipts:
     unauthorized: "Only the receiver can confirm receipt."
     already_ended: "You already ended the confirmation phase."
     ended: "Confirmation ended! Confirmed stickers are now in your album."
+    reclaimed: "Stickers reclaimed back to your duplicates."
 
   views:
     trades:
@@ -95,6 +97,10 @@ en:
         end_confirm_partial:
           message: "You're confirming receipt of %{confirmed} out of %{total} stickers. The %{unconfirmed} unconfirmed stickers will not be added to your album. This cannot be undone."
         receipt_ended: "Confirmation ended"
+        reclaim:
+          title: "Unconfirmed stickers"
+          help_text: "These stickers were not confirmed by the other user. You can reclaim them back to your duplicates — they'll become available for trading again."
+          reclaim_all: "Reclaim all"
         confirm_all: "Confirm all received"
         status:
           agreed: "Agreed ✓"
@@ -117,14 +123,6 @@ en:
         waiting: "Waiting"
         their_turn: "Their turn"
         negotiating: "Negotiating"
-      export:
-        format_label: "Export format"
-        dump: "Sticker Album 2026 app export"
-        manual: "Manual (missing + duplicates)"
-        dump_label: "Your updated dump"
-        missing_label: "Your updated missing stickers"
-        duplicates_label: "Your updated duplicates"
-        copy: "📋 Copy"
     pages:
       home:
         title: "StickerTrader"
@@ -168,15 +166,16 @@ en:
           one: "You have %{count} sticker to be glued"
           other: "You have %{count} stickers to be glued"
         glue_all: "Glue all"
+        incoming_count:
+          one: "%{count} sticker incoming from agreed trades"
+          other: "%{count} stickers incoming from agreed trades"
+        incoming_warning: "Be careful not to trade for stickers you're already expecting to receive."
         history_title: "Trade history"
         history_with: "Trade with %{name}"
         sticker_count: "%{given} ↔ %{received}"
         i_gave: "I gave:"
         i_received: "I received:"
-        export: "Export"
-        export_title: "Export trade with %{name}"
-        export_description: "Copy your updated collection to paste into your sticker app."
-        loading: "Loading..."
+        view_trade: "View"
       show_visitor:
         title: "%{name}'s Collection"
         owned: "%{count}/994 owned"

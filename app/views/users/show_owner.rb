@@ -64,10 +64,27 @@ class Views::Users::ShowOwner < Views::LoggedIn
 
   def render_trades_panel
     div(class: "hidden", data: { tabs_target: "panel", tab: "trades" }) do
+      render_incoming_card
       render_pending_trades
       render_glue_all_button
       render_trade_history
       render_duplicates
+    end
+  end
+
+  def render_incoming_card
+    incoming_count = @user.user_stickers.incoming.count
+    return if incoming_count == 0
+
+    div(class: "mb-6") do
+      Card(class: "border-blue-200 bg-blue-50") do
+        CardContent(class: "py-3") do
+          div(class: "flex items-center gap-2 mb-1") do
+            p(class: "text-sm font-medium") { t(".incoming_count", count: incoming_count) }
+          end
+          p(class: "text-xs text-muted-foreground") { t(".incoming_warning") }
+        end
+      end
     end
   end
 
@@ -134,6 +151,10 @@ class Views::Users::ShowOwner < Views::LoggedIn
         user_stickers_index[us.sticker_id] ||= { id: nil, copies: 0, state: nil }
         user_stickers_index[us.sticker_id][:to_be_glued] = true
         user_stickers_index[us.sticker_id][:to_be_glued_id] = us.id
+      when "incoming"
+        user_stickers_index[us.sticker_id] ||= { id: nil, copies: 0, state: nil }
+        user_stickers_index[us.sticker_id][:incoming] = true
+        user_stickers_index[us.sticker_id][:trade_id] = us.trade_id
       end
     end
 
@@ -192,7 +213,9 @@ class Views::Users::ShowOwner < Views::LoggedIn
               end
 
               div(class: "flex items-center gap-2") do
-                render_export_dialog(participation)
+                a(href: trade_path(participation.trade_id), class: "inline-flex") do
+                  Button(variant: :outline, size: :sm, type: "button") { t(".view_trade") }
+                end
                 span(class: "text-xs text-muted-foreground") { I18n.l(participation.confirmed_at, format: :short) }
               end
             end
@@ -217,27 +240,6 @@ class Views::Users::ShowOwner < Views::LoggedIn
                 end
               end
             end
-          end
-        end
-      end
-    end
-  end
-
-  def render_export_dialog(participation)
-    Dialog do
-      DialogTrigger do
-        Button(variant: :outline, size: :sm, type: "button") { t(".export") }
-      end
-
-      DialogContent(class: "bg-white sm:max-w-lg") do
-        DialogHeader do
-          DialogTitle { t(".export_title", name: participation.other_user.name) }
-          DialogDescription { t(".export_description") }
-        end
-
-        DialogMiddle do
-          turbo_frame(id: "export_trade_#{participation.trade_id}", src: export_trade_path(participation.trade_id), loading: :lazy) do
-            p(class: "text-sm text-muted-foreground py-4") { t(".loading") }
           end
         end
       end

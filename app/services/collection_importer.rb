@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 # Takes parsed sticker data and creates/replaces a user's collection.
-# Wipes existing user_stickers and bulk-inserts new ones.
-# On reimport, soft-deletes everything (user_stickers, trades) first.
+# Wipes existing user_stickers (including incoming from trades) and bulk-inserts new ones.
+# Trades are never touched — they survive reimport.
 class CollectionImporter
   def initialize(user, parsed_data)
     @user = user
@@ -43,9 +43,8 @@ class CollectionImporter
     end
 
     UserSticker.transaction do
-      # Soft-delete existing collection and trades
+      # Soft-delete existing collection (all states including incoming)
       @user.user_stickers.discard_all
-      Trade.involving(@user).discard_all
 
       UserSticker.insert_all(records) if records.any?
     end

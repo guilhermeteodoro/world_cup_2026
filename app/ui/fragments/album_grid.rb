@@ -43,6 +43,7 @@ class UI::Fragments::AlbumGrid < UI::Base
     total = stickers.size
     dups = stickers.sum { |s| @user_stickers_index.dig(s.id, :copies) || 0 }
     to_glue = stickers.count { |s| @user_stickers_index.dig(s.id, :to_be_glued) }
+    incoming = stickers.count { |s| @user_stickers_index.dig(s.id, :incoming) }
 
     render UI::Components::Collapsible.new(open: false, persist_key: "album_#{@user.id}_#{country.code}") do |c|
       c.trigger(class: "flex items-center gap-2 py-3 px-3 cursor-pointer bg-gray-200 text-gray-800 rounded-lg") do
@@ -52,6 +53,7 @@ class UI::Fragments::AlbumGrid < UI::Base
         span(class: "text-xs text-gray-500") { "#{owned}/#{total}" }
         span(class: "text-xs text-gray-500") { "(#{dups} dups)" } if dups > 0
         span(class: "text-xs text-amber-600", data: { new_count: true }) { t(".new_count", count: to_glue) } if to_glue > 0
+        span(class: "text-xs text-blue-600") { t(".incoming_count", count: incoming) } if incoming > 0
       end
 
       c.content do
@@ -68,8 +70,15 @@ class UI::Fragments::AlbumGrid < UI::Base
     us = @user_stickers_index[sticker.id]
     glued = us.present? && us[:state] == "glued"
     to_be_glued = us&.dig(:to_be_glued) || false
+    incoming = us&.dig(:incoming) || false
     copies = us&.dig(:copies) || 0
     user_sticker_id = us&.dig(:id) || (to_be_glued ? us[:to_be_glued_id] : 0)
+
+    # Incoming stickers render as a simple link to the trade show
+    if incoming
+      render_incoming_card(sticker, country, us[:trade_id])
+      return
+    end
 
     base_url = user_user_stickers_path(@user)
     color = country.color || "#6B7280"
@@ -181,6 +190,42 @@ class UI::Fragments::AlbumGrid < UI::Base
           class: "absolute z-30 -bottom-1 -right-1 bg-[#374151] rounded text-[9px] font-bold text-white w-4 h-4 flex items-center justify-center #{copies > 0 ? "" : "hidden"}",
           data: { album_card_target: "badge" }
         ) { copies }
+      end
+    end
+  end
+
+  def render_incoming_card(sticker, country, trade_id)
+    color = country.color || "#6B7280"
+    text_class = light_color?(color) ? "text-gray-900 [text-shadow:_0_1px_0_rgba(255,255,255,0.3)]" : "text-white [text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]"
+
+    a(href: helpers.trade_path(trade_id), class: "relative block") do
+      # Placeholder
+      div(
+        class: "border rounded border-gray-300 p-1 opacity-50 text-gray-600 bg-gray-100 flex flex-col select-none aspect-5/7"
+      ) do
+        div(class: "flex items-start justify-between text-sm leading-none") do
+          span(class: "font-extralight text-nowrap font-stretch-50% opacity-50") { sticker.country.code }
+          span(class: "font-black tracking-tight tabular-nums") { sticker.number }
+        end
+        div(class: "flex-1 flex flex-col items-center justify-center text-center px-0.5") do
+          render_sticker_name(sticker)
+        end
+      end
+
+      # Incoming card overlay — reduced opacity, no rotation
+      div(class: "absolute inset-0 z-10 opacity-50 transition-transform hover:scale-105") do
+        div(
+          class: "w-full h-full border rounded border-gray-300 p-1 select-none flex flex-col #{text_class}",
+          style: "background-color: #{color}"
+        ) do
+          div(class: "flex items-start justify-between text-sm leading-none") do
+            span(class: "font-extralight text-nowrap font-stretch-50% opacity-50") { sticker.country.code }
+            span(class: "font-black tracking-tight tabular-nums") { sticker.number }
+          end
+          div(class: "flex-1 flex flex-col items-center justify-center text-center px-0.5") do
+            render_sticker_name(sticker)
+          end
+        end
       end
     end
   end

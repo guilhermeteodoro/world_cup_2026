@@ -43,6 +43,12 @@ class ReceiptsController < ApplicationController
         ts.confirm_receipt!
       end
 
+      # Soft-delete unconfirmed incoming rows (giver can reclaim later)
+      my_receipts.where(confirmed_at: nil).each do |ts|
+        incoming_row = UserSticker.kept.find_by(user: current_user, sticker: ts.sticker, state: :incoming, trade: @trade)
+        incoming_row&.discard!
+      end
+
       # Mark this user's receipt phase as ended
       if @trade.user_a_id == current_user.id
         @trade.update!(user_a_receipt_ended_at: Time.current)
@@ -52,6 +58,24 @@ class ReceiptsController < ApplicationController
     end
 
     redirect_to trade_path(@trade), notice: t("receipts.ended")
+  end
+
+  # POST /trades/:trade_id/receipts/reclaim
+  # Giver reclaims unconfirmed stickers back to duplicates
+  def reclaim
+    trade_stickers = @trade.trade_stickers.where(giver: current_user)
+
+    if params[:trade_sticker_id].present?
+      ts = trade_stickers.find(params[:trade_sticker_id])
+      ts.reclaim!
+    else
+      # Reclaim all: only unconfirmed stickers where receiver has ended confirmation
+      trade_stickers.where(confirmed_at: nil).each do |ts|
+        ts.reclaim! if other_receipt_ended?
+      end
+    end
+
+    redirect_to trade_path(@trade), notice: t("receipts.reclaimed")
   end
 
   private
@@ -85,6 +109,14 @@ class ReceiptsController < ApplicationController
       @trade.user_a_receipt_ended_at.present?
     else
       @trade.user_b_receipt_ended_at.present?
+    end
+  end
+
+  def other_receipt_ended?
+    if @trade.user_a_id == current_user.id
+      @trade.user_b_receipt_ended_at.present?
+    else
+      @trade.user_a_receipt_ended_at.present?
     end
   end
 end

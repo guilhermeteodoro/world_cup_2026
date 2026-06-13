@@ -7,8 +7,8 @@ HTTP request handlers. Thin — delegate to services, render Phlex views.
 - Auth: cookie-session (`session[:user_id]` → `current_user`). No password — email-only login.
 - Controllers render Phlex view objects: `render Views::Users::ShowOwner.new(user: @user, current_user: current_user)`
 - Data passed to views via keyword args — no leaking instance variables.
-- `TradesController` handles the trade negotiation lifecycle: create (pre-loaded with balanced suggestion), show, update (add/remove stickers), accept, cancel, index.
-- `ReceiptsController` handles the receipt confirmation phase (after agreement): toggle confirm/unconfirm per trade_sticker, end confirmation (triggers state transitions for confirmed stickers). Nested under trades (`/trades/:trade_id/receipts`).
+- `TradesController` handles the trade negotiation lifecycle: create (pre-loaded with balanced suggestion), show, update (add/remove stickers), accept, cancel, index. On agreement, `process_agreement!` soft-deletes giver duplicates and creates `incoming` rows for receivers.
+- `ReceiptsController` handles the receipt confirmation phase (after agreement): toggle confirm/unconfirm per trade_sticker, end confirmation (transitions confirmed `incoming` → `to_be_glued`, soft-deletes unconfirmed `incoming`), and reclaim (giver recovers unconfirmed stickers). Nested under trades (`/trades/:trade_id/receipts`).
 - Trade creation computes the balanced trade at request time (ADR-0002) and persists it as the starting point for negotiation.
 - Modifying a trade resets the other participant's acceptance.
 - `UserStickersController#glue_all` transitions `to_be_glued` stickers to `glued` (or `duplicate` if already owned). `#update` handles both `copies` param (add/remove duplicates) and `state` param (glue a `to_be_glued` sticker).

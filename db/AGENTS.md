@@ -8,7 +8,8 @@ Database schema, migrations, and seed data.
 - Migrations are append-only in production.
 - Test suite shares seeded catalog via transactional rollback.
 - All tables have `deleted_at` column for soft deletion (discard gem, `default_scope -> { kept }` in ApplicationRecord).
-- `user_stickers.state` is a string column (`glued`, `duplicate`, `to_be_glued`). No DB-level default — model owns defaults.
+- `user_stickers.state` is a string column (`glued`, `duplicate`, `to_be_glued`, `incoming`). No DB-level default — model owns defaults.
+- `user_stickers.trade_id` is a nullable FK to `trades` — only populated for `incoming` rows (links to originating trade for navigation).
 - Partial unique index `index_user_stickers_unique_glued` on `[user_id, sticker_id] WHERE state = 'glued' AND deleted_at IS NULL` prevents double-glue.
 
 # Schema Conventions

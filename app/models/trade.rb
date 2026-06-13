@@ -118,6 +118,25 @@ class Trade < ApplicationRecord
     end
   end
 
+  # Called when trade becomes agreed. Soft-deletes giver duplicates,
+  # creates incoming rows for receivers on both sides.
+  def process_agreement!
+    transaction do
+      trade_stickers.includes(:sticker).each do |ts|
+        # Soft-delete giver's duplicate
+        ts.user_sticker&.discard!
+
+        # Create incoming row for receiver
+        UserSticker.create!(
+          user: ts.receiver,
+          sticker: ts.sticker,
+          state: :incoming,
+          trade: self
+        )
+      end
+    end
+  end
+
   def stickers_given_by(user)
     trade_stickers.joins(:sticker).includes(sticker: :country).where(giver: user).order("stickers.position").map(&:sticker)
   end

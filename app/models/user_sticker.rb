@@ -25,10 +25,11 @@
 #  user_id     (user_id => users.id)
 #
 class UserSticker < ApplicationRecord
-  STATES = %w[glued duplicate to_be_glued].freeze
+  STATES = %w[glued duplicate to_be_glued incoming].freeze
 
   belongs_to :user
   belongs_to :sticker
+  belongs_to :trade, optional: true
 
   validates :state, presence: true, inclusion: { in: STATES }
   validates :sticker_id, uniqueness: { scope: :user_id, conditions: -> { kept.where(state: :glued) } },
@@ -37,14 +38,6 @@ class UserSticker < ApplicationRecord
   scope :glued, -> { where(state: :glued) }
   scope :duplicates, -> { where(state: :duplicate) }
   scope :to_be_glued, -> { where(state: :to_be_glued) }
-  scope :active, -> { kept.where(state: %w[glued duplicate to_be_glued]) }
-
-  # A duplicate is allocated if it's referenced by a trade_sticker in an agreed, non-cancelled trade
-  scope :available_for_trade, -> {
-    duplicates.where.not(
-      id: TradeSticker.joins(:trade).merge(Trade.agreed)
-        .where.not(user_sticker_id: nil)
-        .select(:user_sticker_id)
-    )
-  }
+  scope :incoming, -> { where(state: :incoming) }
+  scope :active, -> { kept.where(state: %w[glued duplicate to_be_glued incoming]) }
 end

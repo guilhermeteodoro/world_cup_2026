@@ -229,6 +229,7 @@ class Views::Trades::Show < Views::LoggedIn
       render_receipt_actions
       render_receipt_card
     end
+    render_reclaim_section
     render_trade_zones
   end
 
@@ -250,6 +251,42 @@ class Views::Trades::Show < Views::LoggedIn
     div(class: "mt-4 rounded-md border border-gray-200 bg-gray-50 p-3") do
       p(class: "text-xs font-semibold text-muted-foreground mb-2") { t(".receipt_ended") }
       render_grouped_trade_stickers(confirmed_receipts, removable: false)
+    end
+  end
+
+  def render_reclaim_section
+    # Show reclaim UI when the other user ended confirmation and left unconfirmed stickers I gave
+    return unless other_user_receipt_ended?
+
+    reclaimable = reclaimable_trade_stickers
+    return if reclaimable.empty?
+
+    div(class: "mt-4 rounded-md border border-amber-200 bg-amber-50 p-3") do
+      p(class: "text-xs font-semibold text-amber-800 mb-1") { t(".reclaim.title") }
+      p(class: "text-xs text-amber-700 mb-3") { t(".reclaim.help_text") }
+
+      div(class: "flex flex-wrap gap-1 mb-3") do
+        reclaimable.each do |ts|
+          sticker = ts.sticker
+          color = sticker.country.color || "#6B7280"
+
+          form(action: reclaim_trade_receipts_path(@trade), method: "post", class: "inline") do
+            input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+            input(type: "hidden", name: "trade_sticker_id", value: ts.id)
+            button(
+              type: "submit",
+              class: "inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium text-white cursor-pointer hover:opacity-80 transition-opacity",
+              style: "background-color: #{color}"
+            ) { "#{sticker.country.code} #{sticker.number} ↩" }
+          end
+        end
+      end
+
+      # Reclaim all button
+      form(action: reclaim_trade_receipts_path(@trade), method: "post", class: "flex justify-end") do
+        input(type: "hidden", name: "authenticity_token", value: form_authenticity_token)
+        Button(type: :submit, variant: :outline, size: :sm) { t(".reclaim.reclaim_all") }
+      end
     end
   end
 
@@ -411,7 +448,7 @@ class Views::Trades::Show < Views::LoggedIn
   def available_pool_for(giver)
     receiver = @trade.other_user(giver)
     # Giver's duplicates that receiver is missing, excluding stickers already in trade
-    giver_sticker_ids = giver.user_stickers.available_for_trade.select(:sticker_id)
+    giver_sticker_ids = giver.user_stickers.duplicates.select(:sticker_id)
     receiver_owned_ids = receiver.user_stickers.glued.select(:sticker_id)
     already_in_trade_ids = @trade.trade_stickers.where(giver: giver).select(:sticker_id)
 
@@ -424,6 +461,22 @@ class Views::Trades::Show < Views::LoggedIn
 
   def receipt_ended?
     @trade.receipt_ended_by?(@current_user)
+  end
+
+  def other_user_receipt_ended?
+    if @trade.user_a_id == @current_user.id
+      @trade.user_b_receipt_ended_at.present?
+    else
+      @trade.user_a_receipt_ended_at.present?
+    end
+  end
+
+  def reclaimable_trade_stickers
+    # Trade stickers where I'm the giver, receiver didn't confirm, and my duplicate is still soft-deleted
+    @trade.trade_stickers
+      .includes(sticker: :country)
+      .where(giver: @current_user, confirmed_at: nil)
+      .select { |ts| ts.user_sticker&.discarded? }
   end
 
   def receipts_for_current_user
