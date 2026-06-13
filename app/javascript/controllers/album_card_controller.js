@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 import { post, patch, destroy } from "@rails/request.js"
 
 export default class extends Controller {
-  static targets = ["topCard", "placeholder", "badge", "actions"]
+  static targets = ["cardGroup", "topCard", "placeholder", "badge", "actions"]
   static values = {
     stickerId: Number,
     userStickerId: Number,
@@ -100,6 +100,7 @@ export default class extends Controller {
     if (!confirm("Remove this sticker from your collection?")) return
 
     this.gluedValue = false
+    this.toBeGluedValue = false
     this.copiesValue = 0
     this.#render()
 
@@ -123,13 +124,16 @@ export default class extends Controller {
   }
 
   #render() {
+    const group = this.hasCardGroupTarget ? this.cardGroupTarget : this.element
     const card = this.hasTopCardTarget ? this.topCardTarget : this.element
     const color = this.colorValue
 
     if (this.gluedValue || this.toBeGluedValue) {
-      // Top card visible
-      card.classList.remove("opacity-0", "pointer-events-none")
-      card.classList.add("opacity-100", "border-gray-700")
+      // Card group visible
+      group.classList.remove("opacity-0", "pointer-events-none")
+      group.classList.add("opacity-100")
+
+      // Text styling on topCard
       if (this.darkTextValue) {
         card.classList.add("text-gray-900", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]")
         card.classList.remove("text-white", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]")
@@ -144,35 +148,36 @@ export default class extends Controller {
       }
       card.style.backgroundColor = color
 
-      // to_be_glued visual: folded corner + offset
+      // to_be_glued visual: folded corner + offset on the group
       if (this.toBeGluedValue) {
-        card.classList.add("folded-corner")
-        card.style.transform = "rotate(2deg) translate(2px, 2px)"
+        group.classList.add("folded-corner")
+        group.style.transform = "rotate(2deg) translate(2px, 2px)"
       } else {
-        card.classList.remove("folded-corner")
-        card.style.transform = ""
+        group.classList.remove("folded-corner")
+        group.style.transform = ""
       }
     } else {
-      // Top card hidden — placeholder shows through
-      card.classList.add("opacity-0", "pointer-events-none")
-      card.classList.remove("opacity-100", "text-white", "text-gray-900", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]", "foil-card", "border-gray-700", "folded-corner")
+      // Card group hidden — placeholder shows through
+      group.classList.add("opacity-0", "pointer-events-none")
+      group.classList.remove("opacity-100", "folded-corner")
+      group.style.transform = ""
+      card.classList.remove("text-white", "text-gray-900", "[text-shadow:_0_1px_2px_rgba(0,0,0,0.5)]", "[text-shadow:_0_1px_0_rgba(255,255,255,0.3)]", "foil-card")
       card.style.backgroundColor = ""
-      card.style.transform = ""
     }
 
     if (this.hasBadgeTarget) {
       if (this.copiesValue > 0) {
         this.badgeTarget.textContent = this.copiesValue
         this.badgeTarget.classList.remove("hidden")
-        card.classList.add("shadow-[3px_3px_0_#374151]")
+        group.style.filter = "drop-shadow(3px 3px 0 #374151)"
       } else {
         this.badgeTarget.classList.add("hidden")
-        card.classList.remove("shadow-[3px_3px_0_#374151]")
+        group.style.filter = ""
       }
     }
 
     if (this.hasActionsTarget) {
-      if (this.gluedValue) {
+      if (this.gluedValue || this.toBeGluedValue) {
         this.actionsTarget.removeAttribute("hidden")
       } else {
         this.actionsTarget.setAttribute("hidden", "")
