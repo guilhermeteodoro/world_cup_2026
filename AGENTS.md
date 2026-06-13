@@ -73,6 +73,15 @@ UI code lives in `app/ui/` (components, fragments, layouts) — not `app/views/`
 - All environments use SQLite via `database.yml`
 - Production database lives at `/var/data/production.sqlite3` (Render persistent disk)
 
+### Browser testing (agent sessions)
+
+When using a headless browser to visually verify UI changes:
+
+1. App runs on `http://localhost:3000`
+2. Login is email-only (no password) — submit the email field and click "Log in"
+3. Get a user's slug with `bin/rails runner "puts User.first.slug"` — user pages are at `/u/:slug`
+4. Album cards are inside collapsible sections — click a collapsible trigger to expand before inspecting cards
+
 ## Schema conventions
 
 See [db/AGENTS.md](db/AGENTS.md). Key rule: models own defaults/validations; DB constraints only for race conditions.
