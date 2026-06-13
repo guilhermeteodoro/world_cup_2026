@@ -163,6 +163,10 @@ class UI::Fragments::AlbumGrid < UI::Base
           data: { album_card_target: "badge" }
         ) { copies }
       end
+
+      # Fold flap — separate element so it can have ::before (body) and ::after (shadow)
+      div(class: "fold-flap absolute inset-0 z-20 pointer-events-none",
+        style: to_be_glued ? "transform: rotate(2deg) translate(2px, 2px)" : nil)
     end
   end
 

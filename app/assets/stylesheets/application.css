@@ -48,13 +48,38 @@
   filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.18));
 }
 
-/* Fold flap — mirrored triangle (back of the sticker), overlaying the card */
-.folded-corner::after {
+/* Fold flap — hidden by default, shown when card is folded */
+.fold-flap {
+  display: none;
+}
+
+[data-controller="album-card"]:has(.folded-corner) .fold-flap {
+  display: block;
+}
+
+/* Shadow (behind the flap) */
+.fold-flap::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom left, #f9fafb 20%, #e5e7eb 80%, rgba(0,0,0,0.15) 100%);
-  clip-path: polygon(60% 0%, 100% 40%, 58% 42%);
+  background: rgba(0, 0, 0, 0.25);
+  clip-path: polygon(60% 1%, 99% 40%, 58% 42%);
   pointer-events: none;
-  z-index: 3;
+}
+
+/* Flap body (white triangle — back of the sticker, rounded bottom-left) */
+.fold-flap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom left, #f9fafb, #e5e7eb);
+  clip-path: polygon(
+    60% 0%,
+    100% 40%,
+    63% 40%,
+    61% 40.5%,
+    60.3% 39%,
+    60% 37%
+  );
+  pointer-events: none;
 }
