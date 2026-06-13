@@ -108,6 +108,7 @@
 
 .folded-corner {
   overflow: hidden;
+  transform: rotate(2deg);
 }
 
 .folded-corner::after {
@@ -115,7 +116,7 @@
   position: absolute;
   top: 0;
   right: 0;
-  width: 30%;
+  width: 40%;
   aspect-ratio: 1;
   background: linear-gradient(225deg, white 50%, rgba(0,0,0,0.08) 50%);
   border-bottom-left-radius: 3px;
