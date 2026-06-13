@@ -4,6 +4,12 @@
  * Put custom CSS here.
  */
 
+/* Disable double-tap-to-zoom globally — prevents accidental zoom when tapping +/− buttons on mobile.
+   Pinch-to-zoom remains available. */
+html {
+  touch-action: manipulation;
+}
+
 /* Foil / holographic card effect */
 .foil-card {
   isolation: isolate;

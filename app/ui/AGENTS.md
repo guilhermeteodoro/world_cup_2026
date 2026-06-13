@@ -22,6 +22,10 @@ This doc owns `layouts/`. Components and fragments have their own AGENTS.md.
 - Test rendering via `ComponentTestHelper` — assert HTML with Nokogiri.
 - i18n: use relative keys per ADR-0004.
 
+# Mobile UX
+
+- `touch-action: manipulation` is set globally on `<html>` (in `app/assets/stylesheets/application.css`) to prevent double-tap-to-zoom. Pinch-zoom remains available. Do not remove — album card +/− buttons trigger accidental zoom otherwise.
+
 # Child DOX Index
 
 - [components/AGENTS.md](components/AGENTS.md) — reusable UI atoms

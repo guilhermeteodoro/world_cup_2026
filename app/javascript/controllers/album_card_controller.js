@@ -53,6 +53,7 @@ export default class extends Controller {
 
       if (state === "to_be_glued") {
         this.toBeGluedValue = true
+        this.#ensureActions()
       } else {
         this.gluedValue = true
         this.copiesValue = 0
@@ -218,7 +219,7 @@ export default class extends Controller {
 
     const isDark = this.darkTextValue
     const btnColor = isDark ? "bg-black/20 text-gray-900" : "bg-white/30 text-white"
-    const btnClass = `h-6 rounded-lg ${btnColor} text-xs font-bold active:scale-95 cursor-pointer`
+    const btnClass = `h-8 sm:h-6 rounded-lg ${btnColor} text-xs font-bold active:scale-95 cursor-pointer`
 
     const wrapper = document.createElement("div")
     wrapper.setAttribute("data-album-card-target", "actions")

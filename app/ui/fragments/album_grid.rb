@@ -55,7 +55,7 @@ class UI::Fragments::AlbumGrid < UI::Base
       end
 
       c.content do
-        div(class: "grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-1.5 p-2 bg-gray-200 rounded-b-lg") do
+        div(class: "grid grid-cols-4 sm:grid-cols-8 md:grid-cols-10 gap-1.5 p-2 bg-gray-200 rounded-b-lg") do
           stickers.each do |sticker|
             render_card(sticker, country)
           end
@@ -155,7 +155,7 @@ class UI::Fragments::AlbumGrid < UI::Base
               div(data: { album_card_target: "actions" }) do
                 div(class: "grid grid-cols-2 gap-1") do
                   btn_color = light_color?(color) ? "bg-black/20 text-gray-900" : "bg-white/30 text-white"
-                  button_class = "h-6 rounded-lg #{btn_color} text-xs font-bold active:scale-95 cursor-pointer"
+                  button_class = "h-8 sm:h-6 rounded-lg #{btn_color} text-xs font-bold active:scale-95 cursor-pointer"
 
                   button(
                     type: "button",
