@@ -112,7 +112,7 @@ class UI::Fragments::AlbumGrid < UI::Base
       action: "click->album-card#glue" }) do
       # Placeholder (relative — sets the height)
       div(
-        class: "border rounded border-gray-300 p-1 opacity-50 text-gray-600 bg-gray-100 flex flex-col select-none cursor-pointer aspect-5/7",
+        class: "relative border rounded border-gray-300 p-1 opacity-50 text-gray-600 bg-gray-100 flex flex-col select-none cursor-pointer aspect-5/7 overflow-hidden",
         data: { album_card_target: "placeholder" }
       ) do
         div(class: "flex items-start justify-between text-sm leading-none") do
