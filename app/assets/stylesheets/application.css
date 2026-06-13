@@ -48,15 +48,14 @@
   filter: drop-shadow(1px 2px 3px rgba(0,0,0,0.18));
 }
 
-/* Fold crease shadow — gradient in the top-right, clipped at the fold edge */
+/* Fold flap — mirrored triangle (back of the sticker), overlaying the card */
 .folded-corner::after {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  width: 50%;
-  height: 50%;
-  background: linear-gradient(to bottom left, rgba(0,0,0,0.2) 0%, transparent 60%);
+  inset: 0;
+  background: linear-gradient(to bottom left, #f9fafb, #e5e7eb);
+  clip-path: polygon(60% 0%, 100% 40%, 60% 40%);
+  box-shadow: -1px 1px 2px rgba(0,0,0,0.15);
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
 }
